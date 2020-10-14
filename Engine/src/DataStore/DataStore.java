@@ -1,4 +1,4 @@
-package src.DataStore;
+package DataStore;
 
 import java.util.ArrayList;
 
@@ -6,11 +6,11 @@ public class DataStore {
 
     private static DataStore _dataStore = null;
 
-    //public UserDataStore userDataStore;
+    public UserDataStore userDataStore;
 
     // private constructor restricted to this class itself
     private DataStore() {
-        //userDataStore = new UserDataStore();
+        userDataStore = new UserDataStore();
     }
 
     // static method to create instance of Singleton class

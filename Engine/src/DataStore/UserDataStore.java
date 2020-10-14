@@ -1,4 +1,6 @@
-package Logic.src.DataStore;
+package DataStore;
+
+import Models.SdmUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class UserDataStore {
 
-    private List<Models.SdmUser> users;
+    private List<SdmUser> users;
 
     public UserDataStore() {
         users = new ArrayList();

@@ -1,18 +1,15 @@
 package Models;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import src.Enums.UserType;
+import Enums.UserType;
 
 public class SdmUser {
 
-    public SdmUser(int username, String userType){
+    public SdmUser(String username, UserType userType){
         this.username = username;
         this.userType = userType;
     }
 
     public String username;
     public UserType userType;
-
 }
+
