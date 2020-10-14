@@ -1,6 +1,5 @@
 package Servlets;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +20,7 @@ public class LoginServlet extends HttpServlet {
 
         int i = 0;
 
-
+        //DataStore DataStore = DataStore.getInstance();
 
 /*        Magit myMagit = ServletUtils.getMagitObject(getServletContext());
         response.setContentType("text/html;charset=UTF-8");
