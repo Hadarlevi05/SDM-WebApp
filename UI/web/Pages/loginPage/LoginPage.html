@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Super Duper Market</title>
+    <link rel="stylesheet" href="LoginPage.css"/>
+</head>
+<body>
+<script src="LoginPage.js"></script>
+<section>
+    <main>
+        <header>
+            <h1>Welcome to Super Duper Market!</h1>
+        </header>
+
+
+        <form id="signupForm" action="../../signup" method="get" style="display: none;">
+            <p>
+                <input type="radio" id="customer" name="type" value="customer">
+                <label for="customer">Customer</label><br>
+
+
+                <input type="radio" id="storeowner" name="type" value="storeowner">
+                <label for="storeowner">Store Owner</label><br>
+            </p>
+            <p>
+                <input type="text" name="username" placeholder="enter username"/>
+            </p>
+            <p>
+                <input type="submit" value="Signup"/>
+                or <a href="javascript:void(0);" onclick="showLoginForm()">Login</a>
+            </p>
+        </form>
+
+        <form id="loginForm" action="../../login" method="get">
+
+            <p>
+                <input type="text" name="username" placeholder="enter username"/>
+            </p>
+            <p>
+                <input type="submit" value="Login"/>
+                or <a href="javascript:void(0);" onclick="showSignupForm()">SignUp</a>
+            </p>
+        </form>
+    </main>
+
+</section>
+</body>
+</html>

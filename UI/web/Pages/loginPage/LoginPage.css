@@ -1,0 +1,83 @@
+body {
+    font-family: Aharoni;
+    width: 100%;
+    float: right;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+
+    background: url('../../Resources/shopping-background.jpg') no-repeat center fixed;
+    background-size: cover;;
+
+}
+
+header h1 {
+    font-family: aharoni;
+    font-size: 500%;
+    color: #c2c2d6;
+    text-shadow: 10px 5px 5px black;
+
+    display: inline-block;
+    cursor: pointer;
+    color: #ff5151;
+    font-family: Aharoni;
+    font-size: 34px;
+    font-weight: bold;
+    padding: 5px 15px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #3d768a;
+
+}
+header h2 {
+    font-family: aharoni;
+    font-size: 100%;
+    color: #28283e;
+    text-shadow: 1px 1px #b1b1ce;
+}
+
+section{
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+form {
+    padding: 20px 50px;
+}
+
+
+input[type=text] {
+
+    border: solid 1px #bbb;
+    padding: 6px;
+    font-size: 24px;
+
+}
+
+
+input[type=submit] {
+    box-shadow: 2px 5px 14px -7px #276873;
+
+    background-color: #ff5151;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Aharoni;
+    font-size: 18px;
+    font-weight: bold;
+    padding:15px 25px ;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #3d768a;
+
+}
+
+input[type=submit]:hover {
+
+    background-color: #ff5151;
+}
+
+input[type=submit]:active {
+    position: relative;
+    top: 1px;
+}

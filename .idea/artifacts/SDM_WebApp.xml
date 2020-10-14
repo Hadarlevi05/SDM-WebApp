@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SDM-WebApp">
+    <output-path>$PROJECT_DIR$/out/artifacts/SDM_WebApp</output-path>
+    <root id="root">
+      <element id="module-output" name="SDM-WebApp" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Java/apache-tomcat-8.5.23/apache-tomcat-8.5.23/lib/jsp-api.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Java/apache-tomcat-8.5.23/apache-tomcat-8.5.23/lib/servlet-api.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
