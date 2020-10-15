@@ -13,50 +13,57 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet (
-    urlPatterns = "/signup"
+@WebServlet(
+        urlPatterns = "/signup"
 )
 
 public class SignupServlet extends HttpServlet {
+    private final String BaseUrl = "Pages/";
+
     private final String PAGE_2 = "Pages/page2/Page2.html";
     private final String SIGN_UP_URL = "Pages/loginPage/LoginPage.html";
+    private final String loginUrl = BaseUrl + "login/login.html";
+    private final String StoreListPage = BaseUrl + "store/list.html";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        DataStore dataStore = DataStore.getInstance();
+
+        String msg = "";
 
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
+
         if (usernameFromSession == null) {
+
             String username = request.getParameter("username");
             UserType userType = UserType.valueOf(request.getParameter("type"));
 
             if (username == null || username.isEmpty()) {
-                response.sendRedirect(SIGN_UP_URL);
-            } else {
-                username = username.trim();
-                synchronized (this) {
-                    if (dataStore.userDataStore.get(username) != null) {
-                      /*  if(userManager.isUserOnline(username)) {// isUserOnline
-                            String errorMessage = "Username " + username + " already exists. Please enter a different username.";
-                            request.setAttribute("loggedInAlready", errorMessage);
-                            response.sendRedirect(SIGN_UP_URL);
-                        }
-                        else {
-                            myMagit.loadUserData(userManager.getUserByName(username));
-                            request.getSession(true).setAttribute("username", username);
-                            userManager.getUserByName(username).setOnline(true);
-                            response.sendRedirect(PAGE_2);
-                        }*/
-                    } else {
-                        dataStore.userDataStore.create(new SdmUser(username, userType));
-                        request.getSession(true).setAttribute("username", username);
-                        System.out.println("On login, request URI is: " + request.getRequestURI());
-                        response.sendRedirect(PAGE_2);
-                    }
-                }
+                String errorMessage = "Username cannot be empty.";
+                msg = "{ \"status\": 400, \"errorMessage\": \"" + errorMessage + "\", \"redirectUrl\": \"" + "" + "\" }";
+                ServletUtils.WriteToOutput(response, msg);
+                //response.sendRedirect(loginUrl);
+
+                return;
             }
+
+            DataStore dataStore = DataStore.getInstance();
+
+            username = username.trim();
+            SdmUser user = dataStore.userDataStore.get(username);
+
+            if (user != null) {
+
+                String errorMessage = "Username '" + username + "' already exists.";
+                msg = "{ \"status\": 400, \"errorMessage\": \"" + errorMessage + "\", \"redirectUrl\": \"" + "" + "\" }";
+
+            } else {
+                dataStore.userDataStore.create(new SdmUser(username, userType));
+                msg = "{ \"status\": 200, \"errorMessage\": \"" + "" + "\", \"redirectUrl\": \"" + StoreListPage + "\" }";
+
+            }
+            ServletUtils.WriteToOutput(response, msg);
         }
     }
 
