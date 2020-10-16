@@ -28,7 +28,7 @@ public class SuperDuperMarket {
     public OrderManager Orders;
     public List<Customer> Customers;
     public String Zone;
-    public String Owner;
+    public String Area;
 
     Mapper sdmMapper;
     SuperDuperHandler sdmHandler;
