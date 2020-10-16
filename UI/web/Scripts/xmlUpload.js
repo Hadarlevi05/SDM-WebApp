@@ -9,6 +9,8 @@ function loadFile(e) {
             url: "../../LoadSdm",
             data: { file: content },
             type: 'POST',
+            cache: false,
+
             success: function(finalMsg) {
                 updateRepoAfterLoadFile();
                 console.log(finalMsg);

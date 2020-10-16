@@ -28,17 +28,19 @@ import java.io.PrintWriter;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class LoadSdmServlet extends HttpServlet {
-    private final String SERVER_PATH = "c:\\magit-ex3";
+
     private  StoreHandler storeHandler = new StoreHandler();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
+        response.setContentType("text/html;charset=UTF-8");
+
         KeyValueDTO keyValueDTO = new KeyValueDTO();
+        keyValueDTO.Status = 200;
+
 
         try {
-            keyValueDTO.Status = 200;
 
-            ServletHelper.WriteToOutput(response, keyValueDTO);
 
             SuperDuperMarket sdm = new SuperDuperMarket();
             String msg;

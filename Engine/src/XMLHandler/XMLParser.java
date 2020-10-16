@@ -16,7 +16,7 @@ import java.util.*;
 public class XMLParser {
 
     public static SuperDuperMarketDescriptor unMarshalXMLDataToSdm(String data) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance("Parser");
+        JAXBContext jaxbContext = JAXBContext.newInstance("generatedClasses");
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         SuperDuperMarketDescriptor sdm = (SuperDuperMarketDescriptor) jaxbUnmarshaller.unmarshal(new StringReader(data));
         return sdm;
