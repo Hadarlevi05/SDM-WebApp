@@ -7,6 +7,10 @@ function $get(url, data) {
     return $ajax('GET', url, data);
 }
 
+function redirectUrl(url){
+    location.href = url;
+}
+
 function init() {
     $.ajaxSetup({
         dataType: "json",
@@ -23,6 +27,18 @@ function $ajax(verb, url, data) {
             console.log('error!', textStatus, errorMessage);
         }
     });
+}
+
+
+function showLoader(flag) {
+    if (flag){
+
+        $('.loading').show();
+    }else {
+
+        $('.loading').hide();
+    }
+
 }
 
 init();

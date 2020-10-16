@@ -1,18 +1,40 @@
-body{
-	font-family: Aharoni;
-	width: 100%;
-  	float: right;
-	display: inline-block;
+body {
+	background: url('../../Resources/shopping-background.jpg') no-repeat center fixed;
+	background-size: cover;;
 }
 
+
+/*
+.user-list {
+	width:200px;
+	border:solid 1px #ccc;
+	padding:5px;
+}
+.user-list li {
+	padding: 7px;
+	font-size: 24px;
+	margin: 2px;
+}
+.user-list li span {
+	font-size: 15px;
+	float: right;
+	font-style: italic;
+	background-color: #eee;
+	padding: 4px;
+}
+*/
+
+
+/*
 #background {
     width: 100%; 
     height: 100%; 
     position: fixed; 
     left: 0px; 
     top: 0px; 
-    z-index: -1; /* Ensure div tag stays behind content; -999 might work, too. */
+    z-index: -1; !* Ensure div tag stays behind content; -999 might work, too. *!
 }
+*/
 
 .stretch {
     width:100%;
@@ -20,32 +42,33 @@ body{
 }
 
 h1 {
-	font-family:aharoni;
-	font-size:200%;
-	color: #c2c2d6; 
-	text-shadow: 10px 5px 5px black;
+	font-family:Arial;
+	font-size:100%;
+	color: #4f62d4e3;
 }
 
 h4 {
-	color: #47476b;
-	text-decoration: underline;
+	font-size: 24px;
+
 }
 
-h2 {
+/*h2 {
 	font-size: 16px;
-	text-decoration: underline;
 	color: #33334d
-}
+}*/
 
 .leftcolumn{
-      	width:25%;
-      	height: 100%;
-      	position: fixed;
-      	top: 5%;
-        text-align: center;
-	color: #7575a3;
+	width: 100%;
+	height: 100%;
+	position:fixed;
+	top:5%;
+	left:85%;
+	right: 5%;
+// color: #7575a3;
+	float: left;
 }
-        
+/*
+
 .centercolumn {
         width: 60%; 
         height: 100%; 
@@ -56,16 +79,7 @@ h2 {
 	color: #7575a3;
 }
         
-.rightcolumn {
-        width: 100%; 
-        height: 100%; 
-        position:fixed; 
-        top:5%;
-        left:85%;
-		right: 5%;
-		color: #7575a3;
-		float: right;
-}
+
         
 .center {
         width: 100%;
@@ -91,14 +105,26 @@ h2 {
         height: 50%;
 }
         
-.up {
-        top:0%;
-	text-align: center;
-	font-size: 40px;
-}
-        
+
 .down {
 	bottom:0%;
+}
+*/
+
+.up {
+	top:0%;
+	text-align: center;
+	font-size: 60px;
+}
+.rightcolumn {
+	width: 100%;
+	height: 100%;
+	position:fixed;
+	top:5%;
+	left:85%;
+	right: 5%;
+// color: #7575a3;
+	float: right;
 }
 
 table {
@@ -192,4 +218,154 @@ table, th, td {
 	list-style-position: outside;
 	list-style-type: none;
 	text-align: left;
+}
+
+
+.menu-container {
+
+}
+
+
+/*
+=====
+DEPENDENCES
+=====
+*/
+
+/* reset browser's styles of links https://github.com/melnik909/r-link */
+.r-link{
+	display: var(--rLinkDisplay, inline-flex) !important;
+}
+
+.r-link[href]{
+	color: var(--rLinkColor) !important;
+	text-decoration: var(--rLinkTextDecoration, none) !important;
+}
+
+/* reset browser's styles of the ul https://github.com/melnik909/r-list */
+
+.r-list{
+	padding-left: var(--rListPaddingLeft, 0) !important;
+	margin-top: var(--rListMarginTop, 0) !important;
+	margin-bottom: var(--rListMarginBottom, 0) !important;
+	list-style: var(--rListListStyle, none) !important;
+}
+
+
+/*
+=====
+CORE STYLES
+=====
+*/
+
+.menu{
+	--rLinkColor: var(--menuLinkColor, currentColor);
+}
+
+.menu__link{
+	display: var(--menuLinkDisplay, block);
+}
+
+/*
+focus state
+*/
+
+.menu__link:focus{
+	outline: var(--menuLinkOutlineWidth, 2px) solid var(--menuLinkOutlineColor, currentColor);
+	outline-offset: var(--menuLinkOutlineOffset);
+}
+
+/*
+fading siblings
+*/
+
+.menu:hover .menu__link:not(:hover){
+	--rLinkColor: var(--menuLinkColorUnactive, rgba(22, 22, 22, .35));
+}
+
+/*
+=====
+PRESENTATION STYLES
+=====
+*/
+
+.menu{
+	background-color: var(--menuBackgroundColor, #f0f0f0);
+	box-shadow: var(--menuBoxShadow, 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24));
+}
+
+.menu__list{
+	display: flex;
+}
+
+.menu__link{
+	padding: var(--menuLinkPadding, 1.5rem 2.5rem);
+	font-weight: 700;
+	/*text-transform: uppercase;*/
+}
+
+/*
+=====
+TEXT UNDERLINED
+=====
+*/
+
+.text-underlined{
+	position: relative;
+	overflow: hidden;
+
+	will-change: color;
+	transition: color .25s ease-out;
+}
+
+.text-underlined::before,
+.text-underlined::after{
+	content: "";
+	width: 0;
+	height: 3px;
+	background-color: var(--textUnderlinedLineColor, currentColor);
+
+	will-change: width;
+	transition: width .1s ease-out;
+
+	position: absolute;
+	bottom: 0;
+}
+
+.text-underlined::before{
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.text-underlined::after{
+	right: 50%;
+	transform: translateX(50%);
+}
+
+.text-underlined:hover::before,
+.text-underlined:hover::after{
+	width: 100%;
+	transition-duration: .2s;
+}
+
+/*
+=====
+SETTINGS
+=====
+*/
+
+.page__custom-settings{
+	--menuBackgroundColor: #6c5ce7;
+	--menuLinkColor: #fff;
+	--menuLinkColorUnactive: #241c69;
+	--menuLinkOutlineOffset: -.5rem;
+}
+
+
+
+
+.table-container {
+	width:30%;
+	margin-right: auto;
+	margin-left: auto;
 }

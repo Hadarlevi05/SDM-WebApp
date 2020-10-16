@@ -1,28 +1,23 @@
-function LoadFile(event) {
-    var file = event.target.files[0];
+function loadFile(e) {
+    var file = e.target.files[0];
     var reader = new FileReader();
 
     reader.onload = function (){
         var content = reader.result;
-        console.log(content);
 
         $.ajax({
-            url: "../../LoadXml",
-            data:
-                {
-                    file: content
-                },
+            url: "../../LoadSdm",
+            data: { file: content },
             type: 'POST',
             success: function(finalMsg) {
                 updateRepoAfterLoadFile();
-                alert(finalMsg);
+                console.log(finalMsg);
             }
         });
     };
-
     reader.readAsText(file);
 }
 
 function updateRepoAfterLoadFile() {
-    ajaxCurrentUserRepo();
+    // ajaxCurrentUserRepo();
 }

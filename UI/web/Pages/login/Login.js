@@ -1,21 +1,24 @@
 function showLoginForm() {
+    $('.error').hide();
     $('#loginForm').show()
     $('#signupForm').hide();
 }
 
 function showSignupForm() {
+    $('.error').hide();
     $('#loginForm').hide();
     $('#signupForm').show()
+
 }
 
 function login(username) {
     return $get('../../login', {username})
         .then(data => {
-            if (data.status === 200) {
+            if (data.Status === 200) {
                 $('.error').hide();
-                location.href = data.redirectUrl;
+                redirectUrl(data.RedirectUrl);
             } else {
-                $('.error').html(data.errorMessage).show();
+                $('.error').html(data.ErrorMessage).show();
             }
         });
 }
@@ -23,15 +26,13 @@ function login(username) {
 function signup(username,type) {
     return $get('../../signup', {username,type})
         .then(data => {
-            if (data.status === 200) {
+            if (data.Status === 200) {
                 $('.error').hide();
-                location.href = data.redirectUrl;
+                redirectUrl(data.RedirectUrl);
             } else {
-                $('.error').html(data.errorMessage).show();
+                $('.error').html(data.ErrorMessage).show();
             }
         });
-
-    // location.href = data.redirectUrl;
 
 }
 

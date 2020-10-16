@@ -53,7 +53,7 @@ public class SuperDuperMarket {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             SuperDuperMarketDescriptor SuperDuperMarketDescriptor = (SuperDuperMarketDescriptor) jaxbUnmarshaller.unmarshal(xmlFile);
             sdmMapper = new Mapper(SuperDuperMarketDescriptor);
-            XMLValidator validation = new XMLValidator(SuperDuperMarketDescriptor, xmlFilePath);
+            XMLValidator validation = new XMLValidator(SuperDuperMarketDescriptor);
             XMLHandler.XMLValidationResult validationResult = validation.StartChecking();
 
             if (validationResult.isValid()) {

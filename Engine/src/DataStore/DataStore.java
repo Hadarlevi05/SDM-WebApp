@@ -7,6 +7,7 @@ public class DataStore {
     private static DataStore _dataStore = null;
 
     public UserDataStore userDataStore;
+    public UserConfigurationDataStore userConfigurationDataStore;
 
     // private constructor restricted to this class itself
     private DataStore() {

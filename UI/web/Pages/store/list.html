@@ -4,51 +4,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="../../Commons/jquery-2.0.3.min.js"></script>
-    <script src="xmlUpload.js"></script>
-    <script src="fork.js"></script>
 
-
+    <link rel="stylesheet" href="../../Styles/common.css">
     <link rel="stylesheet" href="list.css">
+    <link rel="stylesheet" href="../../Styles/superDuperTable.css">
+
 
 </head>
 <body>
 
+
+<script src="../../Scripts/jquery-3_5_1.js"></script>
+<script src="../../Scripts/common.js"></script>
 <script src="list.js"></script>
+<script src="../../Scripts/xmlUpload.js"></script>
+
+<!--<script src="xmlUpload.js"></script>
+<script src="fork.js"></script>-->
 
 
-<div id="background">
-    <img src="../resources/wallpaper3.jpg" class="stretch" alt=""/>
-</div>
-
-<div class="up">
-    <h1>Super Duper Market</h1>
-</div>
-
-<div class="leftcolumn">
-    <form action="../../logout" method="get">
-        <center>
-            <input type="submit" class="f90-logout-button" value="Logout">
-        </center>
-    </form>
-    <p><img class="userImage" src="../resources/user.png" alt="User"></p>
-    <p style="font-size: 15px">
+<h1 class="up">Super Duper Market</h1>
+<div class="rightcolumn">
+    <p class="rightcolumn" style="font-size: 15px">
         <b>
             <h2>User Name:
                 <label id="userName"></label>
             </h2>
         </b>
     </p>
-
-    <div class="notifications">
-        <h4>Notifications: </h4>
-        <ul id="notifications" class="outside"></ul>
-    </div>
-    <br><br>
 </div>
 
 
-<div class="up2">
+<!--<div class="up2">
     <nav>
         <div class="middle">
 				<span>
@@ -60,9 +47,9 @@
 				</span>
         </div>
     </nav>
-</div>
+</div>-->
 
-<div class="centercolumn">
+<!--<div class="centercolumn">
     <div class="center">
         <table class="table" id="userRepoTable">
             <thead class="thead-dark">
@@ -76,13 +63,98 @@
             <tbody id="tableBody"></tbody>
         </table>
     </div>
-</div>
+</div>-->
 
-<div class="rightcolumn">
+<!--<div class="leftcolumn">
+    <p style="font-size: 15px">
+        <b>
+            <h2>User Name:
+                <label id="userName"></label>
+            </h2>
+        </b>
+    </p>
+
+
+    <br><br>
+</div>-->
+<!--<div class="rightcolumn">
     <h4>Registered Users:</h4>
     <div class="outside">
-        <ul id="userList" class="outside"></ul>
+        <ul id="userList" class="user-list outside"></ul>
     </div>
+</div>-->
+<div class="page">
+
+
+    <div class="loading" style="display: none;">
+    </div>
+
+    <nav class="page__menu page__custom-settings menu">
+        <ul id="menu-items" class="menu__list r-list">
+            <li class="menu__group"><a href="#registeredUsers" class="menu__link r-link text-underlined">Registered
+                Users</a></li>
+            <li class="menu__group"><a href="#storeAreas" class="menu__link r-link text-underlined">Store Areas</a></li>
+            <li class="menu__group"><a href="#account" class="menu__link r-link text-underlined">Account</a></li>
+            <li class="menu__group"><a href="#storeOwnerActions" class="menu__link r-link text-underlined">Store owner
+                actions</a></li>
+        </ul>
+    </nav>
+
+    <section>
+
+        <div id="registeredUsers" class="menu-container">
+            <h2>registeredUsers</h2>
+
+            <div>
+
+                <div class="outside">
+
+
+                    <div class="table-container">
+                        <table class="superduperTable">
+                            <thead>
+                            <tr>
+                                <th>User name</th>
+                                <th>User type</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <td colspan="2">
+
+                                </td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            </tbody>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div id="storeAreas" class="menu-container" style="display: none;">
+            <h2>storeAreas</h2>
+        </div>
+        <div id="account" class="menu-container" style="display: none;">
+            <h2>account</h2>
+        </div>
+        <div id="storeOwnerActions" class="menu-container" style="display: none;">
+            <h2>Upload your super duper market</h2>
+
+
+            <input class="" id="FileInput" type="file" accept="text/xml" onchange="loadFile(event)"></input>
+
+        </div>
+
+
+    </section>
+
+
 </div>
 
 </body>

@@ -12,16 +12,16 @@ public class XMLValidator {
     private String xmlPath;
     private SuperDuperMarketDescriptor sdm;
 
-    public XMLValidator(SuperDuperMarketDescriptor superMarket, String xmlFilePath){
+    public XMLValidator(SuperDuperMarketDescriptor superMarket){
         sdm = superMarket;
-        xmlPath = xmlFilePath;
+        //xmlPath = xmlFilePath;
     }
 
-    public XMLHandler.XMLValidationResult StartChecking () {
-        XMLHandler.XMLValidationResult validationResult = new XMLHandler.XMLValidationResult();
+    public XMLValidationResult StartChecking () {
+        XMLValidationResult validationResult = new XMLValidationResult();
         validationResult.setIsValid(true);
         try{
-            checkFileExitsAndXml(xmlPath);
+            //checkFileExitsAndXml(xmlPath);
             checkDoubledIdOfItems(sdm.getSDMItems());
             checkDoubledIdOfStores(sdm.getSDMStores());
             checkSellItemsExistInStore(sdm.getSDMStores(),sdm.getSDMItems());

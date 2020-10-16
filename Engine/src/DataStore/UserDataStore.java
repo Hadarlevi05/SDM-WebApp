@@ -15,11 +15,15 @@ public class UserDataStore {
     }
 
     public Models.SdmUser get(String username) {
-        List<Models.SdmUser> users = this.users.stream().filter(user -> user.username == username).collect(Collectors.toList());
+        List<Models.SdmUser> users = this.users.stream().filter(user -> user.username.equals(username)).collect(Collectors.toList());
         if (users.isEmpty()) {
             return null;
         }
         return users.get(0);
+    }
+
+    public List<Models.SdmUser> list() {
+        return users;
     }
 
     public void create(Models.SdmUser user) {

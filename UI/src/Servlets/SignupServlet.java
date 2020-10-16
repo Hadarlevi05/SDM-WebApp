@@ -1,11 +1,11 @@
 package Servlets;
 
-
+import DTO.ResponseDTO;
 import DataStore.DataStore;
 import Enums.UserType;
 import Models.SdmUser;
+import UIUtils.ServletHelper;
 import UIUtils.SessionUtils;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,25 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-        urlPatterns = "/signup"
+    urlPatterns = "/signup"
 )
 
 public class SignupServlet extends HttpServlet {
-    private final String BaseUrl = "Pages/";
-
-    private final String PAGE_2 = "Pages/page2/Page2.html";
-    private final String SIGN_UP_URL = "Pages/loginPage/LoginPage.html";
-    private final String loginUrl = BaseUrl + "login/login.html";
-    private final String StoreListPage = BaseUrl + "store/list.html";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-        String msg = "";
+        ResponseDTO responseDTOJson = new ResponseDTO();
+        responseDTOJson.Status = 200;
 
         response.setContentType("text/html;charset=UTF-8");
-        String usernameFromSession = SessionUtils.getUsername(request);
+        SdmUser usernameFromSession = SessionUtils.getUser(request);
 
         if (usernameFromSession == null) {
 
@@ -40,30 +34,28 @@ public class SignupServlet extends HttpServlet {
             UserType userType = UserType.valueOf(request.getParameter("type"));
 
             if (username == null || username.isEmpty()) {
-                String errorMessage = "Username cannot be empty.";
-                msg = "{ \"status\": 400, \"errorMessage\": \"" + errorMessage + "\", \"redirectUrl\": \"" + "" + "\" }";
-                ServletUtils.WriteToOutput(response, msg);
-                //response.sendRedirect(loginUrl);
 
+                responseDTOJson.Status = 400;
+                responseDTOJson.ErrorMessage = "Username cannot be empty.";
+
+                ServletHelper.WriteToOutput(response, responseDTOJson);
                 return;
             }
-
             DataStore dataStore = DataStore.getInstance();
 
             username = username.trim();
             SdmUser user = dataStore.userDataStore.get(username);
 
             if (user != null) {
-
-                String errorMessage = "Username '" + username + "' already exists.";
-                msg = "{ \"status\": 400, \"errorMessage\": \"" + errorMessage + "\", \"redirectUrl\": \"" + "" + "\" }";
-
+                responseDTOJson.Status = 400;
+                responseDTOJson.ErrorMessage = "Username '" + username + "' already exists.";
             } else {
-                dataStore.userDataStore.create(new SdmUser(username, userType));
-                msg = "{ \"status\": 200, \"errorMessage\": \"" + "" + "\", \"redirectUrl\": \"" + StoreListPage + "\" }";
-
+                user = new SdmUser(username, userType);
+                dataStore.userDataStore.create(user);
+                responseDTOJson.RedirectUrl = ServletHelper.StoreListPage;
+                SessionUtils.setUser(request, user);
             }
-            ServletUtils.WriteToOutput(response, msg);
+            ServletHelper.WriteToOutput(response, responseDTOJson);
         }
     }
 

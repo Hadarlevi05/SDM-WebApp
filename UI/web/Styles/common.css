@@ -8,3 +8,20 @@ body {
     color:#ffb100f2;
     font-size: 14px;
 }
+
+
+.loading {
+    position: absolute;
+    background-color: #eee;
+    border-radius: 10%;
+    top: 45%;
+    left: 45%;
+    bottom: 45%;
+    right: 45%;
+    min-height: 250px;
+    background-image: url(../Resources/spinner.gif);
+    background-position: center;
+    opacity: 0.8;
+    background-repeat: no-repeat;
+
+}
