@@ -13,46 +13,47 @@ public class UserConfigurationDataStore {
     List<StoreOwner> storeOwners;
 
     public UserConfigurationDataStore() {
-        storeOwners = new ArrayList<>();
+        this.storeOwners = new ArrayList<>();
     }
 
     public StoreOwner get(StoreOwner storeowner) {
-        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.equals(storeowner)).collect(Collectors.toList());
-        if (storeOwners.isEmpty()) {
+        List<StoreOwner> list = this.storeOwners.stream().filter(storeOwner -> storeOwner.equals(storeowner)).collect(Collectors.toList());
+        if (list.isEmpty()) {
             return null;
         }
-        return storeOwners.get(0);
+        return list.get(0);
     }
 
     public List<StoreOwner> list() {
-        return storeOwners;
+        return this.storeOwners;
     }
 
     public List<StoreOwner> list(String username) {
-        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.username.equals(username)).collect(Collectors.toList());
-        if (storeOwners.isEmpty()) {
+        List<StoreOwner> list = this.storeOwners.stream().filter(storeOwner -> storeOwner.username.equals(username)).collect(Collectors.toList());
+        if (list.isEmpty()) {
             return null;
         }
-        return storeOwners;
+        return list;
     }
 
     public void create(StoreOwner storeowner) {
+
         this.storeOwners.add(storeowner);
     }
 
     public StoreOwner getByArea(String area) {
 
-        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.area.equals(area)).collect(Collectors.toList());
-        if (storeOwners.isEmpty()) {
+        List<StoreOwner> list = this.storeOwners.stream().filter(storeOwner -> storeOwner.area.equals(area)).collect(Collectors.toList());
+        if (list.isEmpty()) {
             return null;
         }
-        return storeOwners.get(0);
+        return list.get(0);
     }
 
     public void delete(StoreOwner storeowner) {
 
-        StoreOwner user1 = get(storeowner);
+        StoreOwner user = get(storeowner);
 
-        this.storeOwners.remove(user1);
+        this.storeOwners.remove(user);
     }
 }
