@@ -51,7 +51,7 @@ public class SignupServlet extends HttpServlet {
                 keyValueDTO.Status = 400;
                 keyValueDTO.ErrorMessage = "Username '" + username + "' already exists.";
             } else {
-                user = new SdmUser(username, userType);
+                user = new SdmUser(7, username, userType);
                 dataStore.userDataStore.create(user);
 
                 keyValueDTO.RedirectUrl = ServletHelper.StoreListPage;

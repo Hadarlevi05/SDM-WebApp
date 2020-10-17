@@ -169,13 +169,51 @@
                 </div>
             </div>
         </div>
+
         <div id="account" class="menu-container" style="display: none;">
-            <h2>account</h2>
+            <h2>Account Management</h2>
+            <div>
+                <input for="chargeButton" type="text" name="txtSum" placeholder="Amount $" />
+            </div>
+            <div>
+                <button class="chargeButton" onclick="chargeMoney()">
+                    Charge Money
+                </button>
+            </div>
+
+<!--            <label for="actionDate">Transaction Date:</label>-->
+<!--            <input type="date" id="actionDate" name="actionDate">-->
+
+            <div>
+                <div class="outside">
+                    <div class="table-container">
+                        <table class="superduperTable">
+                            <thead>
+                                <tr>
+                                    <th>Transaction Type</th>
+                                    <th>Transaction Date</th>
+                                    <th>Sum Of Transaction</th>
+                                    <th>Balance Before Action</th>
+                                    <th>Balance After Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr><td colspan="5"></td></tr>
+                            </tfoot>
+                            <tbody>
+
+                            </tbody>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+
         <div id="storeOwnerActions" class="menu-container" style="display: none;">
             <h2>Upload your super duper market</h2>
-
-
             <input class="" id="FileInput" type="file" accept="text/xml"></input>
 
         </div>

@@ -28,10 +28,13 @@ function addEventListeners() {
     });
 
     getUsers('currentUser', (data) => {
-
         const user = data.Values.user;
-
         setCurrentUser(user);
+    });
+
+    const user = userSession();
+    getTransactions(user.username, (data) => {
+        buildTransactionsTable(data.Transactions);
     });
 
     window.addEventListener("hashchange", function (e) {
@@ -50,7 +53,6 @@ function addEventListeners() {
             });
         });
     });
-
 
     getSDMs('allUserConfig', (data) => {
         buildStoreAreasTable(data.Values.Rows);
@@ -127,7 +129,6 @@ function getUsers(action, callback) {
         });
 }
 
-
 /*
     Utility methods
  */
@@ -170,12 +171,61 @@ function buildStoreAreasTable(rows) {
     $('#storeAreas').find('tbody').html(html);
 }
 
-function setCurrentUser(user) {
+function buildTransactionsTable(rows) {
 
+    var html = rows.map(row => {
+        return `<tr>
+                    <td>${row['transactionType']}</td>
+                    <td>${row['transactionDate']}</td>
+                    <td>${row['sumOfTransaction']}</td>
+                    <td>${row['balanceBeforeAction']}</td>
+                    <td>${row['balanceAfterAction']}</td>                   
+                </tr>`;
+    }).join('')
+
+    $('#account').find('tbody').html(html);
+}
+
+function setCurrentUser(user) {
     $('#userName').html(user.username);
 }
 
 
+function getTransactions(username, callback) {
+
+    showLoader(true);
+
+    return $get(`../../transactions?username=${username}`)
+        .then(data => {
+            if (data.Status === 200) {
+                console.log('data', data);
+                callback(data)
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+
+            showLoader(false);
+        });
+}
+
+function chargeMoney(){
+    let txtSum = $('#account').find('input[name=txtSum]').val();
+    const user = userSession();
+
+    $.ajax({
+        url: '../../transactions',
+        data:
+        {
+            username: `${user.username}`,
+            sumOfTransaction: txtSum,
+            transactionType: 'CHARGE_MONEY',
+        },
+        type: 'POST',
+        success: function(checkoutResObj) {
+            alert ("OK");
+        }
+    });
+}
 
 
 
