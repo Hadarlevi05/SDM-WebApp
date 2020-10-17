@@ -13,6 +13,10 @@ function redirectUrl(url) {
     location.href = url;
 }
 
+function redirectToLogin(url) {
+    redirectUrl(`${location.origin}/UI_Web_exploded/Pages/login/login.html`);
+}
+
 function init() {
     $.ajaxSetup({
         dataType: "json",
@@ -56,6 +60,5 @@ function userSession(data) {
     }
     return null;
 }
-
 
 init();

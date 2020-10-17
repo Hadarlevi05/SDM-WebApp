@@ -11,7 +11,7 @@ $(function () {
 function setPermission() {
 
     if (!currentUserSession) {
-        alert('you are not login!');
+        redirectToLogin();
     }
 
     if (currentUserSession.userType === 'CUSTOMER') {
