@@ -12,6 +12,7 @@ public class DataStore {
     // private constructor restricted to this class itself
     private DataStore() {
         userDataStore = new UserDataStore();
+        userConfigurationDataStore = new UserConfigurationDataStore();
     }
 
     // static method to create instance of Singleton class

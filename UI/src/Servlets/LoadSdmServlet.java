@@ -74,10 +74,11 @@ public class LoadSdmServlet extends HttpServlet {
                     keyValueDTO.Status = 400;
                     keyValueDTO.ErrorMessage = "Area is already taken by another store owner";
                 }else{
-                    DataStore.getInstance().userConfigurationDataStore.create(new StoreOwner(user.username,area, sdm));
+                    keyValueDTO.ErrorMessage=msg;
+                    DataStore.getInstance().userConfigurationDataStore.create(storeOwner);
                     keyValueDTO.Values.put("sdm", sdm);
                 }
-                
+
             } else {
                 keyValueDTO.Status = 400;
                 keyValueDTO.ErrorMessage = validationResult.getMessage();

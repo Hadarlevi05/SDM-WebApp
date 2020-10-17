@@ -1,11 +1,25 @@
+$(function () {
 
-$(function(){
-
-    var itemSelected = document.getElementsByClassName('menu__group');
-    setUIBySelectedItem($(itemSelected));
+    /*    var itemSelected = document.getElementsByClassName('menu__group');
+        setUIBySelectedItem($(itemSelected));*/
 
     addEventListeners();
+
+    setPermission();
 });
+
+function setPermission() {
+
+    if (!currentUserSession) {
+        alert('you are not login!');
+    }
+
+    if (currentUserSession.userType === 'CUSTOMER') {
+        $('[role=store-owner-permission]').hide();
+    }
+
+}
+
 
 function addEventListeners() {
 
@@ -20,13 +34,47 @@ function addEventListeners() {
         setCurrentUser(user);
     });
 
-    window.addEventListener("hashchange", function(e){
+    window.addEventListener("hashchange", function (e) {
 
         setTabByHash(e);
-
     }, false);
 
+    $('#FileInput').on('change', (e) => {
+
+        loadFile(e, (data) => {
+
+            alert(data.ErrorMessage);
+
+            getSDMs('allUserConfig', (data) => {
+                buildStoreAreasTable(data.Values.Rows);
+            });
+        });
+    });
+
+
+    getSDMs('allUserConfig', (data) => {
+        buildStoreAreasTable(data.Values.Rows);
+    });
+
     setTabByHash();
+}
+
+function getSDMs(action, callback) {
+
+    showLoader(true);
+
+    return $get(`../../superdupermarket?action=${action}`)
+        .then(data => {
+            if (data.Status === 200) {
+                console.log('data', data);
+                callback(data)
+
+
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+            showLoader(false);
+        });
 }
 
 function setTabByHash(e) {
@@ -35,24 +83,26 @@ function setTabByHash(e) {
     var hash = '';
 
     if (e) {
-        hash =e.newURL.split('#')[1];
+        hash = e.newURL.split('#')[1];
     } else {
-        if (location.href.indexOf('#') > -1){
+        if (location.href.indexOf('#') > -1) {
             hash = location.href.split('#')[1];
         }
     }
 
 
     $('.menu-container').hide();
-    $(`#${hash}`).show();
-}
-
-function setUIBySelectedItem(itemSelected) {
-
-    if (+itemSelected === 1){
-        console.log("123");
+    if (hash) {
+        $(`#${hash}`).show();
     }
 }
+
+/*function setUIBySelectedItem(itemSelected) {
+
+    if (+itemSelected === 1) {
+        console.log("123");
+    }
+}*/
 
 
 function getUsers(action, callback) {
@@ -70,9 +120,9 @@ function getUsers(action, callback) {
                 console.log('error', data.ErrorMessage);
             }
 
-            setTimeout(()=> {
-                showLoader(false);
-            }, 200);
+
+            showLoader(false);
+
 
         });
 }
@@ -102,6 +152,22 @@ function buildUserList(users) {
     }).join('')
 
     $('#registeredUsers').find('tbody').html(html);
+}
+
+function buildStoreAreasTable(rows) {
+
+    var html = rows.map(row => {
+        return `<tr>
+                    <td>${row['storeowner']}</td>
+                    <td>${row['area']}</td>
+                    <td>${row['itemstypes']}</td>
+                    <td>${row['storesnumber']}</td>
+                    <td>${row['ordersnumber']}</td>
+                    <td>${row['avgordersprice']}</td>
+                </tr>`;
+    }).join('')
+
+    $('#storeAreas').find('tbody').html(html);
 }
 
 function setCurrentUser(user) {

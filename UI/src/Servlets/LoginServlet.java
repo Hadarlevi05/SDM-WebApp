@@ -1,5 +1,6 @@
 package Servlets;
 
+import DTO.KeyValueDTO;
 import DTO.ResponseDTO;
 import DataStore.DataStore;
 import Models.SdmUser;
@@ -27,17 +28,17 @@ public class LoginServlet extends HttpServlet {
         String usernameFromQueryString = request.getParameter("username").trim();
         SdmUser usernameFromSession = SessionUtils.getUser(request);
 
-        ResponseDTO responseDTOJson = new ResponseDTO();
-        responseDTOJson.Status = 200;
+        KeyValueDTO keyValueDTO = new KeyValueDTO();
+        keyValueDTO.Status = 200;
 
         response.setContentType("text/html;charset=UTF-8");
 
         if (usernameFromSession == null) {
 
             if (usernameFromQueryString == null || usernameFromQueryString.isEmpty()) {
-                responseDTOJson.Status = 400;
-                responseDTOJson.ErrorMessage =  "Username cannot be empty.";
-                ServletHelper.WriteToOutput(response, responseDTOJson);
+                keyValueDTO.Status = 400;
+                keyValueDTO.ErrorMessage =  "Username cannot be empty.";
+                ServletHelper.WriteToOutput(response, keyValueDTO);
                 return;
             }
 
@@ -46,17 +47,18 @@ public class LoginServlet extends HttpServlet {
 
             if (user == null) {
 
-                responseDTOJson.Status = 400;
-                responseDTOJson.ErrorMessage =  "Username '" + usernameFromQueryString + "' doesn't exists.";
+                keyValueDTO.Status = 400;
+                keyValueDTO.ErrorMessage =  "Username '" + usernameFromQueryString + "' doesn't exists.";
                 success = false;
             }
         }
 
         if (success) {
-            responseDTOJson.RedirectUrl = ServletHelper.StoreListPage;
+            keyValueDTO.RedirectUrl = ServletHelper.StoreListPage;
+            keyValueDTO.Values.put("User", user);
 
             SessionUtils.setUser(request, user);
         }
-        ServletHelper.WriteToOutput(response, responseDTOJson);
+        ServletHelper.WriteToOutput(response, keyValueDTO);
     }
 }

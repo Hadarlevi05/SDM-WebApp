@@ -1,13 +1,15 @@
-dataType: "json",
-    function $post(url, data) {
-        return $ajax('POST', url, data);
-    }
+
+let currentUserSession = null;
+
+function $post(url, data) {
+    return $ajax('POST', url, data);
+}
 
 function $get(url, data) {
     return $ajax('GET', url, data);
 }
 
-function redirectUrl(url){
+function redirectUrl(url) {
     location.href = url;
 }
 
@@ -17,6 +19,8 @@ function init() {
         global: false,
         type: "POST"
     });
+
+    currentUserSession = userSession();
 }
 
 function $ajax(verb, url, data) {
@@ -29,16 +33,29 @@ function $ajax(verb, url, data) {
     });
 }
 
-
 function showLoader(flag) {
-    if (flag){
+    if (flag) {
 
         $('.loading').show();
-    }else {
+    } else {
+        setTimeout(() => {
+            $('.loading').hide();
+        }, 200);
 
-        $('.loading').hide();
     }
-
 }
+
+function userSession(data) {
+    if (data) {
+        localStorage.setItem('userSession', JSON.stringify(data));
+    } else {
+        const storageData = localStorage.getItem('userSession');
+        if (storageData) {
+            return JSON.parse(storageData);
+        }
+    }
+    return null;
+}
+
 
 init();

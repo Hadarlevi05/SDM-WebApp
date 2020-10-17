@@ -16,6 +16,7 @@ function login(username) {
         .then(data => {
             if (data.Status === 200) {
                 $('.error').hide();
+                userSession(data.Values.User);
                 redirectUrl(data.RedirectUrl);
             } else {
                 $('.error').html(data.ErrorMessage).show();
@@ -28,6 +29,7 @@ function signup(username,type) {
         .then(data => {
             if (data.Status === 200) {
                 $('.error').hide();
+                userSession(data.Values.User);
                 redirectUrl(data.RedirectUrl);
             } else {
                 $('.error').html(data.ErrorMessage).show();

@@ -1,4 +1,4 @@
-function loadFile(e) {
+function loadFile(e, callback) {
     var file = e.target.files[0];
     var reader = new FileReader();
 
@@ -10,16 +10,10 @@ function loadFile(e) {
             data: { file: content },
             type: 'POST',
             cache: false,
-
-            success: function(finalMsg) {
-                updateRepoAfterLoadFile();
-                console.log(finalMsg);
+            success: function(data) {
+                callback(data);
             }
         });
     };
     reader.readAsText(file);
-}
-
-function updateRepoAfterLoadFile() {
-    // ajaxCurrentUserRepo();
 }

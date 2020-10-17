@@ -17,7 +17,7 @@ public class UserConfigurationDataStore {
     }
 
     public StoreOwner get(StoreOwner storeowner) {
-        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner == storeowner).collect(Collectors.toList());
+        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.equals(storeowner)).collect(Collectors.toList());
         if (storeOwners.isEmpty()) {
             return null;
         }
@@ -28,13 +28,21 @@ public class UserConfigurationDataStore {
         return storeOwners;
     }
 
+    public List<StoreOwner> list(String username) {
+        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.username.equals(username)).collect(Collectors.toList());
+        if (storeOwners.isEmpty()) {
+            return null;
+        }
+        return storeOwners;
+    }
+
     public void create(StoreOwner storeowner) {
         this.storeOwners.add(storeowner);
     }
 
     public StoreOwner getByArea(String area) {
 
-        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.area == area).collect(Collectors.toList());
+        List<StoreOwner> storeOwners = this.storeOwners.stream().filter(storeOwner -> storeOwner.area.equals(area)).collect(Collectors.toList());
         if (storeOwners.isEmpty()) {
             return null;
         }

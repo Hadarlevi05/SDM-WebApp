@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../Styles/common.css">
     <link rel="stylesheet" href="list.css">
     <link rel="stylesheet" href="../../Styles/superDuperTable.css">
+    <link rel="stylesheet" href="../../Styles/menu.css">
 
 
 </head>
@@ -95,7 +96,7 @@
                 Users</a></li>
             <li class="menu__group"><a href="#storeAreas" class="menu__link r-link text-underlined">Store Areas</a></li>
             <li class="menu__group"><a href="#account" class="menu__link r-link text-underlined">Account</a></li>
-            <li class="menu__group"><a href="#storeOwnerActions" class="menu__link r-link text-underlined">Store owner
+            <li class="menu__group" role="store-owner-permission"><a href="#storeOwnerActions" class="menu__link r-link text-underlined">Store owner
                 actions</a></li>
         </ul>
     </nav>
@@ -103,7 +104,6 @@
     <section>
 
         <div id="registeredUsers" class="menu-container">
-            <h2>registeredUsers</h2>
 
             <div>
 
@@ -138,7 +138,36 @@
 
         </div>
         <div id="storeAreas" class="menu-container" style="display: none;">
-            <h2>storeAreas</h2>
+            <div>
+
+                <div class="outside">
+
+
+                    <div class="table-container">
+                        <table class="superduperTable">
+                            <thead>
+                            <tr>
+                                <th>Store owner</th>
+                                <th>Area</th>
+                                <th>Items types number</th>
+                                <th>Stores number</th>
+                                <th>Orders number</th>
+                                <th>Average order price</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr><td colspan="6"></td></tr>
+                            </tfoot>
+                            <tbody>
+
+                            </tbody>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
         <div id="account" class="menu-container" style="display: none;">
             <h2>account</h2>
@@ -147,7 +176,7 @@
             <h2>Upload your super duper market</h2>
 
 
-            <input class="" id="FileInput" type="file" accept="text/xml" onchange="loadFile(event)"></input>
+            <input class="" id="FileInput" type="file" accept="text/xml"></input>
 
         </div>
 

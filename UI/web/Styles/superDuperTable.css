@@ -28,7 +28,7 @@ table.superduperTable thead th {
     font-weight: bold;
     color: #F0F0F0;
     text-align: center;
-    border-left: 2px solid #6A63E7;
+    /*border-left: 2px solid #6A63E7;*/
 }
 table.superduperTable thead th:first-child {
     /*border-left: none;*/

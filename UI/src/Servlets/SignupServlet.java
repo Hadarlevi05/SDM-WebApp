@@ -1,5 +1,6 @@
 package Servlets;
 
+import DTO.KeyValueDTO;
 import DTO.ResponseDTO;
 import DataStore.DataStore;
 import Enums.UserType;
@@ -22,8 +23,8 @@ public class SignupServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        ResponseDTO responseDTOJson = new ResponseDTO();
-        responseDTOJson.Status = 200;
+        KeyValueDTO keyValueDTO = new KeyValueDTO();
+        keyValueDTO.Status = 200;
 
         response.setContentType("text/html;charset=UTF-8");
         SdmUser usernameFromSession = SessionUtils.getUser(request);
@@ -35,10 +36,10 @@ public class SignupServlet extends HttpServlet {
 
             if (username == null || username.isEmpty()) {
 
-                responseDTOJson.Status = 400;
-                responseDTOJson.ErrorMessage = "Username cannot be empty.";
+                keyValueDTO.Status = 400;
+                keyValueDTO.ErrorMessage = "Username cannot be empty.";
 
-                ServletHelper.WriteToOutput(response, responseDTOJson);
+                ServletHelper.WriteToOutput(response, keyValueDTO);
                 return;
             }
             DataStore dataStore = DataStore.getInstance();
@@ -47,15 +48,18 @@ public class SignupServlet extends HttpServlet {
             SdmUser user = dataStore.userDataStore.get(username);
 
             if (user != null) {
-                responseDTOJson.Status = 400;
-                responseDTOJson.ErrorMessage = "Username '" + username + "' already exists.";
+                keyValueDTO.Status = 400;
+                keyValueDTO.ErrorMessage = "Username '" + username + "' already exists.";
             } else {
                 user = new SdmUser(username, userType);
                 dataStore.userDataStore.create(user);
-                responseDTOJson.RedirectUrl = ServletHelper.StoreListPage;
+
+                keyValueDTO.RedirectUrl = ServletHelper.StoreListPage;
+                keyValueDTO.Values.put("User", user);
+
                 SessionUtils.setUser(request, user);
             }
-            ServletHelper.WriteToOutput(response, responseDTOJson);
+            ServletHelper.WriteToOutput(response, keyValueDTO);
         }
     }
 
