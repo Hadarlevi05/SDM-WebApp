@@ -2,6 +2,7 @@ package UIUtils;
 
 import DTO.ResponseDTO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,8 +17,14 @@ public class ServletHelper {
 
     public static void WriteToOutput(HttpServletResponse response, ResponseDTO responseDTO) {
 
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+
+        String jsonString = gson.toJson(responseDTO);
+
         try (PrintWriter out = response.getWriter()) {
-            out.println(new Gson().toJson(responseDTO));
+            out.println(jsonString);
             out.flush();
         } catch (IOException e) {
             System.out.println(e.getMessage());

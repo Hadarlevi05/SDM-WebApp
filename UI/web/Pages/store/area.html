@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:list-style-type="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../../Styles/common.css">
+    <link rel="stylesheet" href="area.css">
+    <link rel="stylesheet" href="../../Styles/superDuperTable.css">
+    <link rel="stylesheet" href="../../Styles/menu.css">
+</head>
+<body>
+
+<script src="../../Scripts/jquery-3_5_1.js"></script>
+<script src="../../Scripts/common.js"></script>
+<script src="area.js"></script>
+<script src="../../Scripts/xmlUpload.js"></script>
+
+<h1 class="up">Super Duper Market</h1>
+<div class="rightcolumn">
+    <p class="rightcolumn" style="font-size: 15px">
+        <b>
+            <h2>User Name:
+                <label id="userName"></label>
+            </h2>
+        </b>
+    </p>
+</div>
+
+<div class="page">
+
+    <div class="loading" style="display: none;">
+    </div>
+
+    <nav class="page__menu page__custom-settings menu">
+        <ul id="menu-items" class="menu__list r-list">
+            <li class="menu__group"><a href="#registeredUsers" class="menu__link r-link text-underlined">Registered Users</a></li>
+            <li class="menu__group"><a href="#storeAreas" class="menu__link r-link text-underlined">Store Areas</a></li>
+            <li class="menu__group"><a href="#account" class="menu__link r-link text-underlined">Account</a></li>
+            <li class="menu__group" role="store-owner-permission"><a href="#storeOwnerActions" class="menu__link r-link text-underlined">Store owner actions</a></li>
+        </ul>
+    </nav>
+
+    <section>
+
+        <div id="registeredUsers" class="menu-container">
+
+        </div>
+        <div id="storeAreas" class="menu-container" style="display: none;">
+
+        </div>
+        <div id="account" class="menu-container" style="display: none;">
+
+        </div>
+        <div id="storeOwnerActions" class="menu-container" style="display: none;">
+
+        </div>
+
+    </section>
+
+</div>
+</body>
+</html>

@@ -3,39 +3,6 @@ body {
 	background-size: cover;;
 }
 
-
-/*
-.user-list {
-	width:200px;
-	border:solid 1px #ccc;
-	padding:5px;
-}
-.user-list li {
-	padding: 7px;
-	font-size: 24px;
-	margin: 2px;
-}
-.user-list li span {
-	font-size: 15px;
-	float: right;
-	font-style: italic;
-	background-color: #eee;
-	padding: 4px;
-}
-*/
-
-
-/*
-#background {
-    width: 100%; 
-    height: 100%; 
-    position: fixed; 
-    left: 0px; 
-    top: 0px; 
-    z-index: -1; !* Ensure div tag stays behind content; -999 might work, too. *!
-}
-*/
-
 .stretch {
     width:100%;
     height:100%;
@@ -49,13 +16,7 @@ h1 {
 
 h4 {
 	font-size: 24px;
-
 }
-
-/*h2 {
-	font-size: 16px;
-	color: #33334d
-}*/
 
 .leftcolumn{
 	width: 100%;
@@ -64,52 +25,8 @@ h4 {
 	top:5%;
 	left:85%;
 	right: 5%;
-// color: #7575a3;
 	float: left;
 }
-/*
-
-.centercolumn {
-        width: 60%; 
-        height: 100%; 
-        position:fixed; 
-        top:55%; 
-	left: 15%;
-        text-align: center;
-	color: #7575a3;
-}
-        
-
-        
-.center {
-        width: 100%;
-        font-size: 15px;
-        text-align: center;
-	margin-left: 10%;
-	color: #7575a3;
-}
-        
-        
-.middle {
-        margin-top: 5%;
-        margin-left: 15%;
-        margin-right: 0%;
-		color: #47476b;
-		text-decoration: underline;
-}
-        
-.up,.down {
-        position: fixed;
-        left: 0%;
-        right: 0%;
-        height: 50%;
-}
-        
-
-.down {
-	bottom:0%;
-}
-*/
 
 .up {
 	top:0%;
@@ -123,7 +40,6 @@ h4 {
 	top:5%;
 	left:85%;
 	right: 5%;
-// color: #7575a3;
 	float: right;
 }
 
@@ -160,15 +76,16 @@ h4 {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
 }
+
 .button:hover {
 	background:linear-gradient(to bottom, #9494b8 5%, #f0f0f5 100%);
 	background-color:#29293d;
 }
+
 .button:active {
 	position:relative;
 	top:1px;
 }
-
 
 .hide_file {
     position: absolute;
@@ -207,15 +124,6 @@ h4 {
 	list-style-type: none;
 	text-align: left;
 }
-
-
-.menu-container {
-
-}
-
-
-
-
 
 .table-container {
 	width:30%;

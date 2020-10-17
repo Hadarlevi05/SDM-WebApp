@@ -8,18 +8,6 @@ $(function () {
     setPermission();
 });
 
-function setPermission() {
-
-    if (!currentUserSession) {
-        redirectToLogin();
-    }
-
-    if (currentUserSession.userType === 'CUSTOMER') {
-        $('[role=store-owner-permission]').hide();
-    }
-
-}
-
 
 function addEventListeners() {
 
@@ -33,12 +21,12 @@ function addEventListeners() {
     });
 
     const user = userSession();
+
     getTransactions(user.username, (data) => {
         buildTransactionsTable(data.Transactions);
     });
 
     window.addEventListener("hashchange", function (e) {
-
         setTabByHash(e);
     }, false);
 
@@ -57,13 +45,10 @@ function addEventListeners() {
     getSDMs('allUserConfig', (data) => {
         buildStoreAreasTable(data.Values.Rows);
     });
-
     setTabByHash();
 }
 
 function getSDMs(action, callback) {
-
-    showLoader(true);
 
     return $get(`../../superdupermarket?action=${action}`)
         .then(data => {
@@ -75,12 +60,10 @@ function getSDMs(action, callback) {
             } else {
                 console.log('error', data.ErrorMessage);
             }
-            showLoader(false);
         });
 }
 
 function setTabByHash(e) {
-
 
     var hash = '';
 
@@ -91,7 +74,6 @@ function setTabByHash(e) {
             hash = location.href.split('#')[1];
         }
     }
-
 
     $('.menu-container').hide();
     if (hash) {
@@ -106,26 +88,16 @@ function setTabByHash(e) {
     }
 }*/
 
-
 function getUsers(action, callback) {
-
-    showLoader(true);
 
     return $get(`../../users?action=${action}`)
         .then(data => {
             if (data.Status === 200) {
                 console.log('data', data);
                 callback(data)
-
-
             } else {
                 console.log('error', data.ErrorMessage);
             }
-
-
-            showLoader(false);
-
-
         });
 }
 
@@ -160,7 +132,7 @@ function buildStoreAreasTable(rows) {
     var html = rows.map(row => {
         return `<tr>
                     <td>${row['storeowner']}</td>
-                    <td>${row['area']}</td>
+                    <td><a href="area.html?area=${row['area']}">${row['area']}</a>${row['area']}</td>
                     <td>${row['itemstypes']}</td>
                     <td>${row['storesnumber']}</td>
                     <td>${row['ordersnumber']}</td>
@@ -190,10 +162,7 @@ function setCurrentUser(user) {
     $('#userName').html(user.username);
 }
 
-
 function getTransactions(username, callback) {
-
-    showLoader(true);
 
     return $get(`../../transactions?username=${username}`)
         .then(data => {
@@ -203,28 +172,28 @@ function getTransactions(username, callback) {
             } else {
                 console.log('error', data.ErrorMessage);
             }
-
-            showLoader(false);
         });
 }
 
-function chargeMoney(){
-    let txtSum = $('#account').find('input[name=txtSum]').val();
-    const user = userSession();
+function chargeMoney() {
 
-    $.ajax({
-        url: '../../transactions',
-        data:
-        {
-            username: `${user.username}`,
-            sumOfTransaction: txtSum,
-            transactionType: 'CHARGE_MONEY',
-        },
-        type: 'POST',
-        success: function(checkoutResObj) {
-            alert ("OK");
-        }
-    });
+    const postData = {
+        sumOfTransaction: $('#account').find('input[name=txtSum]').val(),
+        transactionType: 'CHARGE_MONEY',
+    };
+
+    return $post(`../../transactions`, postData)
+        .then(data => {
+            if (data.Status === 200) {
+                getTransactions(currentUserSession.username, (data) => {
+                    buildTransactionsTable(data.Transactions);
+                });
+                $('#account').find('input[name=txtSum]').val('');
+                alert ("OK");
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
 }
 
 

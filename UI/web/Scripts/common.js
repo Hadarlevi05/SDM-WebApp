@@ -9,6 +9,24 @@ function $get(url, data) {
     return $ajax('GET', url, data);
 }
 
+function $ajax(verb, url, data) {
+    showLoader(true);
+
+    return $.ajax(url, {
+        type: verb,
+        data: data,
+        cache: false,
+        error: function (jqXhr, textStatus, errorMessage) {
+
+            console.log('error', textStatus, errorMessage);
+            console.log('error', data.ErrorMessage);
+        },
+        complete: () => {
+            showLoader(false);
+        }
+    });
+}
+
 function redirectUrl(url) {
     location.href = url;
 }
@@ -27,14 +45,16 @@ function init() {
     currentUserSession = userSession();
 }
 
-function $ajax(verb, url, data) {
-    return $.ajax(url, {
-        type: 'GET',  // http method
-        data: data,
-        error: function (jqXhr, textStatus, errorMessage) {
-            console.log('error!', textStatus, errorMessage);
-        }
-    });
+
+function setPermission() {
+
+    if (!currentUserSession) {
+        redirectToLogin();
+    }
+
+    if (currentUserSession.userType === 'CUSTOMER') {
+        $('[role=store-owner-permission]').hide();
+    }
 }
 
 function showLoader(flag) {

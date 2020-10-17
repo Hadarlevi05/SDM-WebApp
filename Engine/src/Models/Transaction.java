@@ -1,14 +1,20 @@
 package Models;
 
 import Enums.TransactionType;
+import com.google.gson.annotations.Expose;
 
 import java.util.Date;
 
 public class Transaction {
+    @Expose
     public TransactionType transactionType;
+    @Expose
     public int sumOfTransaction;
+    @Expose
     public int balanceBeforeAction;
+    @Expose
     public int balanceAfterAction;
+    @Expose
     public Date transactionDate;
 
     public Transaction(){

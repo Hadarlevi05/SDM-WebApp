@@ -1,7 +1,6 @@
 package Servlets;
 
 import DTO.KeyValueDTO;
-import DTO.UserDTO;
 import DTO.UsersDTO;
 import DataStore.DataStore;
 import Models.SdmUser;

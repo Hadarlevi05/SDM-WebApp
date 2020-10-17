@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 public class CustomerHandler {
 
     public Customer getCustomerByID(SuperDuperMarket sdm, int serialNumber) {
-        List<Customer> customers = sdm.Customers.stream().filter(customer -> customer.serialNumber == serialNumber).collect(Collectors.toList());
+/*        List<Customer> customers = sdm.Customers.stream().filter(customer -> customer.serialNumber == serialNumber).collect(Collectors.toList());
         if (!customers.isEmpty()) {
             return customers.get(0);
-        }
+        }*/
         return null;
     }
 

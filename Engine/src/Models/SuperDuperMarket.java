@@ -5,6 +5,7 @@ import Handlers.OrderManager;
 import Handlers.StoreHandler;
 import Handlers.SuperDuperHandler;
 import XMLHandler.XMLValidator;
+import com.google.gson.annotations.Expose;
 import generatedClasses.SDMStore;
 import generatedClasses.SuperDuperMarketDescriptor;
 
@@ -20,15 +21,18 @@ import java.util.List;
 @XmlRootElement
 public class SuperDuperMarket {
 
+    @Expose
     @XmlTransient
     public List<Store> Stores;
+    @Expose
     @XmlTransient
     public List<Item> Items;
+    @Expose
     @XmlElement
     public OrderManager Orders;
-    public List<Customer> Customers;
-    public String Zone;
+    @Expose
     public String Area;
+
 
     Mapper sdmMapper;
     SuperDuperHandler sdmHandler;
@@ -59,7 +63,8 @@ public class SuperDuperMarket {
             if (validationResult.isValid()) {
                 msg = "SDM File loaded successfully";
                 result.setIsHasError(false);
-                this.Zone = SuperDuperMarketDescriptor.getSDMZone().getName();
+
+                this.Area = SuperDuperMarketDescriptor.getSDMZone().getName();
 
                 this.Stores = sdmMapper.CastSDMStoresToListOfStore(SuperDuperMarketDescriptor.getSDMStores());
                 this.Items = sdmMapper.CastSDMItemsToListOfItem(SuperDuperMarketDescriptor.getSDMItems().getSDMItem());

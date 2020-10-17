@@ -43,10 +43,7 @@ public class LoadSdmServlet extends HttpServlet {
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;
 
-
         try {
-
-
             SdmUser user = SessionUtils.getUser(request);
 
             SuperDuperMarket sdm = new SuperDuperMarket();

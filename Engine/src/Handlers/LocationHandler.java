@@ -54,12 +54,12 @@ public class LocationHandler {
             }
         }
 
-        for (Customer customer : sdm.Customers) {
+/*        for (Customer customer : sdm.Customers) {
             SDMLocation loc = customer.location;
             if (y == loc.y && x == loc.x) {
                 return loc;
             }
-        }
+        }*/
         return null;
     }
 }
