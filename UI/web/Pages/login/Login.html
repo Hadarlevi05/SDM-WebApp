@@ -3,53 +3,72 @@
 <head>
     <meta charset="utf-8"/>
     <title>Super Duper Market</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="../../Styles/common.css"/>
     <link rel="stylesheet" href="login.css"/>
 </head>
 <body>
 
 <script src="../../Scripts/jquery-3_5_1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+
 <script src="../../Scripts/common.js"></script>
 <script src="login.js"></script>
 
 <section>
-    <main>
-        <header>
-            <h1>Welcome to Super Duper Market!</h1>
-        </header>
 
 
-        <form id="signupForm" method="get" style="display: none;">
-            <p>
-                <input type="radio" id="customer" name="type" value="CUSTOMER" checked="checked">
-                <label for="customer">Customer</label><br>
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome to Super Duper Market!</h1>
+
+            <hr class="my-4">
+
+            <form id="signupForm" method="get" style="display: none;">
+
+                <div class="form-group">
+                    <p>
+                        <input type="radio" id="customer" name="type" value="CUSTOMER" checked="checked">
+                        <label for="customer">Customer</label><br>
 
 
-                <input type="radio" id="storeowner" name="type" value="STORE_OWNER">
-                <label for="storeowner">Store Owner</label><br>
-            </p>
-            <p>
-                <input type="text" name="username" placeholder="enter username"/>
-            </p>
-            <p class="error" style="display: none;"></p>
-            <p>
-                <input type="submit" value="Signup"/>
-                or <a href="javascript:void(0);" onclick="showLoginForm()">Login</a>
-            </p>
-        </form>
+                        <input type="radio" id="storeowner" name="type" value="STORE_OWNER">
+                        <label for="storeowner">Store Owner</label><br>
+                    </p>
+                    <p>
+                        <input type="text" name="username" placeholder="enter username" class="form-control"/>
+                    </p>
+                    <p class="error" style="display: none;"></p>
+                    <p>
+                        <input type="submit" value="Signup" class="btn btn-primary" />
+                        or
+                        <a href="javascript:void(0);" onclick="showLoginForm()">Login</a>
 
-        <form id="loginForm" method="get">
+                    </p>
+                </div>
+            </form>
 
-            <p>
-                <input type="text" name="username" placeholder="enter username"/>
-            </p>
-            <p class="error" style="display: none;"></p>
-            <p>
-                <input type="submit" value="Login"/>
-                or <a href="javascript:void(0);" onclick="showSignupForm()">SignUp</a>
-            </p>
-        </form>
-    </main>
+            <form id="loginForm" method="get">
+
+                <p>
+                    <input type="text" name="username" placeholder="enter username" class="form-control"/>
+                </p>
+                <p class="error" style="display: none;"></p>
+                <p>
+                    <input type="submit" value="Login" class="btn btn-primary btn-lg"/>
+                    or
+                    <a href="javascript:void(0);" onclick="showSignupForm()">SignUp</a>
+                </p>
+            </form>
+
+
+        </div>
+
+
+
 
 </section>
 </body>

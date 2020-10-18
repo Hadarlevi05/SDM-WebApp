@@ -34,7 +34,7 @@ function addEventListeners() {
 
         loadFile(e, (data) => {
 
-            alert(data.ErrorMessage);
+            showToaster(data.ErrorMessage);
 
             getSDMs('allUserConfig', (data) => {
                 buildStoreAreasTable(data.Values.Rows);
@@ -132,7 +132,7 @@ function buildStoreAreasTable(rows) {
     var html = rows.map(row => {
         return `<tr>
                     <td>${row['storeowner']}</td>
-                    <td><a href="area.html?area=${row['area']}">${row['area']}</a>${row['area']}</td>
+                    <td><a href="area.html?area=${row['area']}">${row['area']}</a></td>
                     <td>${row['itemstypes']}</td>
                     <td>${row['storesnumber']}</td>
                     <td>${row['ordersnumber']}</td>
@@ -189,7 +189,7 @@ function chargeMoney() {
                     buildTransactionsTable(data.Transactions);
                 });
                 $('#account').find('input[name=txtSum]').val('');
-                alert ("OK");
+                showToaster ("Money charged successfully");
             } else {
                 console.log('error', data.ErrorMessage);
             }

@@ -1,4 +1,3 @@
-
 let currentUserSession = null;
 
 function $post(url, data) {
@@ -82,3 +81,22 @@ function userSession(data) {
 }
 
 init();
+
+
+function showToaster(text) {
+
+    $('#myToast').css({'opacity': 0, top: 0}).find('.toast-text').html(text);
+
+    $("#myToast").fadeIn().animate({
+        opacity: 0.9,
+        top: "+=30",
+    });
+
+    setTimeout(() => {
+        $("#myToast").animate({
+            opacity: 0,
+            top: "-=30",
+        }).fadeOut()
+    }, 3500)
+
+}

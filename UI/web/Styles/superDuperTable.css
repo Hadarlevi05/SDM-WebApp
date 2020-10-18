@@ -1,3 +1,10 @@
+
+
+.table{
+    background-color: #fff;
+    width: 60%;
+}
+/*
 table.superduperTable {
 
     border: 6px solid #6C5CE7;
@@ -28,10 +35,10 @@ table.superduperTable thead th {
     font-weight: bold;
     color: #F0F0F0;
     text-align: center;
-    /*border-left: 2px solid #6A63E7;*/
+    !*border-left: 2px solid #6A63E7;*!
 }
 table.superduperTable thead th:first-child {
-    /*border-left: none;*/
+    !*border-left: none;*!
 }
 
 table.superduperTable tfoot {
@@ -55,5 +62,5 @@ table.superduperTable tfoot .links a{
     background: #FFFFFF;
     color: #6A63E7;
     padding: 2px 8px;
-    /*border-radius: 5px;*/
-}
+    !*border-radius: 5px;*!
+}*/

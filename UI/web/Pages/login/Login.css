@@ -3,6 +3,14 @@ body {
     background-size: cover;;
 }
 
+
+.jumbotron{
+    width:40%;
+    margin-left: 15%;
+    margin-top:5%;
+}
+
+/*
 header h1 {
     font-family: aharoni;
     font-size: 500%;
@@ -35,6 +43,7 @@ section{
     margin-left: 15%;
     margin-right: auto;
 }
+
 
 form {
     padding: 20px 50px;
@@ -76,3 +85,4 @@ input[type=submit]:active {
     position: relative;
     top: 1px;
 }
+*/

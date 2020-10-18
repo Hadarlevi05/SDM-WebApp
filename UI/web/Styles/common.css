@@ -23,5 +23,62 @@ body {
     background-position: center;
     opacity: 0.8;
     background-repeat: no-repeat;
+}
 
+.table {
+    margin-top:40px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+
+.stretch {
+    width:100%;
+    height:100%;
+}
+
+h1 {
+    font-family:Arial;
+    font-size:100%;
+    color: #4f62d4e3;
+}
+
+h4 {
+    font-size: 24px;
+}
+
+.leftcolumn{
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    top:5%;
+    left:85%;
+    right: 5%;
+    float: left;
+}
+
+.up {
+    top:0%;
+    text-align: center;
+    font-size: 60px;
+}
+.rightcolumn {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    top:5%;
+    left:85%;
+    right: 5%;
+    float: right;
+}
+
+
+.up2 {
+    width: 60%;
+    height: 100%;
+    position:fixed;
+    top:25%;
+    left:15%;
+    text-align: center;
 }

@@ -12,6 +12,14 @@ import java.util.stream.Collectors;
 
 public class SuperDuperHandler {
 
+    private  StoreHandler storeHandler;
+    private  ItemHandler itemHandler;
+
+    public SuperDuperHandler(){
+        storeHandler = new StoreHandler();
+        itemHandler = new ItemHandler();
+    }
+
     private DataStore dataStore = DataStore.getInstance();
 
     public Item getItemById(SuperDuperMarket sdm, int serialNumber) {
@@ -87,6 +95,67 @@ public class SuperDuperHandler {
         return rows;
     }
 
+    public List<Map<String, Object>> getStoresDetails(String area) {
+
+        DataStore dataStore = DataStore.getInstance();
+        StoreOwner storeOwner = dataStore.userConfigurationDataStore.getByArea(area);
+        SuperDuperMarket sdm = storeOwner.superDuperMarket;
+        List<Map<String, Object>> rows = new ArrayList();
+        KeyValueDTO keyValueDTO = new KeyValueDTO();
+        for (Store store :
+                sdm.Stores) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("serialnumber", store.serialNumber);
+            map.put("name", store.name);
+            map.put("owner", storeOwner.username);
+
+            map.put("location", "[" + store.Location.x + " , " + store.Location.y + "]");
+
+
+            List<Map<String, Object>> items = new ArrayList();
+            for (OrderItem oi: store.Inventory) {
+                Item item = getItemById(sdm, oi.itemId);
+
+                Map<String, Object> rowItem = new HashMap<>();
+                rowItem.put("serialnumber", oi.itemId);
+                rowItem.put("name", item.name);
+                rowItem.put("purchaseType", item.purchaseType.toString());
+                rowItem.put("price", oi.price);
+                rowItem.put("numOfSoldItems", itemHandler.CalculateSoldItemsAmount(sdm,oi.itemId));
+                items.add(rowItem);
+            }
+
+            map.put("items", items);
+            map.put("PPK", store.PPK);
+            double totalDeliveriesCost = storeHandler.getStoreById(sdm, store.serialNumber).CalculateTotalDeliveriesCost(sdm);
+            map.put("TotalCostOfDeliveriesFromStore", String.format("%.2f", totalDeliveriesCost));
+            rows.add(map);
+        }
+        return rows;
+    }
+
+    public List<Map<String, Object>> getItemsDetails(String area) {
+        DataStore dataStore = DataStore.getInstance();
+        StoreOwner storeOwner = dataStore.userConfigurationDataStore.getByArea(area);
+        SuperDuperMarket sdm = storeOwner.superDuperMarket;
+        List<Map<String, Object>> rows = new ArrayList();
+        KeyValueDTO keyValueDTO = new KeyValueDTO();
+        for (Item item :
+                sdm.Items) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("serialnumber", item.serialNumber);
+            map.put("name", item.name);
+            map.put("purchaseType", item.purchaseType.toString());
+            map.put("numOfStoresSellingItems",storeHandler.countSellingStores(sdm,item.serialNumber));
+            map.put("averagePrice",storeHandler.countSellingStores(sdm,item.serialNumber));
+            map.put("averagePriceOfSellingStores",storeHandler.countAveragePriceOfSellingStores(sdm,item.serialNumber));
+
+            rows.add(map);
+        }
+        return rows;
+    }
+
+
     public int CalculateNumOfItemsTypes(SuperDuperMarket sdm) {
         int numOfItemsTypes = 0;
         for (Store store : sdm.Stores
@@ -103,9 +172,9 @@ public class SuperDuperHandler {
         ) {
             sumTotalPrice += order.totalItemsPrice;
         }
-        if ( sdm.Orders.ordersMap.values().size() == 0){
+        if (sdm.Orders.ordersMap.values().size() == 0) {
             return 0;
-        }else{
+        } else {
             return sumTotalPrice / sdm.Orders.ordersMap.values().size();
         }
     }
