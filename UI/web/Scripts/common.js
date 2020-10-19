@@ -100,3 +100,37 @@ function showToaster(text) {
     }, 3500)
 
 }
+
+
+function genericTable(headers, data) {
+    var tableHeaders = headers.map(i => `<th scope="col">${i}</th>`).join('');
+    let tableBody = [];
+
+    for (let i = 0; i < data.length; i++) {
+        let row = data[i];
+
+        tableBody.push('<tr>');
+
+        for (const prop in row) {
+
+            if (row.hasOwnProperty(prop)) {
+                tableBody.push(`<td>${row[prop]}</td>`);
+            }
+        }
+        tableBody.push('</tr>');
+    }
+
+    var table =
+        `<table class="table">
+            <thead class="thead-dark">
+            <tr>${tableHeaders}</tr>
+            </thead>
+            <tfoot>
+            <tr><td colspan="${headers.length}"></td></tr>
+        </tfoot>
+        <tbody>${tableBody.join('')}</tbody>
+        </tr>
+        </table>`;
+
+    return table;
+}

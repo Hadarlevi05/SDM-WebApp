@@ -27,7 +27,7 @@ function buildStoresTable(rows) {
                     <td>${row['name']}</td>
                     <td>${row['owner']}</td>
                     <td>${row['location']}</td>
-                    <td><a href="javascript:void(0);" onclick="showItems(this, '${row['serialnumber']}');">show ${row['items'].length} items</a></td>
+                    <td><a href="javascript:void(0);" onclick="showItems('${row['name']} Items', this, '${row['serialnumber']}');">show ${row['items'].length} items</a></td>
                     <td>${row['PPK']}</td>
                     <td>${row['TotalCostOfDeliveriesFromStore']}</td>
                     <td>-</td>
@@ -44,21 +44,23 @@ function getStores(action, callback) {
         .then(data => {
             if (data.Status === 200) {
                 console.log('data', data);
-                callback(data)
+                callback(data);
             } else {
                 console.log('error', data.ErrorMessage);
             }
         });
 }
 
-function showItems(td, serialnumber) {
+function showItems(title, td, serialnumber) {
     var rows = $(td).parents('tbody').data('rows');
     var row = rows.filter(r => r.serialnumber.toString() === serialnumber.toString())[0];
 
-    console.log('row', row);
+    const html = genericTable(['serialnumber','numOfSoldItems','price','name','purchaseType'], row.items)
+
+    $('.modal-title').html(title);
 
 
     $('#btnModal').trigger('click');
-    $('#exampleModal').find('.modal-body').html(JSON.stringify(row.items));
+    $('#exampleModal').find('.modal-body').html(html);
 
 }
