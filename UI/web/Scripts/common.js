@@ -82,6 +82,9 @@ function userSession(data) {
 
 init();
 
+function setCurrentUser(user) {
+    $('#userName').html(user.username);
+}
 
 function showToaster(text) {
 
@@ -133,4 +136,23 @@ function genericTable(headers, data) {
         </table>`;
 
     return table;
+}
+
+
+function setTabByHash(e) {
+
+    var hash = '';
+
+    if (e) {
+        hash = e.newURL.split('#')[1];
+    } else {
+        if (location.href.indexOf('#') > -1) {
+            hash = location.href.split('#')[1];
+        }
+    }
+
+    $('.menu-container').hide();
+    if (hash) {
+        $(`#${hash}`).show();
+    }
 }

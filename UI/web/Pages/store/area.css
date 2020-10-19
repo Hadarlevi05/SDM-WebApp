@@ -2,3 +2,12 @@ body {
     background: url('../../Resources/shopping-background.jpg') no-repeat center fixed;
     background-size: cover;;
 }
+
+.form-group {
+    width:400px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+

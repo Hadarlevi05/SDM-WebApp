@@ -147,9 +147,48 @@ public class SuperDuperHandler {
             map.put("name", item.name);
             map.put("purchaseType", item.purchaseType.toString());
             map.put("numOfStoresSellingItems",storeHandler.countSellingStores(sdm,item.serialNumber));
-            map.put("averagePrice",storeHandler.countSellingStores(sdm,item.serialNumber));
-            map.put("averagePriceOfSellingStores",storeHandler.countAveragePriceOfSellingStores(sdm,item.serialNumber));
+            map.put("averagePrice",storeHandler.countAveragePriceOfSellingStores(sdm,item.serialNumber));
+            map.put("soldItemsAmount",itemHandler.CalculateSoldItemsAmount(sdm,item.serialNumber));
 
+            rows.add(map);
+        }
+        return rows;
+    }
+
+    public List<Map<String, Object>> getOrdersHistoryDetails(String username) {
+
+        DataStore dataStore = DataStore.getInstance();
+        StoreOwner storeOwner = dataStore.userConfigurationDataStore.getByArea(area);
+        SuperDuperMarket sdm = storeOwner.superDuperMarket;
+        List<Map<String, Object>> rows = new ArrayList();
+        KeyValueDTO keyValueDTO = new KeyValueDTO();
+        for (Store store :
+                sdm.Stores) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("serialnumber", store.serialNumber);
+            map.put("name", store.name);
+            map.put("owner", storeOwner.username);
+
+            map.put("location", "[" + store.Location.x + " , " + store.Location.y + "]");
+
+
+            List<Map<String, Object>> items = new ArrayList();
+            for (OrderItem oi: store.Inventory) {
+                Item item = getItemById(sdm, oi.itemId);
+
+                Map<String, Object> rowItem = new HashMap<>();
+                rowItem.put("serialnumber", oi.itemId);
+                rowItem.put("name", item.name);
+                rowItem.put("purchaseType", item.purchaseType.toString());
+                rowItem.put("price", oi.price);
+                rowItem.put("numOfSoldItems", itemHandler.CalculateSoldItemsAmount(sdm,oi.itemId));
+                items.add(rowItem);
+            }
+
+            map.put("items", items);
+            map.put("PPK", store.PPK);
+            double totalDeliveriesCost = storeHandler.getStoreById(sdm, store.serialNumber).CalculateTotalDeliveriesCost(sdm);
+            map.put("TotalCostOfDeliveriesFromStore", String.format("%.2f", totalDeliveriesCost));
             rows.add(map);
         }
         return rows;
@@ -178,4 +217,6 @@ public class SuperDuperHandler {
             return sumTotalPrice / sdm.Orders.ordersMap.values().size();
         }
     }
+
+
 }

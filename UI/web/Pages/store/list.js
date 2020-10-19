@@ -6,6 +6,8 @@ $(function () {
     addEventListeners();
 
     setPermission();
+
+    setCurrentUser(currentUserSession);
 });
 
 
@@ -15,10 +17,10 @@ function addEventListeners() {
         buildUserList(data.Users);
     });
 
-    getUsers('currentUser', (data) => {
+/*    getUsers('currentUser', (data) => {
         const user = data.Values.user;
         setCurrentUser(user);
-    });
+    });*/
 
     const user = userSession();
 
@@ -29,6 +31,7 @@ function addEventListeners() {
     window.addEventListener("hashchange", function (e) {
         setTabByHash(e);
     }, false);
+    setTabByHash();
 
     $('#FileInput').on('change', (e) => {
 
@@ -45,7 +48,7 @@ function addEventListeners() {
     getSDMs('allUserConfig', (data) => {
         buildStoreAreasTable(data.Values.Rows);
     });
-    setTabByHash();
+
 }
 
 function getSDMs(action, callback) {
@@ -63,23 +66,6 @@ function getSDMs(action, callback) {
         });
 }
 
-function setTabByHash(e) {
-
-    var hash = '';
-
-    if (e) {
-        hash = e.newURL.split('#')[1];
-    } else {
-        if (location.href.indexOf('#') > -1) {
-            hash = location.href.split('#')[1];
-        }
-    }
-
-    $('.menu-container').hide();
-    if (hash) {
-        $(`#${hash}`).show();
-    }
-}
 
 /*function setUIBySelectedItem(itemSelected) {
 
@@ -158,9 +144,6 @@ function buildTransactionsTable(rows) {
     $('#account').find('tbody').html(html);
 }
 
-function setCurrentUser(user) {
-    $('#userName').html(user.username);
-}
 
 function getTransactions(username, callback) {
 

@@ -10,6 +10,8 @@ $(function () {
 
     setPermission();
 
+    setCurrentUser(currentUserSession);
+
 });
 
 function addEventListeners() {
@@ -17,6 +19,25 @@ function addEventListeners() {
     getStores('stores', (data) => {
         buildStoresTable(data.Values.Rows);
     });
+
+    getItems('stores', (data) => {
+        buildItemsTable(data.Values.Rows);
+    });
+
+    window.addEventListener("hashchange", function (e) {
+        setTabByHash(e);
+    }, false);
+    setTabByHash();
+
+
+    $('[name=typeOfPurchase]').on('change', (e) => {
+        let value = e.target.value;
+
+        $('.purchase-type-dynamic').hide();
+        $('.purchase-type-static').hide();
+
+        $(`.${value}`).show();
+    })
 }
 
 function buildStoresTable(rows) {
@@ -27,7 +48,7 @@ function buildStoresTable(rows) {
                     <td>${row['name']}</td>
                     <td>${row['owner']}</td>
                     <td>${row['location']}</td>
-                    <td><a href="javascript:void(0);" onclick="showItems('${row['name']} Items', this, '${row['serialnumber']}');">show ${row['items'].length} items</a></td>
+                    <td><a href="javascript:void(0);" onclick="showStoresItems('${row['name']} Items', this, '${row['serialnumber']}');">show ${row['items'].length} items</a></td>
                     <td>${row['PPK']}</td>
                     <td>${row['TotalCostOfDeliveriesFromStore']}</td>
                     <td>-</td>
@@ -35,6 +56,22 @@ function buildStoresTable(rows) {
     }).join('')
 
     $('#stores').find('tbody').data('rows', rows).html(html);
+}
+
+function buildItemsTable(rows) {
+
+    var html = rows.map(row => {
+        return `<tr>
+                    <td>${row['serialnumber']}</td>
+                    <td>${row['name']}</td>
+                    <td>${row['purchaseType']}</td>
+                    <td>${row['numOfStoresSellingItems']}</td>
+                    <td>${row['averagePrice']}</td>
+                    <td>${row['soldItemsAmount']}</td>
+                </tr>`;
+    }).join('')
+
+    $('#items').find('tbody').data('rows', rows).html(html);
 }
 
 function getStores(action, callback) {
@@ -51,7 +88,22 @@ function getStores(action, callback) {
         });
 }
 
-function showItems(title, td, serialnumber) {
+function getItems(action, callback) {
+
+
+    return $get(`../../items?area=${area}`)
+        .then(data => {
+            if (data.Status === 200) {
+                console.log('data', data);
+                callback(data);
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
+}
+
+
+function showStoresItems(title, td, serialnumber) {
     var rows = $(td).parents('tbody').data('rows');
     var row = rows.filter(r => r.serialnumber.toString() === serialnumber.toString())[0];
 
@@ -64,3 +116,5 @@ function showItems(title, td, serialnumber) {
     $('#exampleModal').find('.modal-body').html(html);
 
 }
+
+

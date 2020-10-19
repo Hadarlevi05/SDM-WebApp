@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="../../Styles/common.css">
     <link rel="stylesheet" href="area.css">
     <link rel="stylesheet" href="../../Styles/superDuperTable.css">
@@ -13,8 +14,12 @@
 <body>
 
 <script src="../../Scripts/jquery-3_5_1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 <script src="../../Scripts/common.js"></script>
 <script src="area.js"></script>
 <script src="../../Scripts/xmlUpload.js"></script>
@@ -39,8 +44,11 @@
         <ul id="menu-items" class="menu__list r-list">
             <li class="menu__group"><a href="#stores" class="menu__link r-link text-underlined">Stores</a></li>
             <li class="menu__group"><a href="#items" class="menu__link r-link text-underlined">Items</a></li>
-            <li class="menu__group"><a href="#place-order" class="menu__link r-link text-underlined">Place order</a></li>
-            <li class="menu__group" role="orders-history"><a href="#orderHistory" class="menu__link r-link text-underlined">Orders history</a></li>
+            <li class="menu__group"><a href="#place-order" class="menu__link r-link text-underlined">Place order</a>
+            </li>
+            <li class="menu__group" role="orders-history"><a href="#orderHistory"
+                                                             class="menu__link r-link text-underlined">Orders
+                history</a></li>
         </ul>
     </nav>
 
@@ -67,7 +75,9 @@
                             </tr>
                             </thead>
                             <tfoot>
-                            <tr><td colspan="8"></td></tr>
+                            <tr>
+                                <td colspan="8"></td>
+                            </tr>
                             </tfoot>
                             <tbody>
 
@@ -81,9 +91,80 @@
             </div>
         </div>
         <div id="items" class="menu-container" style="display: none;">
+            <div>
 
+                <div class="outside">
+
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Serial Number</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Purchase type</th>
+                                <th scope="col">Number of stores selling this item</th>
+                                <th scope="col">Average price</th>
+                                <th scope="col">Sold number of times</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <td colspan="6"></td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            </tbody>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
         <div id="place-order" class="menu-container" style="display: none;">
+
+
+            <form id="placeOrderForm" method="get">
+
+                <div class="form-group">
+                    <p>
+
+
+                        <label for="purchaseDate">Date</label><br>
+                        <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="">
+                    </p>
+                    <p>
+
+                        <select class="custom-select" name="typeOfPurchase">
+                            <option selected>Open this select menu</option>
+                            <option value="purchase-type-dynamic">Dynamic</option>
+                            <option value="purchase-type-static">Static</option>
+                        </select>
+                    </p>
+
+                    <p class="purchase-type-dynamic" style="display: none;">
+                        purchase-type-dynamic
+
+
+                        <input type="number" class="count" name="qty" value="1" >
+
+
+
+                    </p>
+                    <p class="purchase-type-static" style="display: none;">
+                        purchase-type-static
+                    </p>
+
+                    <p>
+                        <input type="submit" value="Place order" class="btn btn-primary"/>
+
+                    </p>
+                </div>
+            </form>
+
 
         </div>
         <div id="orderHistory" class="menu-container" style="display: none;">
@@ -93,7 +174,8 @@
     </section>
 
 
-    <div class="toast" id="myToast" style="position: absolute; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
+    <div class="toast" id="myToast"
+         style="position: absolute; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
         <div class="toast-header">
             <strong class="mr-auto"><i class="fa fa-grav"></i> super duper market notification</strong>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
@@ -107,12 +189,14 @@
 
 
     <!-- Button trigger modal -->
-    <button id="btnModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    <button id="btnModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+            style="display: none;">
         Launch demo modal
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -122,7 +206,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    hadar ❤❤❤❤❤❤❤
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -130,7 +214,6 @@
             </div>
         </div>
     </div>
-
 
 
 </div>
