@@ -80,9 +80,10 @@ public class SuperDuperHandler {
     public List<Map<String, Object>> getStoreAreaDetails(String username) {
         List<Map<String, Object>> rows = new ArrayList();
         KeyValueDTO keyValueDTO = new KeyValueDTO();
-        for (StoreOwner storeOwner :
-                dataStore.userConfigurationDataStore.list()) {
+        List<StoreOwner> owners = dataStore.userConfigurationDataStore.list();
+        for (StoreOwner storeOwner : owners) {
             Map<String, Object> map = new HashMap<>();
+
             map.put("storeowner", storeOwner.username);
             map.put("area", storeOwner.area);
             map.put("itemstypes", CalculateNumOfItemsTypes(storeOwner.superDuperMarket));
@@ -102,15 +103,12 @@ public class SuperDuperHandler {
         SuperDuperMarket sdm = storeOwner.superDuperMarket;
         List<Map<String, Object>> rows = new ArrayList();
         KeyValueDTO keyValueDTO = new KeyValueDTO();
-        for (Store store :
-                sdm.Stores) {
+        for (Store store : sdm.Stores) {
             Map<String, Object> map = new HashMap<>();
             map.put("serialnumber", store.serialNumber);
             map.put("name", store.name);
-            map.put("owner", storeOwner.username);
-
+            map.put("owner", store.Username);
             map.put("location", "[" + store.Location.x + " , " + store.Location.y + "]");
-
 
             List<Map<String, Object>> items = new ArrayList();
             for (OrderItem oi: store.Inventory) {
@@ -157,6 +155,7 @@ public class SuperDuperHandler {
 
     public List<Map<String, Object>> getOrdersHistoryDetails(String username) {
 
+        String area = "Do not commit";
         DataStore dataStore = DataStore.getInstance();
         StoreOwner storeOwner = dataStore.userConfigurationDataStore.getByArea(area);
         SuperDuperMarket sdm = storeOwner.superDuperMarket;

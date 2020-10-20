@@ -13,16 +13,18 @@ public class Store {
     private LocationHandler  locationHandler;
 
 
-    public Store(int serialNumber, String name, int PPK, SDMLocation location){
+    public Store(int serialNumber, String name, int PPK, SDMLocation location, String username){
         this.serialNumber = serialNumber;
         this.name = name;
         this.PPK = PPK;
         this.Location = location;
+        this.Username = username;
         orderManager= new OrderManager();
         locationHandler = new LocationHandler();
     }
     public int serialNumber;
     public String name = null;
+    public String Username = null;
     public int PPK;
     public SDMLocation Location;
 

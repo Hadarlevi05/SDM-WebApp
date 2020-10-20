@@ -58,12 +58,13 @@ public class Mapper {
         return null;
     }
 
-    public List<Store> CastSDMStoresToListOfStore(SDMStores sDMStores) {
+    public List<Store> CastSDMStoresToListOfStore(SDMStores sDMStores, String username) {
         List<Store> stores = new ArrayList<Store>();
         for (SDMStore sDMStore : sDMStores.getSDMStore()) {
-            Store store = new Store(sDMStore.getId(), sDMStore.getName(), sDMStore.getDeliveryPpk(), CastLocationToSdmLocation(sDMStore.getLocation()));
+            Store store = new Store(sDMStore.getId(), sDMStore.getName(), sDMStore.getDeliveryPpk(), CastLocationToSdmLocation(sDMStore.getLocation()), username);
             SDMLocation location = CastLocationToSdmLocation(sDMStore.getLocation());
-            stores.add(new Store(sDMStore.getId(), sDMStore.getName(), sDMStore.getDeliveryPpk(), store.Location));
+            stores.add(store);
+            //stores.add(new Store(sDMStore.getId(), sDMStore.getName(), sDMStore.getDeliveryPpk(), store.Location)); // Shani: Bug?
             store.Inventory = CastSDMItemsToListOfOrderItemsList(sDMStore);
         }
         return stores;

@@ -53,13 +53,32 @@
     </nav>
 
     <section>
-
         <div id="stores" class="menu-container">
             <div>
+                <div>
+                    <div class="form-group" style="width:35%;">
+                        <p>
+                            <label for="insertBTN" name="insertLBL">
+                                Insert New Store
+                            </label>
+                        </p>
+                        <p>
+                            <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name" class="form-control"/>
+                        </p>
+                        <p>
+                            <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X" class="form-control"/>
+                            <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y" class="form-control"/>
+                        </p>
+                        <p>
+                            <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK" class="form-control"/>
+                        </p>
+                        <p>
+                            <input id="insertBTN" type="button" value="Insert" class="btn btn-primary" onclick="insertStore()" />
+                        </p>
+                    </div>
+                </div>
 
                 <div class="outside">
-
-
                     <div class="table-container">
                         <table class="table">
                             <thead class="thead-dark">
@@ -85,8 +104,6 @@
                             </tr>
                         </table>
                     </div>
-
-
                 </div>
             </div>
         </div>

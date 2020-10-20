@@ -59,7 +59,7 @@ public class LoadSdmServlet extends HttpServlet {
                 msg = "SDM File loaded successfully";
                 String area = superDuperMarketDescriptor.getSDMZone().getName();
                 sdm.Area = area;
-                sdm.Stores = sdmMapper.CastSDMStoresToListOfStore(superDuperMarketDescriptor.getSDMStores());
+                sdm.Stores = sdmMapper.CastSDMStoresToListOfStore(superDuperMarketDescriptor.getSDMStores(), user.username);
                 sdm.Items = sdmMapper.CastSDMItemsToListOfItem(superDuperMarketDescriptor.getSDMItems().getSDMItem());
                 for (SDMStore sdmStore : superDuperMarketDescriptor.getSDMStores().getSDMStore()) {
                     Store store = storeHandler.getStoreById(sdm, sdmStore.getId());

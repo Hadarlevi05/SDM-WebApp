@@ -66,7 +66,7 @@ public class SuperDuperMarket {
 
                 this.Area = SuperDuperMarketDescriptor.getSDMZone().getName();
 
-                this.Stores = sdmMapper.CastSDMStoresToListOfStore(SuperDuperMarketDescriptor.getSDMStores());
+                this.Stores = sdmMapper.CastSDMStoresToListOfStore(SuperDuperMarketDescriptor.getSDMStores(), "not-in-use");
                 this.Items = sdmMapper.CastSDMItemsToListOfItem(SuperDuperMarketDescriptor.getSDMItems().getSDMItem());
                 for (SDMStore sdmStore: SuperDuperMarketDescriptor.getSDMStores().getSDMStore()) {
                     Store store = storeHandler.getStoreById(this,sdmStore.getId());

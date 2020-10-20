@@ -1,8 +1,6 @@
-
 let area = decodeURIComponent(location.search.split('?area=')[1]);
 
 $(function () {
-
     /*    var itemSelected = document.getElementsByClassName('menu__group');
         setUIBySelectedItem($(itemSelected));*/
 
@@ -11,7 +9,6 @@ $(function () {
     setPermission();
 
     setCurrentUser(currentUserSession);
-
 });
 
 function addEventListeners() {
@@ -29,7 +26,6 @@ function addEventListeners() {
     }, false);
     setTabByHash();
 
-
     $('[name=typeOfPurchase]').on('change', (e) => {
         let value = e.target.value;
 
@@ -41,7 +37,6 @@ function addEventListeners() {
 }
 
 function buildStoresTable(rows) {
-
     var html = rows.map(row => {
         return `<tr>
                     <td>${row['serialnumber']}</td>
@@ -75,8 +70,6 @@ function buildItemsTable(rows) {
 }
 
 function getStores(action, callback) {
-
-
     return $get(`../../stores?area=${area}`)
         .then(data => {
             if (data.Status === 200) {
@@ -89,8 +82,6 @@ function getStores(action, callback) {
 }
 
 function getItems(action, callback) {
-
-
     return $get(`../../items?area=${area}`)
         .then(data => {
             if (data.Status === 200) {
@@ -101,7 +92,6 @@ function getItems(action, callback) {
             }
         });
 }
-
 
 function showStoresItems(title, td, serialnumber) {
     var rows = $(td).parents('tbody').data('rows');
@@ -117,4 +107,22 @@ function showStoresItems(title, td, serialnumber) {
 
 }
 
+function insertStore() {
+    const postData = {
+        name: $('#stores').find('input[name=insertTXT]').val(),
+        area: area,
+        username: currentUserSession.username,
+        locationX: $('#stores').find('input[name=insertLocationX]').val(),
+        locationY: $('#stores').find('input[name=insertLocationY]').val(),
+        ppk: $('#stores').find('input[name=insertPPK]').val(),
+    };
 
+    return $post(`../../stores`, postData)
+        .then(data => {
+            if (data.Status === 200) {
+                showToaster ("Store added with great success!");
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
+}
