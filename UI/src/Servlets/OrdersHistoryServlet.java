@@ -17,7 +17,7 @@ package Servlets;
         import java.util.Map;
 
 @WebServlet(
-        urlPatterns = "/order_history"
+        urlPatterns = "/order-history"
 )
 
 public class OrdersHistoryServlet extends HttpServlet {
@@ -32,8 +32,9 @@ public class OrdersHistoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String area = request.getParameter("area");
+        SdmUser usernameFromSession = SessionUtils.getUser(request);
 
-        List<Map<String, Object>> rows = superDuperHandler.getOrdersHistoryDetails(area);
+        List<Map<String, Object>> rows = superDuperHandler.getOrdersHistoryDetails(area, usernameFromSession.id);
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;
