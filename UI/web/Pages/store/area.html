@@ -162,22 +162,37 @@
                         </select>
                     </p>
 
-                    <p class="purchase-type-dynamic" style="display: none;">
-                        purchase-type-dynamic
+                    <div class="purchase-type-static" style="display: none;">
 
+                        <select class="custom-select" name="storeCombo">
+                            <option selected>Select store</option>
+                        </select>
+                    </div>
 
-                        <input type="number" class="count" name="qty" value="1" >
+                    <div class="purchase-type-dynamic" style="display: none;">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Serial Number</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="3"></td>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
 
-
-
-                    </p>
-                    <p class="purchase-type-static" style="display: none;">
-                        purchase-type-static
-                    </p>
+                    </div>
 
                     <p>
-                        <input type="submit" value="Place order" class="btn btn-primary"/>
-
+                        <input type="submit" value="Place order" class="btn btn-primary" onclick="placeOrder();return false;" />
                     </p>
                 </div>
             </form>
@@ -185,7 +200,40 @@
 
         </div>
         <div id="orderHistory" class="menu-container" style="display: none;">
+            <div>
 
+                <div class="outside">
+
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Serial Number</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Number of stores</th>
+                                <th scope="col">Number of items</th>
+                                <th scope="col">Total items price</th>
+                                <th scope="col">Delivery price</th>
+                                <th scope="col">Total order price</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <td colspan="6"></td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            </tbody>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
 
     </section>

@@ -1,5 +1,6 @@
 package DataStore;
 
+import Models.Order;
 import Models.SdmUser;
 import Models.StoreOwner;
 import Models.SuperDuperMarket;
@@ -14,6 +15,21 @@ public class UserConfigurationDataStore {
 
     public UserConfigurationDataStore() {
         this.storeOwners = new ArrayList<>();
+    }
+
+    public List<Order> getOrdersOfUser(int userID) {
+
+        List<Order> orders = new ArrayList<>();
+        for (StoreOwner storeOwner :
+                this.storeOwners) {
+            for (Order order :
+                    storeOwner.superDuperMarket.Orders.ordersMap.values()) {
+                if (order.customerId == userID){
+                    orders.add(order);
+                }
+            }
+        }
+        return orders;
     }
 
     public StoreOwner get(StoreOwner storeowner) {
