@@ -176,8 +176,6 @@ public class SuperDuperHandler {
 
 
     public List<Map<String, Object>> getOrdersHistoryDetails(String area, int userID) {
-
-        String area = "Do not commit";
         DataStore dataStore = DataStore.getInstance();
         StoreOwner storeOwner = dataStore.userConfigurationDataStore.getByArea(area);
         List<Map<String, Object>> rows = new ArrayList();
