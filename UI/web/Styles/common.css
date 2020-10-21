@@ -87,3 +87,17 @@ h4 {
     width: 600px;
     max-width: 800px !important;
 }
+
+input[type=number] {
+    text-align: center;
+    width: 100px;
+}
+
+.half-width{
+    width:50%;
+    float:left;
+}
+
+.half-width input[type=number] {
+    width:95%;
+}

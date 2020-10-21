@@ -48,28 +48,44 @@ function addEventListeners() {
     $('[name=typeOfPurchase]').on('change', (e) => {
         let value = e.target.value;
 
-        // $('.purchase-type-dynamic').hide();
+        $('.purchase-type-dynamic').hide();
         $('.purchase-type-static').hide();
 
         if (value) {
             $(`.${value}`).show();
 
             if (value === 'purchase-type-dynamic') {
-                populateItemsTable();
+                populateItemsTable(-1, '.purchase-type-dynamic tbody');
+                $('.purchase-type-dynamic').show();
             } else {
                 $('[name=storeCombo]').trigger('change');
+                $('.purchase-type-static').show();
             }
         }
 
 
     })
 
-    $('[name=storeCombo]').on('change', e=> {
+    $('[name=storeCombo]').on('change', e => {
 
         // load items of specific store
-        if (e.target.value && e.target.value !== 'Select store') {
-            populateItemsTable(e.target.value);
+        if (e.target.value) {
+            populateItemsTable(e.target.value, '.purchase-type-static tbody', true);
         }
+    });
+
+    $('#btnPlaceOrder').on('click', e => {
+
+        placeOrder((data) => {
+            getSales(data.Values.OrderID, (data) => {
+
+                console.log('sales values', data);
+
+                showOffers(data.Values.Rows);
+            })
+        });
+
+        return false;
 
     });
 
@@ -90,7 +106,7 @@ function populatePlaceOrderForm() {
 
 }
 
-function populateItemsTable(storeId) {
+function populateItemsTable(storeId, tableTbody, showPrice) {
 
     if (!storeId) {
         storeId = -1;
@@ -111,14 +127,14 @@ function populateItemsTable(storeId) {
                     html.push(`
                     <tr>
                     <td>${item['serialnumber']}</td>
-                    <td>${item['name']}</td>
-                    <td><input type="number" class="count" name="qs_${item['serialnumber']}" value="0"></td>
+                    <td>${item['name']}</td>`
+                        + (showPrice ? `<td>${item['price']}</td>` : '') +
+                        `<td><input type="number" class="count form-control" name="qs_${item['serialnumber']}" value="0"></td>
                     </tr>
                     `);
                 }
-                $('#placeOrderForm tbody').html(html.join(''));
+                $(tableTbody).html(html.join(''));
 
-                $('.purchase-type-dynamic').show();
             } else {
                 console.log('error', data.ErrorMessage);
             }
@@ -205,6 +221,21 @@ function getItems(action, callback) {
         });
 }
 
+function getSales(orderID, callback) {
+
+
+    return $get(`../../sales?area=${area}&orderID=${orderID}`)
+        .then(data => {
+            if (data.Status === 200) {
+                console.log('data', data);
+                callback(data);
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
+}
+
+
 function getOrdersHistory(action, callback) {
 
 
@@ -233,11 +264,61 @@ function showStoresItems(title, td, serialnumber) {
 
 }
 
-function placeOrder() {
+function placeOrder(callback) {
 
-    const data = $('#placeOrderForm').serializeArray();
+    const data = {"data": $('#placeOrderForm').serializeArray()};
 
-    console.log('send data to server', data);
+    return $post(`../../orders?area=${area}`, JSON.stringify(data))
+        .then(data => {
+            if (data.Status === 200) {
+                console.log('data', data);
+                callback(data);
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
+
 
 }
 
+function showOffers(offers) {
+
+
+    let html = [];
+
+    for (let i = 0; i < offers.length; i++) {
+
+        let offer = offers[i];
+
+        html.push('<div>');
+
+        html.push(`<h2>${offer.saleName}</h2>`);
+        html.push(`<div>${offer.operatorType}</div>`);
+
+
+        if (offer.operatorType === 'ONE_OF') {
+            for (let j = 0; j < offer.offers.length; j++) {
+                let subOffer = offer.offers[j];
+                html.push(`<div><input type="radio"  class="discount-radio" name="discountID_${offer.discountID}"><label>get ${subOffer.quantity} of ${subOffer.itemName} only for ${subOffer.forAdditional}</label></div>`);
+            }
+        } else if (offer.operatorType === 'ALL_OR_NOTHING') {
+
+
+            html.push('<input type="checkbox" name="discountID_${offer.discountID}" class="discount-checkbox"><label>select all</label>')
+            for (let j = 0; j < offer.offers.length; j++) {
+                let subOffer = offer.offers[j];
+                html.push(`<div>get ${subOffer.quantity} of ${subOffer.itemName} only for ${subOffer.forAdditional}</div>`);
+            }
+
+        }
+    }
+    html.push('</div>');
+
+
+    $('.modal-title').html('On Sale!');
+    $('#btnModal').trigger('click');
+    $('#exampleModal').find('.modal-body').html(html.join(''));
+    // $('#dvOffers').html(html.join(''));
+
+
+}

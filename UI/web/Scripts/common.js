@@ -37,6 +37,7 @@ function redirectToLogin(url) {
 function init() {
     $.ajaxSetup({
         dataType: "json",
+        // contentType: 'application/json; charset=utf-8',
         global: false,
         type: "POST"
     });

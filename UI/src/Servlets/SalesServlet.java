@@ -50,6 +50,8 @@ public class SalesServlet extends HttpServlet {
             Map<String, Object> map = new HashMap<>();
             map.put("saleName", discount.Name);
             map.put("operatorType", discount.OperatorType);
+            map.put("discountID", discount.Id);
+
 
             List<Map<String, Object>> items = new ArrayList();
             for (Offer offer : discount.Offers) {
@@ -61,8 +63,12 @@ public class SalesServlet extends HttpServlet {
                 rowItem.put("forAdditional", offer.ForAdditional);
                 rowItem.put("purchaseType", offer.ItemID);
                 rowItem.put("itemName", item.name);
+                rowItem.put("itemID", item.serialNumber);
+
                 items.add(rowItem);
             }
+            map.put("offers",items);
+
             rows.add(map);
 
         }

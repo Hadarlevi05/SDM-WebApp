@@ -136,20 +136,49 @@
                         <label for="purchaseDate">Date</label><br>
                         <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="">
                     </p>
-                    <p>
+                    <p class="half-width">
+                        <label for="locationX">Location X</label><br>
+                        <input type="number" id="locationX" name="locationX" class="form-control" value="" min="1" max="50">
+                    </p>
 
+                    <p class="half-width">
+                        <label for="locationX">Location Y</label><br>
+                        <input type="number" id="locationY" name="locationY" class="form-control" value="" min="1" max="50">
+                    </p>
+                    <p>
+                        <label for="locationX">Choose order type</label><br>
                         <select class="custom-select" name="typeOfPurchase">
-                            <option selected>Open this select menu</option>
-                            <option value="purchase-type-dynamic">Dynamic</option>
                             <option value="purchase-type-static">Static</option>
+                            <option value="purchase-type-dynamic">Dynamic</option>
                         </select>
                     </p>
 
-                    <div class="purchase-type-static" style="display: none;">
+                    <div class="purchase-type-static">
 
                         <select class="custom-select" name="storeCombo">
                             <option selected>Select store</option>
                         </select>
+
+                        <div class="table-container">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Serial Number</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="3"></td>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
 
                     <div class="purchase-type-dynamic" style="display: none;">
@@ -175,8 +204,12 @@
                     </div>
 
                     <p>
-                        <input type="submit" value="Place order" class="btn btn-primary" onclick="placeOrder();return false;" />
+                        <input type="submit" id="btnPlaceOrder" value="Place order" class="btn btn-primary" />
                     </p>
+
+                    <div id="dvOffers">
+
+                    </div>
                 </div>
             </form>
 
