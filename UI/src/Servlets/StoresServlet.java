@@ -48,6 +48,7 @@ public class StoresServlet extends HttpServlet {
         Integer ppk = Integer.parseInt(request.getParameter("ppk"));
         Integer locationX = Integer.parseInt(request.getParameter("locationX"));
         Integer locationY = Integer.parseInt(request.getParameter("locationY"));
+        String[] items = request.getParameterValues("items[]");
 
         SDMLocation loc = new SDMLocation(locationX,locationY);
 
@@ -59,7 +60,15 @@ public class StoresServlet extends HttpServlet {
 
         Store store = new Store(serialNumber, name, ppk, loc, username);
         store.Inventory = new ArrayList<>();
+
         storeHandler.addStore(sdm, store);
+
+        for (String item: items) {
+            Integer id = Integer.parseInt(item);
+            OrderItem orderItem = superDuperHandler.getOrderItemById(sdm, id);
+
+            storeHandler.addItemToStore(orderItem, store);
+        }
     }
 
     private int getNextSerialNumber(SuperDuperMarket sdm){

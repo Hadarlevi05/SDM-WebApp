@@ -31,6 +31,8 @@ function addEventListeners() {
         areaData.items = data.Values.Rows;
 
         buildItemsTable(data.Values.Rows);
+
+        buildItemsDropDown(data.Values.Rows);
     });
 
     getOrdersHistory('orders-history', (data) => {
@@ -228,7 +230,7 @@ function buildStoresTable(rows) {
                 </tr>`;
     }).join('')
 
-    $('#stores').find('tbody').data('rows', rows).html(html);
+    $('#storesTable').find('tbody').data('rows', rows).html(html);
 }
 
 function buildItemsTable(rows) {
@@ -398,6 +400,7 @@ function insertStore() {
         locationX: $('#stores').find('input[name=insertLocationX]').val(),
         locationY: $('#stores').find('input[name=insertLocationY]').val(),
         ppk: $('#stores').find('input[name=insertPPK]').val(),
+        items: $('#stores').find('select[name=selectItemsInArea]').val(),
     };
 
     return $post(`../../stores`, postData)
@@ -471,8 +474,6 @@ function proceedOrder(callback) {
                 console.log('error', data.ErrorMessage);
             }
         });
-
-
 }
 
 function getOrderDetails(callback) {
@@ -668,4 +669,15 @@ function openModal(title, html, action) {
         return false;
     });
 
+
+}
+
+function buildItemsDropDown(rows) {
+    var html = rows.map(row => {
+        return `
+                <option value=${row['serialnumber']}>${row['serialnumber']}. ${row['name']}</option>
+                `;
+    }).join('')
+
+    $('#stores').find('select').append(html);
 }
