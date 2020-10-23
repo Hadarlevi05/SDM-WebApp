@@ -42,7 +42,6 @@ public class StoreHandler {
     }
 
     public OrderItem CloneOrderItem(OrderItem orderItem) {
-
         OrderItem res = new OrderItem();
         res.storeId = orderItem.storeId;
         res.itemId = orderItem.itemId;
@@ -140,17 +139,18 @@ public class StoreHandler {
            return false;
     }
 
-    public boolean addItemToStore(OrderItem itemToAdd, Store store, SuperDuperMarket superDuperMarket) {
+    public boolean addItemToStore(OrderItem orderItem, Store store) {
+        OrderItem itemToAdd = CloneOrderItem(orderItem);
+
+        itemToAdd.storeId = store.serialNumber;
         return store.Inventory.add(itemToAdd);
     }
 
     public void updateItemPrice(OrderItem itemToUpdate, Store store, SuperDuperMarket superDuperMarket, double itemPrice) {
-
         itemToUpdate.price=itemPrice;
     }
 
     public void addStore(SuperDuperMarket superDuperMarket, Store storeToAdd) {
         superDuperMarket.Stores.add(storeToAdd);
     }
-
 }

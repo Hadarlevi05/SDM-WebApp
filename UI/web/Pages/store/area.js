@@ -5,7 +5,6 @@ let areaData = {
     stores: null
 }
 
-
 $(function () {
     /*    var itemSelected = document.getElementsByClassName('menu__group');
         setUIBySelectedItem($(itemSelected));*/
@@ -31,6 +30,8 @@ function addEventListeners() {
         areaData.items = data.Values.Rows;
 
         buildItemsTable(data.Values.Rows);
+
+        buildItemsDropDown(data.Values.Rows);
     });
 
     getOrdersHistory('orders-history', (data) => {
@@ -152,7 +153,7 @@ function buildStoresTable(rows) {
                 </tr>`;
     }).join('')
 
-    $('#stores').find('tbody').data('rows', rows).html(html);
+    $('#storesTable').find('tbody').data('rows', rows).html(html);
 }
 
 function buildItemsTable(rows) {
@@ -227,7 +228,6 @@ function getSales(orderID, callback) {
         });
 }
 
-
 function getOrdersHistory(action, callback) {
 
 
@@ -256,7 +256,6 @@ function showStoresItems(title, td, serialnumber) {
 
 }
 
-
 function insertStore() {
     const postData = {
         name: $('#stores').find('input[name=insertTXT]').val(),
@@ -265,6 +264,7 @@ function insertStore() {
         locationX: $('#stores').find('input[name=insertLocationX]').val(),
         locationY: $('#stores').find('input[name=insertLocationY]').val(),
         ppk: $('#stores').find('input[name=insertPPK]').val(),
+        items: $('#stores').find('select[name=selectItemsInArea]').val(),
     };
 
     return $post(`../../stores`, postData)
@@ -290,13 +290,9 @@ function placeOrder() {
                 console.log('error', data.ErrorMessage);
             }
         });
-
-
 }
 
 function showOffers(offers) {
-
-
     let html = [];
 
     for (let i = 0; i < offers.length; i++) {
@@ -334,4 +330,14 @@ function showOffers(offers) {
     // $('#dvOffers').html(html.join(''));
 
 
+}
+
+function buildItemsDropDown(rows) {
+    var html = rows.map(row => {
+        return `
+                <option value=${row['serialnumber']}>${row['serialnumber']}. ${row['name']}</option>
+                `;
+    }).join('')
+
+    $('#stores').find('select').append(html);
 }
