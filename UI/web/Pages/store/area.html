@@ -49,6 +49,9 @@
             <li class="menu__group" role="orders-history"><a href="#orderHistory"
                                                              class="menu__link r-link text-underlined">Orders
                 history</a></li>
+
+            <li class="menu__group"><a href="#feedbacks" class="menu__link r-link text-underlined">Feedbacks</a></li>
+
         </ul>
     </nav>
 
@@ -63,17 +66,22 @@
                             </label>
                         </p>
                         <p>
-                            <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name" class="form-control"/>
+                            <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name"
+                                   class="form-control"/>
                         </p>
                         <p>
-                            <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X" class="form-control"/>
-                            <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y" class="form-control"/>
+                            <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X"
+                                   class="form-control"/>
+                            <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y"
+                                   class="form-control"/>
                         </p>
                         <p>
-                            <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK" class="form-control"/>
+                            <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK"
+                                   class="form-control"/>
                         </p>
                         <p>
-                            <input id="insertBTN" type="button" value="Insert" class="btn btn-primary" onclick="insertStore()" />
+                            <input id="insertBTN" type="button" value="Insert" class="btn btn-primary"
+                                   onclick="insertStore()"/>
                         </p>
                     </div>
                 </div>
@@ -143,7 +151,6 @@
         </div>
         <div id="place-order" class="menu-container" style="display: none;">
 
-
             <form id="placeOrderForm" method="get">
 
                 <div class="form-group">
@@ -155,12 +162,14 @@
                     </p>
                     <p class="half-width">
                         <label for="locationX">Location X</label><br>
-                        <input type="number" id="locationX" name="locationX" class="form-control" value="" min="1" max="50">
+                        <input type="number" id="locationX" name="locationX" class="form-control" value="" min="1"
+                               max="50">
                     </p>
 
                     <p class="half-width">
                         <label for="locationX">Location Y</label><br>
-                        <input type="number" id="locationY" name="locationY" class="form-control" value="" min="1" max="50">
+                        <input type="number" id="locationY" name="locationY" class="form-control" value="" min="1"
+                               max="50">
                     </p>
                     <p>
                         <label for="locationX">Choose order type</label><br>
@@ -220,16 +229,53 @@
 
                     </div>
 
-                    <p>
-                        <input type="submit" id="btnPlaceOrder" value="Place order" class="btn btn-primary" />
+                    <p class="proceed-order">
+                        <input type="submit" id="btnProceedOrder" value="Proceed" class="btn btn-primary"/>
+                    </p>
+
+                    <p class="show-order-details" style="display: none;">
+                        <input type="submit" id="btnShowOrderDetails" value="Continue" class="btn btn-primary"/>
                     </p>
 
                     <div id="dvOffers">
-
                     </div>
+
                 </div>
             </form>
 
+            <div id="orderDetailsTable" class="table-container" style="display: none;">
+                <h2>Review order details</h2>
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Store ID</th>
+                        <th scope="col">Store name</th>
+                        <th scope="col">PPK</th>
+                        <th scope="col">Delivery Price</th>
+                        <th scope="col">Distance</th>
+                        <th scope="col">Order Items</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+
+                    </tbody>
+                    </tr>
+                </table>
+                <p class="total-amount">
+                    Total amount to pay
+                    <span class="right sum">
+
+                    </span>
+                </p>
+                <p class="confirm-order">
+                    <input type="submit" id="btnConfirmOrder" value="Pay" class="btn btn-primary"/>
+                </p>
+            </div>
 
         </div>
         <div id="orderHistory" class="menu-container" style="display: none;">
@@ -254,7 +300,40 @@
                             </thead>
                             <tfoot>
                             <tr>
-                                <td colspan="6"></td>
+                                <td colspan="8"></td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            </tbody>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div id="feedbacks" class="menu-container" style="display: none;">
+            <div>
+
+                <div class="outside">
+
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Rate</th>
+                                <th scope="col">Message</th>
+
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <td colspan="4"></td>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -307,7 +386,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>

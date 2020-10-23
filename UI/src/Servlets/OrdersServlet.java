@@ -5,6 +5,7 @@ import DTO.InnerJSON;
 import DTO.KeyValueDTO;
 import DTO.OrderData;
 import DataStore.DataStore;
+import Enums.OrderStatus;
 import Handlers.OrderDetailsHandler;
 import Handlers.OrderManager;
 import Handlers.StoreHandler;
@@ -51,9 +52,7 @@ public class OrdersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         StringBuffer jb = new StringBuffer();
-
         String line = null;
         try {
             BufferedReader reader = request.getReader();
@@ -61,78 +60,90 @@ public class OrdersServlet extends HttpServlet {
                 jb.append(line);
         } catch (Exception e) { /*report an error*/ }
 
-
         Gson gson = new GsonBuilder()
-                //.excludeFieldsWithoutExposeAnnotation()
+                .enableComplexMapKeySerialization()
                 .create();
 
-        OrderData fromData = gson.fromJson(jb.toString(), OrderData.class);
+        Order order = gson.fromJson(jb.toString(), Order.class);
 
 
-        SdmUser user = SessionUtils.getUser(request);
         String area = request.getParameter("area");
-
         StoreOwner storeOwner = DataStore.getInstance().userConfigurationDataStore.getByArea(area);
 
+        //int orderID = new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("orderID")).collect(Collectors.toList()).get(0).value);
+        //OrderStatus status = OrderStatus.values()[new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("Status")).collect(Collectors.toList()).get(0).value)];
 
+        // Order order = null;
 
-        Order order = new Order();
+        if (order.orderStatus == OrderStatus.NEW) {
 
-        order.customerId = user.id;
-        String dateString = Arrays.asList(fromData.data).stream().filter(x->x.name.equals("purchaseDate")).collect(Collectors.toList()).get(0).value;
-        SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            order.purchaseDate=formatter2.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            order = CreateNewOrder(request, order, storeOwner);
+
+        } else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
+
+            order = storeOwner.superDuperMarket.Orders.ordersMap.get(order.id);
+            order.orderStatus = OrderStatus.DONE;
         }
-
-        int storeId = new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("storeCombo")).collect(Collectors.toList()).get(0).value);
-        if (!order.storesID.contains(storeId)) {
-            order.storesID.add(storeId);
-        }
-        int locx = new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("locationX")).collect(Collectors.toList()).get(0).value);
-        int locy = new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("locationY")).collect(Collectors.toList()).get(0).value);
-        storeOwner.superDuperMarket.Orders.addOrder(storeOwner.superDuperMarket, order);
-
-        for (InnerJSON json :
-                fromData.data) {
-            if (json.name.contains("qs")) {
-                double qountity = new Integer(json.value);
-                if (qountity > 0) {
-                    int itemID = new Integer(json.name.substring(3));
-                    OrderItem oi = new OrderItem(itemID, qountity, storeId);
-                    order.orderItems.add(oi);
-
-                    QuantityObject quantityObject = new QuantityObject();
-                    if ((qountity == Math.floor(qountity)) && !Double.isInfinite(qountity)) {
-                        quantityObject.integerQuantity = (int) qountity;
-                    } else {
-                        quantityObject.KGQuantity = qountity;
-
-                    }
-                    Store store = new StoreHandler().getStoreById(storeOwner.superDuperMarket, storeId);
-                    SDMLocation sdmLocation = new SDMLocation(locx, locy);
-                    Customer customer = new Customer(user.id, user.username, sdmLocation);
-                    new OrderDetailsHandler().updateOrderDetails(storeOwner.superDuperMarket, customer, order, oi, store, sdmLocation, order.purchaseDate, quantityObject);
-
-                }
-            }
-        }
-/*        try {
-            JSONObject jsonObject =  HTTP.toJSONObject(jb.toString());
-        } catch (JSONException e) {
-            // crash and burn
-            throw new IOException("Error parsing JSON request string");
-        }       */
-
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;
-        keyValueDTO.Values.put("OrderID", order.id);
+        keyValueDTO.Values.put("Order", order);
 
         ServletHelper.WriteToOutput(response, keyValueDTO);
     }
+
+    private Order CreateNewOrder(HttpServletRequest request, Order fromData, StoreOwner storeOwner) {
+        SdmUser user = SessionUtils.getUser(request);
+
+        Order order = new Order();
+        order.orderStatus = OrderStatus.IN_PROGRESS;
+        order.customerId = user.id;
+        //String dateString = fromData.purchaseDate;//Arrays.asList(fromData.data).stream().filter(x -> x.name.equals("purchaseDate")).collect(Collectors.toList()).get(0).value;
+        //SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+        // try {
+        order.purchaseDate = fromData.purchaseDate;// formatter2.parse(dateString);
+/*        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
+        int storeId = fromData.storesID.get(0);//new Integer(Arrays.asList(fromData.data).stream().filter(x -> x.name.equals("storeCombo")).collect(Collectors.toList()).get(0).value);
+        if (!order.storesID.contains(storeId)) {
+            order.storesID.add(storeId);
+        }
+        storeOwner.superDuperMarket.Orders.addOrder(storeOwner.superDuperMarket, order);
+
+        for (OrderItem orderItem :
+                fromData.orderItems) {
+            if (order.orderType.equals("purchase-type-dynamic")){
+
+                orderItem.storeId = new OrderManager().FindCheapestStoreForItem(storeOwner.superDuperMarket,orderItem.itemId).storeId;
+            }
+            else{
+                orderItem.storeId = fromData.storesID.get(0);
+            }
+            QuantityObject qountity = orderItem.quantityObject;
+/*            if (qountity > 0) {
+                int itemID = new Integer(json.name.substring(3));
+                OrderItem oi = new OrderItem(itemID, qountity, storeId);
+                order.orderItems.add(oi);
+
+                QuantityObject quantityObject = new QuantityObject();
+                if ((qountity == Math.floor(qountity)) && !Double.isInfinite(qountity)) {
+                    quantityObject.integerQuantity = (int) qountity;
+                } else {
+                    quantityObject.KGQuantity = qountity;
+
+                }*/
+            Store store = new StoreHandler().getStoreById(storeOwner.superDuperMarket, storeId);
+            SDMLocation sdmLocation = fromData.CustomerLocation;
+            Customer customer = new Customer(user.id, user.username, sdmLocation);
+            new OrderDetailsHandler().updateOrderDetails(storeOwner.superDuperMarket, customer, order, orderItem, store, sdmLocation, order.purchaseDate, qountity);
+
+        }
+        return order;
+    }
+
+
 
     private void getAllStore(HttpServletRequest request, HttpServletResponse response) {
 

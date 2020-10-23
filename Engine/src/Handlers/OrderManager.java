@@ -86,7 +86,6 @@ public class OrderManager {
                             int numOfOffers = (int) (quantity / discount.Quantity);
                             for (int i = 1; i <= numOfOffers; i++) {
                                 Discount disc = CloneDiscount(discount);
-                                disc.Id = i;
                                 sales.add(disc);
                             }
                         }
@@ -94,9 +93,6 @@ public class OrderManager {
                     }
                 }
             }
-        }
-        for (int i = 0 ;i < sales.size(); i++) {
-            sales.get(i).Id = i+1;
         }
         return sales;
     }

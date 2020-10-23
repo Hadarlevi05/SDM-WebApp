@@ -101,3 +101,6 @@ input[type=number] {
 .half-width input[type=number] {
     width:95%;
 }
+
+.right{float:right;}
+.left{float:left;}

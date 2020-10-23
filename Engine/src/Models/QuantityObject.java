@@ -1,5 +1,7 @@
 package Models;
 
+import com.google.gson.annotations.Expose;
+
 public class QuantityObject {
 
     public QuantityObject(int integerQuantity, double KGQuantity){
@@ -10,7 +12,9 @@ public class QuantityObject {
     public QuantityObject(){
 
     }
+    @Expose
     public int integerQuantity;
+    @Expose
     public double KGQuantity;
 
 }

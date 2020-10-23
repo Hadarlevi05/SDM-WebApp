@@ -1,5 +1,11 @@
 let currentUserSession = null;
 
+const OrderStatusEnum = {
+    'NEW': 'NEW',
+    'IN_PROGRESS': 'IN_PROGRESS',
+    'DONE': 'DONE'
+}
+
 function $post(url, data) {
     return $ajax('POST', url, data);
 }
@@ -44,7 +50,6 @@ function init() {
 
     currentUserSession = userSession();
 }
-
 
 function setPermission() {
 
@@ -112,15 +117,18 @@ function genericTable(headers, data) {
 
     for (let i = 0; i < data.length; i++) {
         let row = data[i];
-
         tableBody.push('<tr>');
 
-        for (const prop in row) {
-
+/*        for (const prop in row) {
             if (row.hasOwnProperty(prop)) {
                 tableBody.push(`<td>${row[prop]}</td>`);
             }
+        }*/
+
+        for (let i = 0; i < headers.length; i++) {
+            tableBody.push(`<td>${row[headers[i]]}</td>`);
         }
+
         tableBody.push('</tr>');
     }
 
@@ -139,7 +147,6 @@ function genericTable(headers, data) {
     return table;
 }
 
-
 function setTabByHash(e) {
 
     var hash = '';
@@ -156,4 +163,11 @@ function setTabByHash(e) {
     if (hash) {
         $(`#${hash}`).show();
     }
+}
+
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
