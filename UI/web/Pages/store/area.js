@@ -36,7 +36,7 @@ function addEventListeners() {
     });
 
     getOrdersHistory('orders-history', (data) => {
-        debugger;
+
         buildOrdersHistoryTable(data.Values.Rows);
     });
 
@@ -194,7 +194,7 @@ function populateItemsTable(storeId, tableTbody, showPrice) {
                     let item = data.Values.Rows[i];
 
                     let step = 1;
-                    debugger;
+
                     if (item['purchaseType'] === 'WEIGHT') {
                         step = 0.1;
                     }
@@ -635,7 +635,7 @@ function showStoresFeedback(storeIds) {
             console.log('data from post feedbacks', data);
 
             getOrdersHistory('orders-history', (data) => {
-                debugger;
+
                 buildOrdersHistoryTable(data.Values.Rows);
             });
 
