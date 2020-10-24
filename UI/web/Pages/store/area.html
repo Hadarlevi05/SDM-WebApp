@@ -59,7 +59,7 @@
             <div>
                 <div>
                     <div>
-                        <div class="form-group" style="width:35%;">
+                        <div class="form-group" role="store-owner-permission" style="width:35%;">
                             <p>
                                 <label for="insertBTN" name="insertLBL">
                                     Insert New Store
@@ -80,8 +80,7 @@
                                        class="form-control"/>
                             </p>
                             <p>
-                                <select for="insertBTN" class="custom-select" multiple id="selectItemsInArea"
-                                        name="selectItemsInArea">
+                                <select for="insertBTN" class="custom-select" multiple id="selectItemsInArea" name="selectItemsInArea">
                                     <!-- Auto generated data by area.js -->
                                 </select>
                             </p>
@@ -94,7 +93,7 @@
                 </div>
 
                 <div class="outside">
-                    <div class="table-container">
+                    <div class="table-container" id="storesTable" name="storesTable">
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
@@ -158,7 +157,7 @@
         </div>
         <div id="place-order" class="menu-container" style="display: none;">
 
-            <form id="placeOrderForm" method="get">
+            <form id="placeOrderForm" role="customer-permission" method="get">
 
                 <div class="form-group">
                     <p>

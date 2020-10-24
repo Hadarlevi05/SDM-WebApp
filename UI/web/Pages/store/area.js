@@ -399,8 +399,8 @@ function insertStore() {
         username: currentUserSession.username,
         locationX: $('#stores').find('input[name=insertLocationX]').val(),
         locationY: $('#stores').find('input[name=insertLocationY]').val(),
-        ppk: $('#stores').find('input[name=insertPPK]').val(),
         items: $('#stores').find('select[name=selectItemsInArea]').val(),
+        ppk: $('#stores').find('input[name=insertPPK]').val()
     };
 
     return $post(`../../stores`, postData)
