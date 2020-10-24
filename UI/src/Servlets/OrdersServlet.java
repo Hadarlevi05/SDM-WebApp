@@ -6,10 +6,8 @@ import DTO.KeyValueDTO;
 import DTO.OrderData;
 import DataStore.DataStore;
 import Enums.OrderStatus;
-import Handlers.OrderDetailsHandler;
-import Handlers.OrderManager;
-import Handlers.StoreHandler;
-import Handlers.SuperDuperHandler;
+import Enums.TransactionType;
+import Handlers.*;
 import Models.*;
 import UIUtils.ServletHelper;
 import UIUtils.SessionUtils;
@@ -66,7 +64,7 @@ public class OrdersServlet extends HttpServlet {
 
         Order order = gson.fromJson(jb.toString(), Order.class);
 
-
+        SdmUser user = SessionUtils.getUser(request);
         String area = request.getParameter("area");
         StoreOwner storeOwner = DataStore.getInstance().userConfigurationDataStore.getByArea(area);
 
@@ -79,10 +77,17 @@ public class OrdersServlet extends HttpServlet {
 
             order = CreateNewOrder(request, order, storeOwner);
 
+           // order.orderStatus = OrderStatus.DONE;
+
         } else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
 
             order = storeOwner.superDuperMarket.Orders.ordersMap.get(order.id);
+
+            new TransactionsHandler().doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString());
+            new TransactionsHandler().doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString());
+
             order.orderStatus = OrderStatus.DONE;
+
         }
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
@@ -121,23 +126,23 @@ public class OrdersServlet extends HttpServlet {
             else{
                 orderItem.storeId = fromData.storesID.get(0);
             }
-            QuantityObject qountity = orderItem.quantityObject;
-/*            if (qountity > 0) {
+            QuantityObject qauntity = orderItem.quantityObject;
+/*            if (qauntity > 0) {
                 int itemID = new Integer(json.name.substring(3));
-                OrderItem oi = new OrderItem(itemID, qountity, storeId);
+                OrderItem oi = new OrderItem(itemID, qauntity, storeId);
                 order.orderItems.add(oi);
 
                 QuantityObject quantityObject = new QuantityObject();
-                if ((qountity == Math.floor(qountity)) && !Double.isInfinite(qountity)) {
-                    quantityObject.integerQuantity = (int) qountity;
+                if ((qauntity == Math.floor(qauntity)) && !Double.isInfinite(qauntity)) {
+                    quantityObject.integerQuantity = (int) qauntity;
                 } else {
-                    quantityObject.KGQuantity = qountity;
+                    quantityObject.KGQuantity = qauntity;
 
                 }*/
             Store store = new StoreHandler().getStoreById(storeOwner.superDuperMarket, storeId);
             SDMLocation sdmLocation = fromData.CustomerLocation;
             Customer customer = new Customer(user.id, user.username, sdmLocation);
-            new OrderDetailsHandler().updateOrderDetails(storeOwner.superDuperMarket, customer, order, orderItem, store, sdmLocation, order.purchaseDate, qountity);
+            new OrderDetailsHandler().updateOrderDetails(storeOwner.superDuperMarket, customer, order, orderItem, store, sdmLocation, order.purchaseDate, qauntity);
 
         }
         return order;

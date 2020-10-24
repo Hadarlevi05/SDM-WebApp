@@ -5,6 +5,7 @@ import DTO.ResponseDTO;
 import DTO.TransactionsDTO;
 import DataStore.DataStore;
 import Enums.TransactionType;
+import Handlers.TransactionsHandler;
 import Models.Transaction;
 import Models.SdmUser;
 import UIUtils.ServletHelper;
@@ -27,28 +28,11 @@ public class TransactionsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        DataStore dataStore = DataStore.getInstance();
 
         SdmUser user = SessionUtils.getUser(request);
+        int sumOfTransaction = Integer.parseInt(request.getParameter("sumOfTransaction"));
 
-        Transaction acc = new Transaction();
-        acc.sumOfTransaction = Integer.parseInt(request.getParameter("sumOfTransaction"));
-
-        List<Transaction> allTransactionsOfUser = dataStore.transactionsStore.get(user);
-
-        if(allTransactionsOfUser.size() > 0){
-            acc.balanceBeforeAction = allTransactionsOfUser.get(allTransactionsOfUser.size() - 1).balanceAfterAction;
-        }
-        else{
-            acc.balanceBeforeAction = 0;
-        }
-
-        acc.balanceAfterAction =  acc.balanceBeforeAction + acc.sumOfTransaction;
-
-        acc.transactionDate = new Date(System.currentTimeMillis()); // TODO
-        acc.transactionType =  TransactionType.valueOf(request.getParameter("transactionType"));
-
-        dataStore.transactionsStore.add(user, acc);
+        new TransactionsHandler().doTransaction(user.username, sumOfTransaction, TransactionType.CHARGE_MONEY.toString());
 
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.Status = 200;
@@ -69,7 +53,7 @@ public class TransactionsServlet extends HttpServlet {
             throw new InternalError("user does not have logged in session");
         }
 
-        List<Transaction> lst = dataStore.transactionsStore.get(user);
+        List<Transaction> lst = dataStore.transactionsStore.get(user.username);
 
         TransactionsDTO transactionsDTO = new TransactionsDTO();
         transactionsDTO.Status = 200;
