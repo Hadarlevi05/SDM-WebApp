@@ -85,10 +85,10 @@ function addEventListeners() {
             getSales(data.Values.OrderID, (data) => {
 
                 console.log('sales values', data);
-                if (data.Values.Rows.length > 0){
+                if (data.Values.Rows.length > 0) {
                     showOffers(data.Values.Rows);
 
-                }else{
+                } else {
                     showToaster("No promotions found, please press 'Continue'");
                 }
             })
@@ -130,6 +130,24 @@ function addEventListeners() {
 
     });
 
+
+    $('#btnAddStore').on('click', e => {
+
+        buildAddStoreModal();
+        /*        getOrderDetails((data) => {
+
+                    $('#placeOrderForm').hide();
+                    $('#orderDetailsTable').show();
+                    $('#orderDetailsTable').find('.total-amount .sum').html(currentOrder.totalPrice);
+
+                    buildOrdersDetailsTable(data.Values.Rows);
+
+                });
+
+                return false;*/
+
+    });
+
     $('#btnConfirmOrder').on('click', e => {
         updateOrderToDone(currentOrder, (data) => {
 
@@ -137,7 +155,6 @@ function addEventListeners() {
 
             showStoresFeedback(currentOrder.storesID);
 
-            showToaster('Thank you for purchasing at super duper market!');
         });
     })
 
@@ -390,15 +407,17 @@ function showOrderItemsDetails(title, td, serialnumber) {
 
 }
 
-function insertStore() {
+function insertNewStore() {
+    debugger;
+
     const postData = {
-        name: $('#stores').find('input[name=insertTXT]').val(),
+        name: $('#exampleModal').find('input[name=insertTXT]').val(),
         area: area,
         username: currentUserSession.username,
-        locationX: $('#stores').find('input[name=insertLocationX]').val(),
-        locationY: $('#stores').find('input[name=insertLocationY]').val(),
-        items: $('#stores').find('select[name=selectItemsInArea]').val(),
-        ppk: $('#stores').find('input[name=insertPPK]').val()
+        locationX: $('#exampleModal').find('input[name=insertLocationX]').val(),
+        locationY: $('#exampleModal').find('input[name=insertLocationY]').val(),
+        items: $('#exampleModal').find('select[name=selectItemsInArea]').val(),
+        ppk: $('#exampleModal').find('input[name=insertPPK]').val()
     };
 
     return $post(`../../stores`, postData)
@@ -553,14 +572,14 @@ function showOffers(offers) {
 
         // offers
 
-            $('.show-order-details').show();
-            $('.proceed-order').hide();
+        $('.show-order-details').show();
+        $('.proceed-order').hide();
 
-            postSales(currentOrder.id, data, (data) => {
-                console.log('post sales success!', data)
-            });
+        postSales(currentOrder.id, data, (data) => {
+            console.log('post sales success!', data)
+        });
 
-            showToaster("To continue order, press 'Continue'");
+        showToaster("To continue order, press 'Continue'");
 
     });
 
@@ -640,6 +659,9 @@ function showStoresFeedback(storeIds) {
             getFeedbacks('feedbacks', (data) => {
                 buildFeedbacksTable(data.Values.Rows);
             });
+            showToaster('Thank you for purchasing at super duper market!');
+
+            location.reload();
 
         });
     });
@@ -668,6 +690,23 @@ function openModal(title, html, action) {
     });
 
 
+}
+
+function buildAddStoreModal() {
+
+    openModal("Add new store", $("#insertStore").html(), () => {
+
+        insertNewStore();
+        getStores('stores', (data) => {
+
+            areaData.stores = data.Values.Rows;
+
+            buildStoresTable(data.Values.Rows);
+        });
+        const data = {"data": $('#insertStore').serializeArray()};
+        console.log('data', data);
+
+    });
 }
 
 function buildItemsDropDown(rows) {

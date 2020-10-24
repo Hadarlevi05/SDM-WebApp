@@ -167,6 +167,9 @@ function chargeMoney() {
         .then(data => {
             if (data.Status === 200) {
                 getTransactions(currentUserSession.username, (data) => {
+                    var balance =data.Transactions[data.Transactions.length-1].balanceAfterAction;
+                    $('#yourBalance').html(`Your balance:${balance}`)
+                    debugger;
                     buildTransactionsTable(data.Transactions);
                 });
                 $('#account').find('input[name=txtSum]').val('');

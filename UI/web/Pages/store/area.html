@@ -45,81 +45,78 @@
         <ul id="menu-items" class="menu__list r-list">
             <li class="menu__group"><a href="#stores" class="menu__link r-link text-underlined">Stores</a></li>
             <li class="menu__group"><a href="#items" class="menu__link r-link text-underlined">Items</a></li>
-            <li class="menu__group"><a href="#place-order" class="menu__link r-link text-underlined">Place order</a>
+            <li class="menu__group" role="customer-permission"><a href="#place-order" class="menu__link r-link text-underlined">Place order</a>
             </li>
             <li class="menu__group" role="orders-history"><a href="#orderHistory"
                                                              class="menu__link r-link text-underlined">Orders
                 history</a></li>
-            <li class="menu__group"><a href="#feedbacks" class="menu__link r-link text-underlined">Feedbacks</a></li>
+            <li class="menu__group" role="store-owner-permission"><a href="#feedbacks" class="menu__link r-link text-underlined">Feedbacks</a></li>
         </ul>
     </nav>
 
     <section>
         <div id="stores" class="menu-container">
-            <div>
-                <div>
-                    <div>
-                        <div class="form-group" role="store-owner-permission" style="width:35%;">
-                            <p>
-                                <label for="insertBTN" name="insertLBL">
-                                    Insert New Store
-                                </label>
-                            </p>
-                            <p>
-                                <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name"
-                                       class="form-control"/>
-                            </p>
-                            <p>
-                                <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X"
-                                       class="form-control"/>
-                                <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y"
-                                       class="form-control"/>
-                            </p>
-                            <p>
-                                <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK"
-                                       class="form-control"/>
-                            </p>
-                            <p>
-                                <select for="insertBTN" class="custom-select" multiple id="selectItemsInArea" name="selectItemsInArea">
-                                    <!-- Auto generated data by area.js -->
-                                </select>
-                            </p>
-                            <p>
-                                <input id="insertBTN" type="button" value="Insert" class="btn btn-primary"
-                                       onclick="insertStore()"/>
-                            </p>
-                        </div>
-                    </div>
+
+            <form id="insertStore" role="store-owner-permission" method="get" style="display: none;">
+
+                <div class="form-group">
+                    <p>
+                        <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name"
+                               class="form-control"/>
+                    </p>
+                    <p>
+                        <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X"
+                               class="form-control"/>
+                        <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y"
+                               class="form-control"/>
+                    </p>
+                    <p>
+                        <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK"
+                               class="form-control"/>
+                    </p>
+                    <p>
+                        <select for="insertBTN" class="custom-select" multiple id="selectItemsInArea"
+                                name="selectItemsInArea">
+                            <!-- Auto generated data by area.js -->
+                        </select>
+                    </p>
                 </div>
 
-                <div class="outside">
-                    <div class="table-container" id="storesTable" name="storesTable">
-                        <table class="table">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Serial Number</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Owner</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Items</th>
-                                <th scope="col">Number of taken orders</th>
-                                <th scope="col">Sold items amount</th>
-                                <th scope="col">PPK</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <td colspan="8"></td>
-                            </tr>
-                            </tfoot>
-                            <tbody>
+            </form>
 
-                            </tbody>
-                            </tr>
-                        </table>
-                    </div>
+
+            <div class="outside">
+                <div class="table-container" id="storesTable" name="storesTable">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Serial Number</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Owner</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Items</th>
+                            <th scope="col">Number of taken orders</th>
+                            <th scope="col">Sold items amount</th>
+                            <th scope="col">PPK</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <td colspan="8"></td>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        </tbody>
+                        </tr>
+                    </table>
+                    <p class="add-store" style="text-align:center;" >
+                        <input type="submit" id="btnAddStore" value="Add store" class="btn btn-primary"  role="store-owner-permission"/>
+                    </p>
                 </div>
+
             </div>
+
         </div>
         <div id="items" class="menu-container" style="display: none;">
             <div>
@@ -157,7 +154,7 @@
         </div>
         <div id="place-order" class="menu-container" style="display: none;">
 
-            <form id="placeOrderForm" role="customer-permission" method="get">
+            <form id="placeOrderForm" method="get">
 
                 <div class="form-group">
                     <p>

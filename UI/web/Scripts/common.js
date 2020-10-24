@@ -58,12 +58,12 @@ function setPermission() {
         redirectToLogin();
     }
 
-    if (currentUserSession.userType === 'CUSTOMER') {
-        $('[role=store-owner-permission]').hide();
-    }
-
     if (currentUserSession.userType === 'STORE_OWNER') {
         $('[role=customer-permission]').hide();
+    }
+
+    if (currentUserSession.userType === 'CUSTOMER') {
+        $('[role=store-owner-permission]').hide();
     }
 }
 
