@@ -47,8 +47,6 @@ function addEventListeners() {
     getSDMs('allUserConfig', (data) => {
         buildStoreAreasTable(data.Values.Rows);
     });
-
-    setInterval(getNotifications, 3000);
 }
 
 function getSDMs(action, callback) {

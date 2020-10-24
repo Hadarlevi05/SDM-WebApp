@@ -49,6 +49,8 @@ function init() {
     });
 
     currentUserSession = userSession();
+
+    setInterval(getNotifications, 3000);
 }
 
 function setPermission() {
@@ -198,7 +200,7 @@ function getNotifications() {
                     showNotificationToaster(data.Values.Rows[i]);
                 }
             } else {
-                console.log('error', data.ErrorMessage);
+                console.log('notifications error', data.ErrorMessage);
             }
         });
 }
