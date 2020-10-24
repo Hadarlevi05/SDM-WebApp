@@ -5,10 +5,7 @@ package Servlets;
         import DTO.OrderData;
         import DataStore.DataStore;
         import Enums.OrderStatus;
-        import Handlers.OrderDetailsHandler;
-        import Handlers.OrderManager;
-        import Handlers.StoreHandler;
-        import Handlers.SuperDuperHandler;
+        import Handlers.*;
         import Models.*;
         import UIUtils.ServletHelper;
         import UIUtils.SessionUtils;
@@ -50,8 +47,6 @@ public class FeedbackServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
         StringBuffer jb = new StringBuffer();
         String line = null;
         try {
@@ -73,6 +68,9 @@ public class FeedbackServlet extends HttpServlet {
         //OrderStatus status = OrderStatus.values()[new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("Status")).collect(Collectors.toList()).get(0).value)];
 
         // Order order = null;
+
+        // TODO: Fix Feedback
+        //new NotificationsHandler().Add(order.id, NotificationType.Feedback, storeOwner.username);
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;

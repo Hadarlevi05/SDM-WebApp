@@ -48,6 +48,7 @@ function addEventListeners() {
         buildStoreAreasTable(data.Values.Rows);
     });
 
+    setInterval(getNotifications, 3000);
 }
 
 function getSDMs(action, callback) {
@@ -177,10 +178,6 @@ function chargeMoney() {
             }
         });
 }
-
-
-
-
 
 
 

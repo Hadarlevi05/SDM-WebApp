@@ -6,16 +6,16 @@ const OrderStatusEnum = {
     'DONE': 'DONE'
 }
 
-function $post(url, data) {
-    return $ajax('POST', url, data);
+function $post(url, data, loader = true) {
+    return $ajax('POST', url, data, loader);
 }
 
-function $get(url, data) {
-    return $ajax('GET', url, data);
+function $get(url, data, loader = true) {
+    return $ajax('GET', url, data, loader);
 }
 
-function $ajax(verb, url, data) {
-    showLoader(true);
+function $ajax(verb, url, data, loader= true) {
+    showLoader(loader);
 
     return $.ajax(url, {
         type: verb,
@@ -67,13 +67,11 @@ function setPermission() {
 
 function showLoader(flag) {
     if (flag) {
-
         $('.loading').show();
     } else {
         setTimeout(() => {
             $('.loading').hide();
         }, 200);
-
     }
 }
 
@@ -106,6 +104,23 @@ function showToaster(text) {
 
     setTimeout(() => {
         $("#myToast").animate({
+            opacity: 0,
+            top: "-=30",
+        }).fadeOut()
+    }, 3500)
+
+}
+
+function showNotificationToaster(text) {
+    $('#notificationToast').css({'opacity': 0, top: 0}).find('.toast-text').html(text);
+
+    $("#notificationToast").fadeIn().animate({
+        opacity: 0.9,
+        top: "+=30",
+    });
+
+    setTimeout(() => {
+        $("#notificationToast").animate({
             opacity: 0,
             top: "-=30",
         }).fadeOut()
@@ -173,4 +188,17 @@ function uuidv4() {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+
+function getNotifications() {
+    return $get(`../../notifications?username=${currentUserSession.username}`, undefined, false)
+        .then(data => {
+            if (data.Status === 200) {
+                for (let i = 0; i < data.Values.Rows.length; i++){
+                    showNotificationToaster(data.Values.Rows[i]);
+                }
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
 }

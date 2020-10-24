@@ -1,6 +1,8 @@
 package Servlets;
         import DTO.KeyValueDTO;
         import DataStore.DataStore;
+        import Enums.NotificationType;
+        import Handlers.NotificationsHandler;
         import Handlers.StoreHandler;
         import Handlers.SuperDuperHandler;
         import Models.*;
@@ -69,6 +71,8 @@ public class StoresServlet extends HttpServlet {
 
             storeHandler.addItemToStore(orderItem, store);
         }
+
+        new NotificationsHandler().Add(serialNumber, NotificationType.Store, storeOwner.username);
     }
 
     private int getNextSerialNumber(SuperDuperMarket sdm){

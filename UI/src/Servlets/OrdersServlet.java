@@ -5,6 +5,7 @@ import DTO.InnerJSON;
 import DTO.KeyValueDTO;
 import DTO.OrderData;
 import DataStore.DataStore;
+import Enums.NotificationType;
 import Enums.OrderStatus;
 import Enums.TransactionType;
 import Handlers.*;
@@ -76,11 +77,8 @@ public class OrdersServlet extends HttpServlet {
         if (order.orderStatus == OrderStatus.NEW) {
 
             order = CreateNewOrder(request, order, storeOwner);
-
-           // order.orderStatus = OrderStatus.DONE;
-
-        } else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
-
+        }
+        else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
             order = storeOwner.superDuperMarket.Orders.ordersMap.get(order.id);
 
             new TransactionsHandler().doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString());
@@ -88,6 +86,7 @@ public class OrdersServlet extends HttpServlet {
 
             order.orderStatus = OrderStatus.DONE;
 
+            new NotificationsHandler().Add(order.id, NotificationType.Order, storeOwner.username);
         }
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();

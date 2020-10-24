@@ -147,7 +147,7 @@ function addEventListeners() {
         $('[data-slider-id=' + slider.id + ']').html(slider.value);
     })
 
-
+    setInterval(getNotifications, 3000);
 }
 
 function updateOrderToDone(order, callback) {
