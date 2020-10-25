@@ -1,16 +1,14 @@
 package Models;
 
 public class Notification {
-    public Notification(int itemID, String itemType,String username) {
-        this.ItemID = itemID;
-        this.ItemType = itemType;
+    public Notification(String message,String username) {
+        this.Message = message;
         this.UserName = username;
         this.sent = false;
     }
 
     public int Id;
-    public int ItemID;
-    public String ItemType;
-    public String  UserName;
+    public String Message;
+    public String UserName;
     public boolean sent;
 }
