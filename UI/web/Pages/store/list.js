@@ -46,6 +46,7 @@ function addEventListeners() {
 
                 debugger;
                 if (data.Values.Rows.length > 0) {
+                    $('.noDataLabel').hide();
                     $('#storeAreasTables').show();
                     buildStoreAreasTable(data.Values.Rows);
                 }
@@ -59,6 +60,7 @@ function addEventListeners() {
     getSDMs('allUserConfig', (data) => {
 
         if (data.Values.Rows.length > 0) {
+            $('.noDataLabel').hide();
             $('#storeAreasTables').show();
             buildStoreAreasTable(data.Values.Rows);
         }
