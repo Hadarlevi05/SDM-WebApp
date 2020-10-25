@@ -537,13 +537,13 @@ function showOffers(offers) {
         html.push(`<h2>${offer.saleName}</h2>`);
         html.push(`${getOfferTypeHtml(offer.operatorType)}`);
 
-
+debugger;
         if (offer.operatorType === 'ONE_OF') {
             let operatorId = uuidv4();
             for (let j = 0; j < offer.offers.length; j++) {
                 let subOffer = offer.offers[j];
                 let id = uuidv4();
-                html.push(`<div class="choose-item"><input type="radio" id="${id}" class="discount-radio" name="discountID_${offer.discountID}_${operatorId} value="${subOffer.itemID}"><label for="${id}">get ${subOffer.quantity} of ${subOffer.itemName} only for ${subOffer.forAdditional}</label></div>`);
+                html.push(`<div class="choose-item"><input type="radio" id="${id}" class="discount-radio" name="discountID_${offer.discountID}_${operatorId}" value="${subOffer.itemID}"><label for="${id}">get ${subOffer.quantity} of ${subOffer.itemName} only for ${subOffer.forAdditional}</label></div>`);
             }
         } else if (offer.operatorType === 'ALL_OR_NOTHING') {
 

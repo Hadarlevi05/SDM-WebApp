@@ -14,8 +14,12 @@
 <body>
 
 <script src="../../Scripts/jquery-3_5_1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 <script src="../../Scripts/common.js"></script>
 <script src="list.js"></script>
 <script src="../../Scripts/xmlUpload.js"></script>
@@ -91,7 +95,7 @@
                 <div class="outside">
 
 
-                    <div class="table-container">
+                    <div id="storeAreasTables" class="table-container" style="display: none;">
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
@@ -118,11 +122,14 @@
 
                 </div>
             </div>
+            <div style="text-align:center;" style="display: none;">
+                <h2 style="display: none;" class="noDataLabel">There are currently no stores areas in the system </h2>
+            </div>
         </div>
 
         <div id="account" class="menu-container" style="display: none;">
             <h2>Account Management</h2>
-            <h4  id="yourBalance">Your balance:</h4>
+            <h4 id="yourBalance">Your balance: 0 ₪ </h4>
 
             <div class="form-group" style="width:35%;" role="customer-permission">
                 <p>
@@ -130,7 +137,7 @@
                            class="form-control"/>
                 </p>
                 <p>
-                    <input type="button" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()" />
+                    <input type="button" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()"/>
                 </p>
             </div>
 

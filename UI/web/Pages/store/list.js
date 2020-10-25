@@ -16,14 +16,18 @@ function addEventListeners() {
         buildUserList(data.Users);
     });
 
-/*    getUsers('currentUser', (data) => {
-        const user = data.Values.user;
-        setCurrentUser(user);
-    });*/
+    /*    getUsers('currentUser', (data) => {
+            const user = data.Values.user;
+            setCurrentUser(user);
+        });*/
 
     const user = userSession();
 
     getTransactions(user.username, (data) => {
+        var balance = data.Transactions[data.Transactions.length - 1].balanceAfterAction;
+        if (balance > 0) {
+            $('#yourBalance').html(`Your balance: ${balance} ₪`)
+        }
         buildTransactionsTable(data.Transactions);
     });
 
@@ -37,15 +41,30 @@ function addEventListeners() {
         loadFile(e, (data) => {
 
             showToaster(data.ErrorMessage);
-
+            debugger;
             getSDMs('allUserConfig', (data) => {
-                buildStoreAreasTable(data.Values.Rows);
+
+                debugger;
+                if (data.Values.Rows.length > 0) {
+                    $('#storeAreasTables').show();
+                    buildStoreAreasTable(data.Values.Rows);
+                }
+                else {
+                    $('.noDataLabel').show();
+                }
             });
         });
     });
 
     getSDMs('allUserConfig', (data) => {
-        buildStoreAreasTable(data.Values.Rows);
+
+        if (data.Values.Rows.length > 0) {
+            $('#storeAreasTables').show();
+            buildStoreAreasTable(data.Values.Rows);
+        }
+        else {
+            $('.noDataLabel').show();
+        }
     });
 }
 
@@ -167,13 +186,14 @@ function chargeMoney() {
         .then(data => {
             if (data.Status === 200) {
                 getTransactions(currentUserSession.username, (data) => {
-                    var balance =data.Transactions[data.Transactions.length-1].balanceAfterAction;
-                    $('#yourBalance').html(`Your balance:${balance}`)
-                    debugger;
+                    var balance = data.Transactions[data.Transactions.length - 1].balanceAfterAction;
+                    if (balance > 0) {
+                        $('#yourBalance').html(`Your balance: ${balance} ₪`)
+                    }
                     buildTransactionsTable(data.Transactions);
                 });
                 $('#account').find('input[name=txtSum]').val('');
-                showToaster ("Money charged successfully");
+                showToaster("Money charged successfully");
             } else {
                 console.log('error', data.ErrorMessage);
             }

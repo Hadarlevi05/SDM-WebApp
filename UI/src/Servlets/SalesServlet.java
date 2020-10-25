@@ -122,7 +122,7 @@ public class SalesServlet extends HttpServlet {
             int discountID = new Integer(json.name.split("_")[1]);
             Discount discount = superDuperHandler.getDiscountByID(sdm, discountID);
             OperatorTypeOfSale operatorTypeOfSale = OperatorTypeOfSale.ONE_OF;
-            if (json.value == "on") {
+            if (json.value.equals("on")) {
                 selectedOffers.addAll(discount.Offers);
                 operatorTypeOfSale = OperatorTypeOfSale.ALL_OR_NOTHING;
             } else {

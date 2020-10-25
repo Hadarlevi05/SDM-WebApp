@@ -101,6 +101,11 @@ input[type=number] {
 .half-width input[type=number] {
     width:95%;
 }
-
+.noDataLabel{
+    text-align: center;
+    margin-top:40px;
+    margin-right: auto;
+    margin-left: auto;
+}
 .right{float:right;}
 .left{float:left;}
