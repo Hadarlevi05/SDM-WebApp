@@ -90,6 +90,8 @@ function addEventListeners() {
 
                 } else {
                     showToaster("No promotions found, please press 'Continue'");
+                    $('.show-order-details').show();
+                    $('.proceed-order').hide();
                 }
             })
         });
@@ -192,10 +194,14 @@ function populatePlaceOrderForm() {
 
 function populateItemsTable(storeId, tableTbody, showPrice) {
 
-    if (!storeId) {
+    let typeOfPurchase = '';
+
+    if (!storeId || storeId === -1) {
         storeId = -1;
+        typeOfPurchase = 'dynamic';
         console.log('load storeId ' + storeId);
     } else {
+        typeOfPurchase = 'static';
         console.log('load all stores');
     }
 
@@ -203,6 +209,7 @@ function populateItemsTable(storeId, tableTbody, showPrice) {
         .then(data => {
             if (data.Status === 200) {
                 console.log('data', data);
+
 
                 html = [];
                 for (let i = 0; i < data.Values.Rows.length; i++) {
@@ -219,7 +226,7 @@ function populateItemsTable(storeId, tableTbody, showPrice) {
                     <td>${item['serialnumber']}</td>
                     <td>${item['name']}</td>`
                         + (showPrice ? `<td>${item['price']}</td>` : '') +
-                        `<td><input type="number" class="count form-control" step="${step}" name="qs_${item['serialnumber']}" data-storeId="${storeId}" data-price="${item['price']}" value="0"></td>
+                        `<td><input type="number" class="count form-control" step="${step}" name="qs_${typeOfPurchase}_${item['serialnumber']}" data-storeId="${storeId}" data-price="${item['price']}" value="0"></td>
                     </tr>
                     `);
                 }
@@ -407,7 +414,7 @@ function showOrderItemsDetails(title, td, serialnumber) {
 
 }
 
-function insertNewStore() {
+function insertNewStore(callback) {
     debugger;
 
     const postData = {
@@ -424,6 +431,7 @@ function insertNewStore() {
         .then(data => {
             if (data.Status === 200) {
                 showToaster("Store added with great success!");
+                callback(data)
             } else {
                 console.log('error', data.ErrorMessage);
             }
@@ -449,10 +457,14 @@ function proceedOrder(callback) {
         +fromValues.find(x => x.name === 'storeCombo').value
     ]
     order.orderItems = [];
-    //fill quantityObject
 
+    let prefix = order.orderType === 'purchase-type-dynamic' ? 'dynamic' : 'static';
+
+    //fill quantityObject
+    debugger;
     for (i = 0; i < fromValues.length; i++) {
-        if (fromValues[i].name.indexOf('qs_') === 0) {
+        if (fromValues[i].name.indexOf(`qs_${prefix}`) === 0) {
+
 
             let inputElement = $('[name=' + fromValues[i].name + ']');
             let quantity = +inputElement.val();
@@ -467,12 +479,17 @@ function proceedOrder(callback) {
             }
             // `<td><input type="number" class="count form-control" name="qs_${item['serialnumber']}" data-storeId="${storeId}" data-price="${item['price']}" value="0"></td>
 
+            let price = 0;
+            if (inputElement.data('price') !== `undefined`) {
+                price = inputElement.data('price');
+            }
+
             if (quantity > 0) {
 
                 order.orderItems.push({
-                    itemId: fromValues[i].name.substring(3),
+                    itemId: fromValues[i].name.split('_')[2],
                     storeId: inputElement.data('storeId'),
-                    price: inputElement.data('price'),
+                    price: price,
                     quantityObject: quantityObject
                 });
             }
@@ -537,7 +554,7 @@ function showOffers(offers) {
         html.push(`<h2>${offer.saleName}</h2>`);
         html.push(`${getOfferTypeHtml(offer.operatorType)}`);
 
-debugger;
+
         if (offer.operatorType === 'ONE_OF') {
             let operatorId = uuidv4();
             for (let j = 0; j < offer.offers.length; j++) {
@@ -695,16 +712,15 @@ function openModal(title, html, action) {
 function buildAddStoreModal() {
 
     openModal("Add new store", $("#insertStore").html(), () => {
+        debugger;
+        insertNewStore((data)=>{
+            getStores('stores', (data2) => {
 
-        insertNewStore();
-        getStores('stores', (data) => {
+                areaData.stores = data2.Values.Rows;
 
-            areaData.stores = data.Values.Rows;
-
-            buildStoresTable(data.Values.Rows);
+                buildStoresTable(data2.Values.Rows);
+            });
         });
-        const data = {"data": $('#insertStore').serializeArray()};
-        console.log('data', data);
 
     });
 }

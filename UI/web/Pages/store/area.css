@@ -3,6 +3,14 @@ body {
     background-size: cover;;
 }
 
+.back-image {
+    background: url('../../Resources/back.jpg') no-repeat center fixed;
+    width:32px;
+    height: 32px;
+    display: block;
+
+}
+
 .form-group {
     width:400px;
     margin-left:auto;

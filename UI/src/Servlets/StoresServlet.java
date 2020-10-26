@@ -73,6 +73,10 @@ public class StoresServlet extends HttpServlet {
         }
 
         new NotificationsHandler().Add(serialNumber, NotificationType.Store, storeOwner.username);
+        KeyValueDTO keyValueDTO = new KeyValueDTO();
+        keyValueDTO.Status = 200;
+
+        ServletHelper.WriteToOutput(response, keyValueDTO);
     }
 
     private int getNextSerialNumber(SuperDuperMarket sdm){

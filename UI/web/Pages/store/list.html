@@ -128,54 +128,57 @@
         </div>
 
         <div id="account" class="menu-container" style="display: none;">
-            <h2>Account Management</h2>
-            <h4 id="yourBalance">Your balance: 0 ₪ </h4>
+            <form id="accountManagmentForm" class="form-group" method="get">
+                <h2>Account Management</h2>
+                <h4 id="yourBalance">Your balance: 0 ₪ </h4>
 
-            <div class="form-group" style="width:35%;" role="customer-permission">
-                <p>
-                    <input for="chargeButton" type="text" name="txtSum" placeholder="enter amount"
-                           class="form-control"/>
-                </p>
-                <p>
-                    <input type="button" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()"/>
-                </p>
-            </div>
+                <div class="form-group" style="width:35%;" role="customer-permission">
+                    <p>
+                        <input for="chargeButton" type="text" name="txtSum" placeholder="enter amount"
+                               class="form-control"/>
+                    </p>
+                    <p>
+                        <input type="button" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()"/>
+                    </p>
+                </div>
 
-            <!--            <label for="actionDate">Transaction Date:</label>-->
-            <!--            <input type="date" id="actionDate" name="actionDate">-->
+                <!--            <label for="actionDate">Transaction Date:</label>-->
+                <!--            <input type="date" id="actionDate" name="actionDate">-->
 
-            <div>
-                <div class="outside">
-                    <div class="table-container">
-                        <table class="table">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Transaction Type</th>
-                                <th scope="col">Transaction Date</th>
-                                <th scope="col">Sum Of Transaction</th>
-                                <th scope="col">Balance Before Action</th>
-                                <th scope="col">Balance After Action</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <td colspan="5"></td>
-                            </tr>
-                            </tfoot>
-                            <tbody>
+                <div>
+                    <div class="outside">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Transaction Type</th>
+                                    <th scope="col">Transaction Date</th>
+                                    <th scope="col">Sum Of Transaction</th>
+                                    <th scope="col">Balance Before Action</th>
+                                    <th scope="col">Balance After Action</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5"></td>
+                                </tr>
+                                </tfoot>
+                                <tbody>
 
-                            </tbody>
-                            </tr>
-                        </table>
+                                </tbody>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <div id="storeOwnerActions" class="menu-container" style="display: none;">
-            <h2>Upload your super duper market</h2>
-            <input class="" id="FileInput" type="file" accept="text/xml"></input>
-
+            <form  class="form-group" method="get">
+                <h2>Upload your super duper market</h2>
+                <input class="" id="FileInput" type="file" accept="text/xml"></input>
+            </form>
         </div>
 
     </section>
@@ -185,7 +188,7 @@
          style="position: absolute; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
         <div class="toast-header">
             <strong class="mr-auto"><i class="fa fa-grav"></i> super duper market notification</strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
+            <button type="button"  class="form-control" data-dismiss="toast">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
