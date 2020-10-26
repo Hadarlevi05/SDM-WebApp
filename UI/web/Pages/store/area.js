@@ -307,7 +307,9 @@ function buildOrdersHistoryTable(rows) {
                     <td>${row['numOfItems']}</td>
                     <td>${row['totalItemsPrice']}</td>    
                     <td>${row['deliveryPrice']}</td>   
-                     <td>${row['totalOrderPrice']}</td>                 
+                     <td>${row['totalOrderPrice']}</td>   
+                     <td><a href="javascript:void(0);" onclick="showOrderHistoryItemsDetails('${row['orderItems'].length} Order Items', this, '${row['serialnumber']}');">show ${row['orderItems'].length} order items</a></td>
+              
                 </tr>`;
     }).join('')
 
@@ -415,6 +417,20 @@ function showOrderItemsDetails(title, td, serialnumber) {
     var row = rows.filter(r => r.storeID.toString() === serialnumber.toString())[0];
 
     const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'totalPrice', 'boughtOnSale'], row.orderItemsDetails)
+
+
+    openModal(title, html, () => {
+
+    });
+
+
+}
+
+function showOrderHistoryItemsDetails(title, td, serialnumber) {
+    var rows = $(td).parents('tbody').data('rows');
+    var row = rows.filter(r => r.serialnumber.toString() === serialnumber.toString())[0];
+
+    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'totalPricePerItem', 'totalPrice','boughtOnSale'], row.orderItems)
 
 
     openModal(title, html, () => {
