@@ -86,7 +86,7 @@ public class OrdersServlet extends HttpServlet {
 
             order.orderStatus = OrderStatus.DONE;
 
-            new NotificationsHandler().Add(order.id, NotificationType.Order, storeOwner.username);
+            new NotificationsHandler().AddOrder(order, storeOwner.username, user.username );
         }
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();

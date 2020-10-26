@@ -59,10 +59,10 @@ public class FeedbackServlet extends HttpServlet {
                 .enableComplexMapKeySerialization()
                 .create();
 
-        Feedback[] feedback = gson.fromJson(jb.toString(), Feedback[].class);
+        Feedback[] feedbacks = gson.fromJson(jb.toString(), Feedback[].class);
         String area = request.getParameter("area");
         StoreOwner storeOwner = DataStore.getInstance().userConfigurationDataStore.getByArea(area);
-        storeOwner.feedbacks.addAll(Arrays.asList(feedback));
+        storeOwner.feedbacks.addAll(Arrays.asList(feedbacks));
 
         //int orderID = new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("orderID")).collect(Collectors.toList()).get(0).value);
         //OrderStatus status = OrderStatus.values()[new Integer(Arrays.asList(fromData.data).stream().filter(x->x.name.equals("Status")).collect(Collectors.toList()).get(0).value)];
@@ -70,7 +70,7 @@ public class FeedbackServlet extends HttpServlet {
         // Order order = null;
 
         // TODO: Fix Feedback
-        //new NotificationsHandler().Add(order.id, NotificationType.Feedback, storeOwner.username);
+        new NotificationsHandler().AddFeedback(feedbacks, storeOwner.username);
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;

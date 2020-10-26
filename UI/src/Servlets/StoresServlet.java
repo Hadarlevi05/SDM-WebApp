@@ -72,7 +72,9 @@ public class StoresServlet extends HttpServlet {
             storeHandler.addItemToStore(orderItem, store);
         }
 
-        new NotificationsHandler().Add(serialNumber, NotificationType.Store, storeOwner.username);
+        List<Map<String, Object>> rows = superDuperHandler.getStoresDetails(area);
+
+        new NotificationsHandler().AddStore(store, storeOwner.username, (Integer.parseInt(String.valueOf(rows.stream().count()))));
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;
 
