@@ -41,10 +41,8 @@ function addEventListeners() {
         loadFile(e, (data) => {
 
             showToaster(data.ErrorMessage);
-            debugger;
             getSDMs('allUserConfig', (data) => {
 
-                debugger;
                 if (data.Values.Rows.length > 0) {
                     $('.noDataLabel').hide();
                     $('#storeAreasTables').show();

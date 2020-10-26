@@ -80,6 +80,16 @@ function addEventListeners() {
 
     $('#btnProceedOrder').on('click', e => {
 
+
+        let valid = $('#placeOrderForm')[0].checkValidity();
+
+        if (!valid) {
+
+            showToaster('form is not valid!');
+            return false;
+        }
+
+
         proceedOrder((data) => {
             currentOrder = data.Values.Order;
             getSales(data.Values.OrderID, (data) => {
@@ -415,7 +425,6 @@ function showOrderItemsDetails(title, td, serialnumber) {
 }
 
 function insertNewStore(callback) {
-    debugger;
 
     const postData = {
         name: $('#exampleModal').find('input[name=insertTXT]').val(),
@@ -461,7 +470,7 @@ function proceedOrder(callback) {
     let prefix = order.orderType === 'purchase-type-dynamic' ? 'dynamic' : 'static';
 
     //fill quantityObject
-    debugger;
+
     for (i = 0; i < fromValues.length; i++) {
         if (fromValues[i].name.indexOf(`qs_${prefix}`) === 0) {
 
@@ -712,7 +721,7 @@ function openModal(title, html, action) {
 function buildAddStoreModal() {
 
     openModal("Add new store", $("#insertStore").html(), () => {
-        debugger;
+
         insertNewStore((data)=>{
             getStores('stores', (data2) => {
 

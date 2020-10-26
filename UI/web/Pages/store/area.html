@@ -166,18 +166,18 @@
 
 
                         <label for="purchaseDate">Date</label><br>
-                        <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="">
+                        <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="" required>
                     </p>
                     <p class="half-width">
                         <label for="locationX">Location X</label><br>
                         <input type="number" id="locationX" name="locationX" class="form-control" value="" min="1"
-                               max="50">
+                               max="50" required>
                     </p>
 
                     <p class="half-width">
                         <label for="locationX">Location Y</label><br>
                         <input type="number" id="locationY" name="locationY" class="form-control" value="" min="1"
-                               max="50">
+                               max="50" required>
                     </p>
                     <p>
                         <label for="locationX">Choose order type</label><br>
@@ -359,7 +359,7 @@
     </section>
 
     <div class="toast" id="myToast"
-         style="position: absolute; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
+         style="position: fixed; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
         <div class="toast-header">
             <strong class="mr-auto"><i class="fa fa-grav"></i> super duper market notification</strong>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
@@ -372,7 +372,7 @@
     </div>
 
     <div class="toast" id="notificationToast"
-         style="position: absolute; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
+         style="position: fixed; top:0px;  left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px;">
         <div class="toast-header">
             <strong class="mr-auto"><i class="fa fa-grav"></i>new notification</strong>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
