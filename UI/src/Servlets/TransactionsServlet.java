@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -28,14 +30,20 @@ public class TransactionsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
-        SdmUser user = SessionUtils.getUser(request);
-        int sumOfTransaction = Integer.parseInt(request.getParameter("sumOfTransaction"));
-
-        new TransactionsHandler().doTransaction(user.username, sumOfTransaction, TransactionType.CHARGE_MONEY.toString());
-
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.Status = 200;
+
+        try {
+            SdmUser user = SessionUtils.getUser(request);
+            int sumOfTransaction = Integer.parseInt(request.getParameter("sumOfTransaction"));
+
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
+
+            new TransactionsHandler().doTransaction(user.username, sumOfTransaction, TransactionType.CHARGE_MONEY.toString(),date);
+            responseDTO.Status = 200;
+        } catch (ParseException e) {
+            responseDTO.Status = 500;
+            responseDTO.ErrorMessage = "Invalid date";
+        }
 
         response.setContentType("text/html;charset=UTF-8");
 

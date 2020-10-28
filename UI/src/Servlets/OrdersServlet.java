@@ -81,8 +81,8 @@ public class OrdersServlet extends HttpServlet {
         else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
             order = storeOwner.superDuperMarket.Orders.ordersMap.get(order.id);
 
-            new TransactionsHandler().doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString());
-            new TransactionsHandler().doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString());
+            new TransactionsHandler().doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString(),null);
+            new TransactionsHandler().doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString(), null);
 
             order.orderStatus = OrderStatus.DONE;
 
