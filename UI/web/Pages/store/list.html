@@ -133,17 +133,17 @@
                 <h4 id="yourBalance">Your balance: 0 ₪ </h4>
 
                 <div class="form-group" style="width:35%;" role="customer-permission">
-                    <p>
-                        <input for="chargeButton" type="text" name="txtSum" placeholder="enter amount"
-                               class="form-control"/>
-                    </p>
-                    <p>
-                        <input type="button" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()"/>
-                    </p>
+                    <div>
+                        <input for="chargeButton" type="number" name="txtSum" placeholder="enter amount"
+                               class="form-control" required/>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <input for="chargeButton" name="transactionDate" type="date" class="form-control" required />
+                    </div>
+                    <div style="margin-top: 20px">
+                        <input id="chargeButton" type="submit" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()"/>
+                    </div>
                 </div>
-
-                <!--            <label for="actionDate">Transaction Date:</label>-->
-                <!--            <input type="date" id="actionDate" name="actionDate">-->
 
                 <div>
                     <div class="outside">

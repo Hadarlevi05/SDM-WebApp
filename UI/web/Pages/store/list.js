@@ -151,7 +151,7 @@ function buildTransactionsTable(rows) {
     var html = rows.map(row => {
         return `<tr>
                     <td>${row['transactionType']}</td>
-                    <td>${row['transactionDate']}</td>
+                    <td>${new Date(row['transactionDate']).toDateString()}</td>
                     <td>${row['sumOfTransaction']}</td>
                     <td>${row['balanceBeforeAction']}</td>
                     <td>${row['balanceAfterAction']}</td>                   
@@ -176,11 +176,15 @@ function getTransactions(username, callback) {
 }
 
 function chargeMoney() {
-
     const postData = {
         sumOfTransaction: $('#account').find('input[name=txtSum]').val(),
         transactionType: 'CHARGE_MONEY',
+        date: $('#account').find('input[name=transactionDate]').val(),
     };
+
+    if(postData.date === null || postData.sumOfTransaction === null || postData.sumOfTransaction <= 0){
+        return;
+    }
 
     return $post(`../../transactions`, postData)
         .then(data => {
@@ -193,6 +197,7 @@ function chargeMoney() {
                     buildTransactionsTable(data.Transactions);
                 });
                 $('#account').find('input[name=txtSum]').val('');
+                $('#account').find('input[name=transactionDate]').val(),
                 showToaster("Money charged successfully");
             } else {
                 console.log('error', data.ErrorMessage);

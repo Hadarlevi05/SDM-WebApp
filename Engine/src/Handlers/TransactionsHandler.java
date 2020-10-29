@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TransactionsHandler {
 
-    public void doTransaction(String username, double sumOfTransaction, String transactionType) {
+    public void doTransaction(String username, double sumOfTransaction, String transactionType, Date transDate) {
         DataStore dataStore = DataStore.getInstance();
         Transaction acc = new Transaction();
 
@@ -26,8 +26,14 @@ public class TransactionsHandler {
 
         acc.balanceAfterAction = acc.balanceBeforeAction + acc.sumOfTransaction;
 
-        acc.transactionDate = new Date(System.currentTimeMillis()); // TODO
         acc.transactionType = TransactionType.valueOf((transactionType));
+
+        if (acc.transactionType.equals(TransactionType.CHARGE_MONEY)){
+            acc.transactionDate = transDate;
+        }
+        else {
+            acc.transactionDate = new Date(System.currentTimeMillis());
+        }
 
         dataStore.transactionsStore.add(username, acc);
     }
