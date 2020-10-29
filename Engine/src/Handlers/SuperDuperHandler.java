@@ -2,9 +2,14 @@ package Handlers;
 
 import DTO.KeyValueDTO;
 import DataStore.DataStore;
+import Enums.OrderStatus;
 import Models.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -211,14 +216,14 @@ public class SuperDuperHandler {
             for (OrderItem oi : order.orderItems) {
 
                 if (oi.storeId == store.serialNumber) {
-                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItem(storeOwner.superDuperMarket, storeID, oi, false);
+                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, false,true);
                     orderItemsDetails.add(orderItemDetails);
                 }
             }
             for (OrderItem oi : order.orderItemsFromSales) {
 
                 if (oi.storeId == store.serialNumber) {
-                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItem(storeOwner.superDuperMarket, storeID, oi, true);
+                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, true,true);
                     orderItemsDetails.add(orderItemDetails);
                 }
             }
@@ -232,7 +237,8 @@ public class SuperDuperHandler {
         return rows;
     }
 
-    private Map<String, Object> getOrderDetailsOfOrderItem(SuperDuperMarket superDuperMarket, int storeID, OrderItem oi, Boolean boughtOnSale) {
+
+    private Map<String, Object> getOrderDetailsOfOrderItemForCustomer(SuperDuperMarket superDuperMarket, int storeID, OrderItem oi, Boolean boughtOnSale, Boolean addStoreDetails) {
 
         Map<String, Object> OrderDetailsItem = new HashMap<>();
         OrderDetailsItem.put("boughtOnSale", boughtOnSale);
@@ -269,11 +275,17 @@ public class SuperDuperHandler {
                     OrderDetailsItem.put("totalPricePerItem", Double.parseDouble((String.format("%.2f", totalPricePerItem))));
                 }
             }
+            if (addStoreDetails) {
+                OrderDetailsItem.put("storeID", oi.storeId);
+                Store store = storeHandler.getStoreById(superDuperMarket, oi.storeId);
+                OrderDetailsItem.put("storeName", store.name);
+            }
+
         }
         return OrderDetailsItem;
     }
 
-    public List<Map<String, Object>> getOrdersHistoryDetails(String area, int userID) {
+    public List<Map<String, Object>> getOrdersHistoryDetailsForCustomer(String area, int userID) {
 
         DataStore dataStore = DataStore.getInstance();
         StoreOwner storeOwner = dataStore.userConfigurationDataStore.getByArea(area);
@@ -281,35 +293,102 @@ public class SuperDuperHandler {
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         for (Order order :
                 storeOwner.superDuperMarket.Orders.ordersMap.values()) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("serialnumber", order.id);
-            map.put("date", order.purchaseDate);
-            map.put("location", "[" + order.CustomerLocation.x + " , " + order.CustomerLocation.y + "]");
-            map.put("numOfStores", order.storesID.size());
-            map.put("numOfItems", order.totalItemsNum);
-            map.put("totalItemsPrice", order.totalItemsPrice);
-            map.put("deliveryPrice", order.deliveryPrice);
-            map.put("totalOrderPrice", order.totalPrice);
-            List<Map<String, Object>> orderItems = new ArrayList();
+            if (order.customerId == userID && order.orderStatus == OrderStatus.DONE) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("serialnumber", order.id);
+                map.put("date", order.purchaseDate);
+                map.put("location", "[" + order.CustomerLocation.x + " , " + order.CustomerLocation.y + "]");
+                map.put("numOfStores", order.storesID.size());
+                map.put("numOfItems", order.totalItemsNum);
+                map.put("totalItemsPrice", order.totalItemsPrice);
+                map.put("deliveryPrice", order.deliveryPrice);
+                map.put("totalOrderPrice", order.totalPrice);
+                List<Map<String, Object>> orderItems = new ArrayList();
 
-            for (int storeID : order.storesID) {
-                Store store = storeHandler.getStoreById(storeOwner.superDuperMarket, storeID);
+                for (int storeID : order.storesID) {
+                    Store store = storeHandler.getStoreById(storeOwner.superDuperMarket, storeID);
 
+                    for (OrderItem oi : order.orderItems) {
+                        if (oi.storeId == store.serialNumber) {
+                            Map<String, Object> orderOtemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, false, true);
+                            orderItems.add(orderOtemDetails);
+                        }
+                    }
+                    for (OrderItem oi : order.orderItemsFromSales) {
+                        if (oi.storeId == store.serialNumber) {
+                            Map<String, Object> orderOtemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, true, true);
+                            orderItems.add(orderOtemDetails);
+                        }
+                    }
+                }
+                map.put("orderItems", orderItems);
+                rows.add(map);
+            }
+
+        }
+        return rows;
+    }
+
+    private Map<String, Object> GetOrdersOfStore(SdmUser sdmUser,SuperDuperMarket superDuperMarket, Store store) {
+        Map<String, Object> OrderDetails = new HashMap<>();
+
+        List<Integer> ordersIds = store.OrderHistoryIDs;
+        if (ordersIds.size() > 0) {
+            for (int orderID : ordersIds) {
+                Order order = superDuperMarket.Orders.GetOrderByOrderID(superDuperMarket, orderID);
+                DateFormat dateFormat = new SimpleDateFormat("dd/mm-hh:mm ");
+                OrderDetails.put("id", orderID);
+                OrderDetails.put("date", dateFormat.format(order.purchaseDate));
+                OrderDetails.put("customerName", sdmUser.username);
+                OrderDetails.put("customerLoc", "[" + order.CustomerLocation.x + "," + order.CustomerLocation.y + "]");
+                OrderDetails.put("numOfItems", String.format("%.2f", storeHandler.countTotalItemsAmountOfStoreInOrder(order, store)));
+                OrderDetails.put("itemsCost", String.format("%.2f", storeHandler.countTotalCostItemsOfStoreInOrder(order, store)));
+                OrderDetails.put("deleveryPrice", String.format("%.2f", storeHandler.countDeliveryPriceOfStoreInOrder(order, store)));
+                OrderDetails.put("totalPrice", String.format("%.2f", storeHandler.countTotalPriceOfStoreInOrder(order, store)));
+                List<Map<String, Object>> orderItemsDetails = new ArrayList();
                 for (OrderItem oi : order.orderItems) {
                     if (oi.storeId == store.serialNumber) {
-                        Map<String, Object> orderOtemDetails = getOrderDetailsOfOrderItem(storeOwner.superDuperMarket, storeID, oi, false);
-                        orderItems.add(orderOtemDetails);
+                        Map<String, Object> orderOtemDetails = getOrderDetailsOfOrderItemForCustomer(superDuperMarket, store.serialNumber, oi, false, false);
+                        orderItemsDetails.add(orderOtemDetails);
                     }
                 }
                 for (OrderItem oi : order.orderItemsFromSales) {
                     if (oi.storeId == store.serialNumber) {
-                        Map<String, Object> orderOtemDetails = getOrderDetailsOfOrderItem(storeOwner.superDuperMarket, storeID, oi, true);
-                        orderItems.add(orderOtemDetails);
+                        Map<String, Object> orderOtemDetails = getOrderDetailsOfOrderItemForCustomer(superDuperMarket, store.serialNumber, oi, true, false);
+                        orderItemsDetails.add(orderOtemDetails);
+                    }
+                }
+                OrderDetails.put("items", orderItemsDetails);
+
+            }
+
+
+        }
+        return OrderDetails;
+    }
+
+    public List<Map<String, Object>> getOrdersHistoryDetailsForStoreOwner(String area, SdmUser user) {
+
+        List<Map<String, Object>> rows = new ArrayList();
+
+        for (StoreOwner storeOwner :
+                dataStore.userConfigurationDataStore.list()) {
+
+
+            SuperDuperMarket sdm = storeOwner.superDuperMarket;
+
+            for (Store store : sdm.Stores) {
+
+                if (store.Username.equals(user.username)) {
+                    Map<String, Object> map = new HashMap<>();
+                    Map<String, Object> orders = GetOrdersOfStore(user, sdm, store);
+                    if (orders.size() > 0){
+                        map.put("storeName", store.name);
+                        map.put("storeOrders",orders);
+                        rows.add(map);
                     }
                 }
             }
-            map.put("orderItems", orderItems);
-            rows.add(map);
         }
         return rows;
     }

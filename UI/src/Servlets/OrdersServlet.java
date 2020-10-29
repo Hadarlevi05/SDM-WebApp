@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,9 +44,14 @@ import java.util.stream.Collectors;
 public class OrdersServlet extends HttpServlet {
 
     private SuperDuperHandler superDuperHandler;
+    private StoreHandler storeHandler;
+
+    private TransactionsHandler transactionsHandler;
 
     public OrdersServlet() {
         superDuperHandler = new SuperDuperHandler();
+        transactionsHandler = new TransactionsHandler();
+        storeHandler = new StoreHandler();
     }
 
     @Override
@@ -77,16 +83,23 @@ public class OrdersServlet extends HttpServlet {
         if (order.orderStatus == OrderStatus.NEW) {
 
             order = CreateNewOrder(request, order, storeOwner);
-        }
-        else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
+        } else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
             order = storeOwner.superDuperMarket.Orders.ordersMap.get(order.id);
 
-            new TransactionsHandler().doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString());
-            new TransactionsHandler().doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString());
+            transactionsHandler.doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString());
+            transactionsHandler.doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString());
 
             order.orderStatus = OrderStatus.DONE;
 
-            new NotificationsHandler().AddOrder(order, storeOwner.username, user.username );
+            for (OrderItem orderItem : order.orderItems) {
+
+                Store store = storeHandler.getStoreById(storeOwner.superDuperMarket, orderItem.storeId);
+
+                if (store.OrderHistoryIDs.contains(order.id) == false) {
+                    store.OrderHistoryIDs.add(order.id);
+                }
+            }
+            new NotificationsHandler().AddOrder(order, storeOwner.username, user.username);
         }
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
@@ -118,11 +131,10 @@ public class OrdersServlet extends HttpServlet {
 
         for (OrderItem orderItem :
                 fromData.orderItems) {
-            if (order.orderType.equals("purchase-type-dynamic")){
+            if (order.orderType.equals("purchase-type-dynamic")) {
 
-                orderItem.storeId = new OrderManager().FindCheapestStoreForItem(storeOwner.superDuperMarket,orderItem.itemId).storeId;
-            }
-            else{
+                orderItem.storeId = new OrderManager().FindCheapestStoreForItem(storeOwner.superDuperMarket, orderItem.itemId).storeId;
+            } else {
                 orderItem.storeId = fromData.storesID.get(0);
             }
             QuantityObject qauntity = orderItem.quantityObject;
@@ -146,7 +158,6 @@ public class OrdersServlet extends HttpServlet {
         }
         return order;
     }
-
 
 
     private void getAllStore(HttpServletRequest request, HttpServletResponse response) {

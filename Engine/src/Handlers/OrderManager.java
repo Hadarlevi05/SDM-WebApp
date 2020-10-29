@@ -59,15 +59,6 @@ public class OrderManager {
         order.id = _orderID;
         _orderID++;
 
-        for (OrderItem orderItem : order.orderItems) {
-
-            Store store = storeHandler.getStoreById(superDuperMarket, orderItem.storeId);
-
-            if (store.OrderHistoryIDs.contains(order.id) == false) {
-                store.OrderHistoryIDs.add(order.id);
-            }
-        }
-
         ordersMap.put(order.id, order);
     }
 

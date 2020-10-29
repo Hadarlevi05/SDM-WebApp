@@ -37,7 +37,12 @@ function addEventListeners() {
 
     getOrdersHistory('orders-history', (data) => {
 
-        buildOrdersHistoryTable(data.Values.Rows);
+        if (currentUserSession.userType === 'CUSTOMER') {
+            buildOrdersHistoryTableForCustomer(data.Values.Rows);
+        } else if (currentUserSession.userType === 'STORE_OWNER') {
+            //$('#orderHistoryForCustomer').show()
+            //buildOrdersHistoryTableForCustomer(data.Values.Rows);
+        }
     });
 
     getFeedbacks('feedbacks', (data) => {
@@ -296,8 +301,7 @@ function buildFeedbacksTable(rows) {
 }
 
 
-function buildOrdersHistoryTable(rows) {
-
+function buildOrdersHistoryTableForCustomer(rows) {
     var html = rows.map(row => {
         return `<tr>
                     <td>${row['serialnumber']}</td>
@@ -313,9 +317,21 @@ function buildOrdersHistoryTable(rows) {
                 </tr>`;
     }).join('')
 
-    $('#orderHistory').find('tbody').data('rows', rows).html(html);
+    $('#orderHistoryForCustomer').find('tbody').data('rows', rows).html(html);
 }
 
+
+function buildOrdersHistoryTableForStoreOwner(rows) {
+    $('#orderHistoryForStoreOwner').show()
+    var html = rows.map(row => {
+        return `<tr>
+                     <td><a href="javascript:void(0);" onclick="showOrderHistoryItemsDetails('${row['orderItems'].length} Order Items', this, '${row['serialnumber']}');">show ${row['orderItems'].length} order items</a></td>
+              
+                </tr>`;
+    }).join('')
+
+    $('#orderHistoryForCustomer').find('tbody').data('rows', rows).html(html);
+}
 
 function buildOrdersDetailsTable(rows) {
 
@@ -430,7 +446,7 @@ function showOrderHistoryItemsDetails(title, td, serialnumber) {
     var rows = $(td).parents('tbody').data('rows');
     var row = rows.filter(r => r.serialnumber.toString() === serialnumber.toString())[0];
 
-    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'totalPricePerItem', 'totalPrice','boughtOnSale'], row.orderItems)
+    const html = genericTable(['itemID', 'name', 'purchaseType', 'storeID', 'storeName', 'quantity', 'totalPricePerItem', 'totalPrice', 'boughtOnSale'], row.orderItems)
 
 
     openModal(title, html, () => {
@@ -694,8 +710,15 @@ function showStoresFeedback(storeIds) {
             console.log('data from post feedbacks', data);
 
             getOrdersHistory('orders-history', (data) => {
+                debugger;
+                if (currentUserSession.userType === 'STORE_OWNER') {
+                    buildOrdersHistoryTableForCustomer(data.Values.Rows);
+                } else if (currentUserSession.userType === 'CUSTOMER') {
+                    //$('#orderHistoryForCustomer').show()
+                    buildOrdersHistoryTableForStoreOwner(data.Values.Rows);
+                }
 
-                buildOrdersHistoryTable(data.Values.Rows);
+
             });
 
             getFeedbacks('feedbacks', (data) => {
@@ -738,7 +761,7 @@ function buildAddStoreModal() {
 
     openModal("Add new store", $("#insertStore").html(), () => {
 
-        insertNewStore((data)=>{
+        insertNewStore((data) => {
             getStores('stores', (data2) => {
 
                 areaData.stores = data2.Values.Rows;
