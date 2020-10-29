@@ -45,6 +45,7 @@ public class OrdersServlet extends HttpServlet {
 
     private SuperDuperHandler superDuperHandler;
     private StoreHandler storeHandler;
+    private OrderDetailsHandler orderDetailsHandler;
 
     private TransactionsHandler transactionsHandler;
 
@@ -52,6 +53,7 @@ public class OrdersServlet extends HttpServlet {
         superDuperHandler = new SuperDuperHandler();
         transactionsHandler = new TransactionsHandler();
         storeHandler = new StoreHandler();
+        orderDetailsHandler = new OrderDetailsHandler();
     }
 
     @Override
@@ -86,8 +88,8 @@ public class OrdersServlet extends HttpServlet {
         } else if (order.orderStatus == OrderStatus.IN_PROGRESS) {
             order = storeOwner.superDuperMarket.Orders.ordersMap.get(order.id);
 
-            transactionsHandler.doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString());
-            transactionsHandler.doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString());
+            transactionsHandler.doTransaction(user.username, -order.totalPrice, TransactionType.PAYMENT_TRANSFERENCE.toString(),null);
+            transactionsHandler.doTransaction(storeOwner.username, order.totalPrice, TransactionType.RECEIVE_PAYMENT.toString(),null);
 
             order.orderStatus = OrderStatus.DONE;
 
@@ -128,14 +130,20 @@ public class OrdersServlet extends HttpServlet {
             order.storesID.add(storeId);
         }
         storeOwner.superDuperMarket.Orders.addOrder(storeOwner.superDuperMarket, order);
-
+        SDMLocation sdmLocation = fromData.CustomerLocation;
+        Customer customer = new Customer(user.id, user.username, sdmLocation);
         for (OrderItem orderItem :
                 fromData.orderItems) {
-            if (order.orderType.equals("purchase-type-dynamic")) {
+            if (fromData.orderType.equals("purchase-type-dynamic")) {
 
-                orderItem.storeId = new OrderManager().FindCheapestStoreForItem(storeOwner.superDuperMarket, orderItem.itemId).storeId;
+                OrderItem cheepestOrderItem = new OrderManager().FindCheapestStoreForItem(storeOwner.superDuperMarket, orderItem.itemId);
+                orderItem.price = cheepestOrderItem.price;
+                orderItem.storeId = cheepestOrderItem.storeId;
+
+                storeId = orderItem.storeId;
+
             } else {
-                orderItem.storeId = fromData.storesID.get(0);
+
             }
             QuantityObject qauntity = orderItem.quantityObject;
 /*            if (qauntity > 0) {
@@ -151,9 +159,7 @@ public class OrdersServlet extends HttpServlet {
 
                 }*/
             Store store = new StoreHandler().getStoreById(storeOwner.superDuperMarket, storeId);
-            SDMLocation sdmLocation = fromData.CustomerLocation;
-            Customer customer = new Customer(user.id, user.username, sdmLocation);
-            new OrderDetailsHandler().updateOrderDetails(storeOwner.superDuperMarket, customer, order, orderItem, store, sdmLocation, order.purchaseDate, qauntity);
+            orderDetailsHandler.updateOrderDetails(storeOwner.superDuperMarket, customer, order, orderItem, store, sdmLocation, order.purchaseDate, qauntity);
 
         }
         return order;

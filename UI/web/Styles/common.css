@@ -84,15 +84,23 @@ h4 {
 }
 
 .modal-dialog {
-    width: 792px;
-    max-width: 800px !important;
+    width: 1000px;
+    max-width: 1000px !important;
 }
 
 input[type=number] {
     text-align: center;
     width: 100px;
 }
+#chatarea {
+    overflow-y: scroll;
+    max-height: 100px;
+}
 
+.smiley-image {
+    width: 20px;
+    height: 20px;
+}
 .half-width {
     width: 50%;
     float: left;

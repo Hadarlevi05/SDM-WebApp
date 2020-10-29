@@ -93,7 +93,7 @@ function getSDMs(action, callback) {
 
 function getUsers(action, callback) {
 
-    return $get(`../../users?action=${action}`)
+    return $get(`../../users?action=${action}`,null,false)
         .then(data => {
             if (data.Status === 200) {
                 console.log('data', data);

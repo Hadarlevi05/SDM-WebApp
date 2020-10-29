@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="area.css">
     <link rel="stylesheet" href="../../Styles/superDuperTable.css">
     <link rel="stylesheet" href="../../Styles/menu.css">
+    <link rel="stylesheet" href="../chatroom/chatroom.css">
+
 </head>
 <body>
 
@@ -23,6 +25,7 @@
 <script src="../../Scripts/common.js"></script>
 <script src="area.js"></script>
 <script src="../../Scripts/xmlUpload.js"></script>
+<script src="../chatroom/chatroom.js"></script>
 
 
 <div class="left">
@@ -50,12 +53,15 @@
 
             <li class="menu__group"><a href="#stores" class="menu__link r-link text-underlined">Stores</a></li>
             <li class="menu__group"><a href="#items" class="menu__link r-link text-underlined">Items</a></li>
-            <li class="menu__group" role="customer-permission"><a href="#place-order" class="menu__link r-link text-underlined">Place order</a>
-            </li>
-            <li class="menu__group" role="orders-history"><a href="#orderHistory"
+            <li class="menu__group" role="customer-permission"><a href="#place-order"
+                                                                  class="menu__link r-link text-underlined">Place
+                order</a></li>
+            <li class="menu__group" role="orders-history"><a href="#order-history"
                                                              class="menu__link r-link text-underlined">Orders
                 history</a></li>
-            <li class="menu__group" role="store-owner-permission"><a href="#feedbacks" class="menu__link r-link text-underlined">Feedbacks</a></li>
+            <li class="menu__group" role="store-owner-permission"><a href="#feedbacks"
+                                                                     class="menu__link r-link text-underlined">Feedbacks</a>
+            </li>
         </ul>
     </nav>
 
@@ -115,8 +121,9 @@
                         </tbody>
                         </tr>
                     </table>
-                    <p class="add-store" style="text-align:center;" >
-                        <input type="submit" id="btnAddStore" value="Add store" class="btn btn-primary"  role="store-owner-permission"/>
+                    <p class="add-store" style="text-align:center;">
+                        <input type="submit" id="btnAddStore" value="Add store" class="btn btn-primary"
+                               role="store-owner-permission"/>
                     </p>
                 </div>
 
@@ -286,81 +293,57 @@
             </div>
 
         </div>
+        <div id="order-history" class="menu-container">
+            <div id="orderHistoryForCustomer" style="display: none;">
+                <div>
 
-        <div id="orderHistoryForCustomer" class="menu-container" style="display: none;">
-            <div>
-
-                <div class="outside">
+                    <div class="outside">
 
 
-                    <div class="table-container">
-                        <table class="table">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Serial Number</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Number of stores</th>
-                                <th scope="col">Number of items</th>
-                                <th scope="col">Total items price</th>
-                                <th scope="col">Delivery price</th>
-                                <th scope="col">Total order price</th>
-                                <th scope="col">Order Items</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <td colspan="9"></td>
-                            </tr>
-                            </tfoot>
-                            <tbody>
+                        <div class="table-container">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Serial Number</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Number of stores</th>
+                                    <th scope="col">Number of items</th>
+                                    <th scope="col">Total items price</th>
+                                    <th scope="col">Delivery price</th>
+                                    <th scope="col">Total order price</th>
+                                    <th scope="col">Order Items</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="9"></td>
+                                </tr>
+                                </tfoot>
+                                <tbody>
 
-                            </tbody>
-                            </tr>
-                        </table>
+                                </tbody>
+                                </tr>
+                            </table>
+                        </div>
+
+
                     </div>
+                </div>
+            </div>
+            <div id="orderHistoryForStoreOwner" style="display: none;">
+
+
+                <div class="display-stores">
+
+
 
 
                 </div>
+
             </div>
         </div>
-        <div id="orderHistoryForStoreOwner" class="menu-container" style="display: none;">
-            <div>
 
-                <div class="outside">
-
-
-                    <div class="table-container">
-                        <table class="table">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Serial Number</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Number of stores</th>
-                                <th scope="col">Number of items</th>
-                                <th scope="col">Total items price</th>
-                                <th scope="col">Delivery price</th>
-                                <th scope="col">Total order price</th>
-                                <th scope="col">Order Items</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <td colspan="9"></td>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-
-                            </tbody>
-                            </tr>
-                        </table>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
         <div id="feedbacks" class="menu-container" style="display: none;">
             <div>
 
@@ -371,13 +354,16 @@
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
-                                <th scope="col">StoreName</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Rate</th>
+                                <th scope="col">Message</th>
 
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <td colspan="1"></td>
+                                <td colspan="4"></td>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -442,6 +428,42 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="chat-container">
+        <div class="row">
+            <div class="col-xs-1">
+                <div class="sidebar">
+                    <h4>Online</h4>
+                    <div class="clearfix">
+                        <div class="input">
+
+                            <!-- place holder to show the users list -->
+                            <ul id="userslist">
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="content">
+                    <div id="chatwindow">
+                        <h4>Chat</h4>
+
+                        <!-- place holder to hold all the chat lines -->
+                        <div id="chatarea" class="span6"></div>
+
+                        <!-- The actual form through which you send data back to the user -->
+                        <form id="chatform" method="POST" action="sendChat">
+                            <input type="text" id="userstring" name="userstring"/>
+                            <input type="submit" value="Send"/>
+                        </form>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

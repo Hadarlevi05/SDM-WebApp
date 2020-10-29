@@ -37,11 +37,15 @@ function addEventListeners() {
 
     getOrdersHistory('orders-history', (data) => {
 
+        $('#orderHistoryForCustomer').hide();
+        $('#orderHistoryForStoreOwner').hide();
+
         if (currentUserSession.userType === 'CUSTOMER') {
+            $('#orderHistoryForCustomer').show();
             buildOrdersHistoryTableForCustomer(data.Values.Rows);
         } else if (currentUserSession.userType === 'STORE_OWNER') {
-            //$('#orderHistoryForCustomer').show()
-            //buildOrdersHistoryTableForCustomer(data.Values.Rows);
+            $('#orderHistoryForStoreOwner').show();
+            buildOrdersHistoryTableForStoreOwner(data.Values.Rows);
         }
     });
 
@@ -137,7 +141,7 @@ function addEventListeners() {
 
             $('#placeOrderForm').hide();
             $('#orderDetailsTable').show();
-            $('#orderDetailsTable').find('.total-amount .sum').html(currentOrder.totalPrice);
+            $('#orderDetailsTable').find('.total-amount .sum').html(currentOrder.totalPrice.toFixed(2));
 
             buildOrdersDetailsTable(data.Values.Rows);
 
@@ -323,15 +327,37 @@ function buildOrdersHistoryTableForCustomer(rows) {
 
 
 function buildOrdersHistoryTableForStoreOwner(rows) {
-    $('#orderHistoryForStoreOwner').show()
+
+/*
+    customerLoc: "[1,1]"
+    customerName: "hadar"
+    date: "19/00-12:00 "
+    deleveryPrice: "30.00"
+    id: 1
+    items: (2) [{…}, {…}]
+    itemsCost: "120.00"
+    numOfItems: "7.00"
+    totalPrice: "150.00"
+    */
+
+
+
     var html = rows.map(row => {
-        return `<tr>
-                     <td><a href="javascript:void(0);" onclick="showOrderHistoryItemsDetails('${row['orderItems'].length} Order Items', this, '${row['serialnumber']}');">show ${row['orderItems'].length} order items</a></td>
-              
-                </tr>`;
+
+        for (let i = 0; i < row.storeOrders.length; i++) {
+            row.storeOrders[i].openItems =
+
+            `<a href="javascript:void(0);" onclick="showSoterOrderItems(this, '${row['storeName']}', '${row.storeOrders[i].id}')">
+                ${row.storeOrders[i].items.length} items
+            </a>`;
+        }
+
+        return `<h2>${row['storeName']}</h2>
+                ${genericTable(['id', 'date', 'customerName', 'customerLoc', 'numOfItems', 'itemsCost', 'deleveryPrice', 'totalPrice', 'openItems'], row.storeOrders)}
+                `;
     }).join('')
 
-    $('#orderHistoryForCustomer').find('tbody').data('rows', rows).html(html);
+    $('#orderHistoryForStoreOwner').find('.display-stores').data('rows', rows).html(html);
 }
 
 function buildOrdersDetailsTable(rows) {
@@ -426,21 +452,17 @@ function showStoresItems(title, td, serialnumber) {
     openModal(title, html, () => {
 
     });
-
 }
 
 function showOrderItemsDetails(title, td, serialnumber) {
     var rows = $(td).parents('tbody').data('rows');
     var row = rows.filter(r => r.storeID.toString() === serialnumber.toString())[0];
 
-    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'totalPrice', 'boughtOnSale'], row.orderItemsDetails)
-
+    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'price','totalPrice', 'boughtOnSale'], row.orderItemsDetails)
 
     openModal(title, html, () => {
 
     });
-
-
 }
 
 function showOrderHistoryItemsDetails(title, td, serialnumber) {
@@ -711,12 +733,12 @@ function showStoresFeedback(storeIds) {
             console.log('data from post feedbacks', data);
 
             getOrdersHistory('orders-history', (data) => {
-                debugger;
+
                 if (currentUserSession.userType === 'STORE_OWNER') {
-                    buildOrdersHistoryTableForCustomer(data.Values.Rows);
+                    buildOrdersHistoryTableForStoreOwner(data.Values.Rows);
                 } else if (currentUserSession.userType === 'CUSTOMER') {
                     //$('#orderHistoryForCustomer').show()
-                    buildOrdersHistoryTableForStoreOwner(data.Values.Rows);
+                    buildOrdersHistoryTableForCustomer(data.Values.Rows);
                 }
 
 
@@ -782,4 +804,37 @@ function buildItemsDropDown(rows) {
     }).join('')
 
     $('#stores').find('select').append(html);
+}
+
+function getUsers(action, callback) {
+
+    return $get(`../../users?action=${action}`,null,false)
+        .then(data => {
+            if (data.Status === 200) {
+                console.log('data', data);
+                callback(data)
+            } else {
+                console.log('error', data.ErrorMessage);
+            }
+        });
+}
+
+function showSoterOrderItems(element, storeName, orderId) {
+
+    let data = $(element).parents('.display-stores:eq(0)').data('rows');
+
+    // console.log('store data ', data, orderId);
+
+    let storeData = data.filter(i => i.storeName === storeName)[0];
+
+    let order = storeData.storeOrders.filter(i => i.id === +orderId)[0];
+
+    //console.log('order', order);
+
+    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'totalPricePerItem', 'totalPrice', 'boughtOnSale'], order.items)
+
+    openModal('items', html, () => {
+
+    });
+
 }

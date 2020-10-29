@@ -1,0 +1,22 @@
+/*
+#chatarea {
+    overflow-y: scroll;
+    max-height: 100px;
+}
+
+.smiley-image {
+    width: 20px;
+    height: 20px;
+}*/
+.chat-container{
+    position: fixed;
+    bottom: 2%;
+    /* top: 50%; */
+    right: 1%;
+    left: 80%;
+    border: solid 1px #ccc;
+    padding: 25px;
+    max-height: 250px;
+    background-color: #fff;
+
+}
