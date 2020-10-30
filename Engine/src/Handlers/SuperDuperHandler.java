@@ -138,6 +138,18 @@ public class SuperDuperHandler {
             }
 
             map.put("items", items);
+            map.put("numOfTakenOrders", store.OrderHistoryIDs.size());
+            double totalItemsAmount = 0;
+            for (int orderID : store.OrderHistoryIDs
+            ) {
+                Order order = sdm.Orders.GetOrderByOrderID(sdm, orderID);
+                if (order.orderStatus == OrderStatus.DONE) {
+                    totalItemsAmount += storeHandler.countTotalCostItemsOfStoreInOrder(order, store);
+                }
+            }
+
+            map.put("itemsCost", String.format("%.2f", totalItemsAmount));
+
             map.put("PPK", store.PPK);
             double totalDeliveriesCost = storeHandler.getStoreById(sdm, store.serialNumber).CalculateTotalDeliveriesCost(sdm);
             map.put("TotalCostOfDeliveriesFromStore", String.format("%.2f", totalDeliveriesCost));
@@ -216,14 +228,14 @@ public class SuperDuperHandler {
             for (OrderItem oi : order.orderItems) {
 
                 if (oi.storeId == store.serialNumber) {
-                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, false,true);
+                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, false, true);
                     orderItemsDetails.add(orderItemDetails);
                 }
             }
             for (OrderItem oi : order.orderItemsFromSales) {
 
                 if (oi.storeId == store.serialNumber) {
-                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, true,true);
+                    Map<String, Object> orderItemDetails = getOrderDetailsOfOrderItemForCustomer(storeOwner.superDuperMarket, storeID, oi, true, true);
                     orderItemsDetails.add(orderItemDetails);
                 }
             }
@@ -329,8 +341,8 @@ public class SuperDuperHandler {
         return rows;
     }
 
-    private List<Map<String, Object>> GetOrdersOfStore(SdmUser sdmUser,SuperDuperMarket superDuperMarket, Store store) {
-        List<Map<String, Object>>  OrderDetails= new ArrayList<>();
+    private List<Map<String, Object>> GetOrdersOfStore(SdmUser sdmUser, SuperDuperMarket superDuperMarket, Store store) {
+        List<Map<String, Object>> OrderDetails = new ArrayList<>();
 
         List<Integer> ordersIds = store.OrderHistoryIDs;
         if (ordersIds.size() > 0) {
@@ -383,9 +395,9 @@ public class SuperDuperHandler {
                 if (store.Username.equals(user.username)) {
                     Map<String, Object> map = new HashMap<>();
                     orders = GetOrdersOfStore(user, sdm, store);
-                    if (orders.size() > 0){
+                    if (orders.size() > 0) {
                         map.put("storeName", store.name);
-                        map.put("storeOrders",orders);
+                        map.put("storeOrders", orders);
                         rows.add(map);
                     }
                 }

@@ -266,8 +266,8 @@ function buildStoresTable(rows) {
                     <td>${row['location']}</td>
                     <td><a href="javascript:void(0);" onclick="showStoresItems('${row['name']} Items', this, '${row['serialnumber']}');">show ${row['items'].length} items</a></td>
                     <!-- <td>${row['TotalCostOfDeliveriesFromStore']}</td>-->
-                    <td>FIX</td>
-                    <td>FIX</td>
+                    <td>${row['numOfTakenOrders']}</td>
+                    <td>${row['itemsCost']}</td>
                     <td>${row['PPK']}</td>
                 </tr>`;
     }).join('')
