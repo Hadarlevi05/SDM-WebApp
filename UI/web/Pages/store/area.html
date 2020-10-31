@@ -68,33 +68,55 @@
     <section>
         <div id="stores" class="menu-container">
 
-            <form id="insertStore" role="store-owner-permission" method="get" style="display: none;">
 
-                <div class="form-group">
-                    <p>
-                        <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name"
-                               class="form-control"/>
-                    </p>
-                    <p>
-                        <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X"
-                               class="form-control"/>
-                        <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y"
-                               class="form-control"/>
-                    </p>
-                    <p>
-                        <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK" min="1"
-                               class="form-control"/>
-                    </p>
-                    <p>
-                        <select for="insertBTN" class="custom-select" multiple id="selectItemsInArea"
-                                name="selectItemsInArea">
-                            <!-- Auto generated data by area.js -->
-                        </select>
-                    </p>
-                </div>
+            <div id="insertStore" style="display: none;">
 
-            </form>
+                <form role="store-owner-permission" method="get">
 
+                    <div class="form-group">
+                        <label>Insert store name</label><br>
+
+                        <p>
+                            <input for="insertBTN" type="text" name="insertTXT" placeholder="Store Name" required
+                                   class="form-control"/>
+                            <span class="error" style="display: none;">
+                                name already exist, choose another
+                            </span>
+                        </p>
+                        <p>
+                            <label>Insert store location (1-50)</label><br>
+
+                            <input for="insertBTN" type="number" name="insertLocationX" placeholder="Location X" min="1"
+                                   required
+                                   class="form-control"/>
+                            <input for="insertBTN" type="number" name="insertLocationY" placeholder="Location Y" min="1"
+                                   required
+                                   class="form-control"/>
+                        </p>
+                        <p>
+                            <label>Insert store PPK</label><br>
+
+                            <input for="insertBTN" type="number" name="insertPPK" placeholder="PPK" min="1" required
+                                   class="form-control"/>
+                        </p>
+                        <p>
+                            <label>Select store items (at least on item)</label><br>
+
+                            <select for="insertBTN" class="custom-select" multiple id="selectItemsInArea" required
+                                    name="selectItemsInArea">
+                                <!-- Auto generated data by area.js -->
+                            </select>
+                        </p>
+                        <p class="text-center">
+                            <input type="submit" value="Add" class="btn btn-primary" />
+                        </p>
+                    </div>
+
+
+
+
+                </form>
+            </div>
 
             <div class="outside">
                 <div class="table-container" id="storesTable" name="storesTable">
@@ -170,8 +192,6 @@
 
                 <div class="form-group">
                     <p>
-
-
                         <label for="purchaseDate">Date</label><br>
                         <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="" required>
                     </p>
@@ -337,8 +357,6 @@
                 <div class="display-stores">
 
 
-
-
                 </div>
 
             </div>
@@ -431,40 +449,23 @@
             </div>
         </div>
     </div>
+
+
     <div class="chat-container">
-        <div class="row">
-            <div class="col-xs-1">
-                <div class="sidebar">
-                    <h4>Online</h4>
-                    <div class="clearfix">
-                        <div class="input">
+        <div class="chat-header">
+            <h4>Online chat</h4>
+        </div>
+        <div class="chat-window">
+            <ul id="userslist">
+            </ul>
+            <div id="chatarea" class="span6"></div>
+        </div>
+        <div class="chat-message">
 
-                            <!-- place holder to show the users list -->
-                            <ul id="userslist">
-                            </ul>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <div class="content">
-                    <div id="chatwindow">
-                        <h4>Chat</h4>
-
-                        <!-- place holder to hold all the chat lines -->
-                        <div id="chatarea" class="span6"></div>
-
-                        <!-- The actual form through which you send data back to the user -->
-                        <form id="chatform" method="POST" action="sendChat">
-                            <input type="text" id="userstring" name="userstring"/>
-                            <input type="submit" value="Send"/>
-                        </form>
-
-                    </div>
-                </div>
-
-            </div>
+            <form id="chatform" method="POST" action="sendChat">
+                <input type="text" id="userstring" name="userstring"/>
+                <input type="submit" value="Send"/>
+            </form>
         </div>
     </div>
 </div>

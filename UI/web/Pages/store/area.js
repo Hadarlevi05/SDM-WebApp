@@ -94,7 +94,7 @@ function addEventListeners() {
 
         if (!valid) {
 
-            showToaster('form is not valid!');
+            showToaster('Please fill all fields!');
             return false;
         }
 
@@ -328,18 +328,17 @@ function buildOrdersHistoryTableForCustomer(rows) {
 
 function buildOrdersHistoryTableForStoreOwner(rows) {
 
-/*
-    customerLoc: "[1,1]"
-    customerName: "hadar"
-    date: "19/00-12:00 "
-    deleveryPrice: "30.00"
-    id: 1
-    items: (2) [{…}, {…}]
-    itemsCost: "120.00"
-    numOfItems: "7.00"
-    totalPrice: "150.00"
-    */
-
+    /*
+        customerLoc: "[1,1]"
+        customerName: "hadar"
+        date: "19/00-12:00 "
+        deleveryPrice: "30.00"
+        id: 1
+        items: (2) [{…}, {…}]
+        itemsCost: "120.00"
+        numOfItems: "7.00"
+        totalPrice: "150.00"
+        */
 
 
     var html = rows.map(row => {
@@ -347,12 +346,12 @@ function buildOrdersHistoryTableForStoreOwner(rows) {
         for (let i = 0; i < row.storeOrders.length; i++) {
             row.storeOrders[i].openItems =
 
-            `<a href="javascript:void(0);" onclick="showSoterOrderItems(this, '${row['storeName']}', '${row.storeOrders[i].id}')">
+                `<a href="javascript:void(0);" onclick="showSoterOrderItems(this, '${row['storeName']}', '${row.storeOrders[i].id}')">
                 ${row.storeOrders[i].items.length} items
             </a>`;
         }
 
-        return `<h2>${row['storeName']}</h2>
+        return `<div class="center-70"><h2>${row['storeName']}</h2></div>
                 ${genericTable(['id', 'date', 'customerName', 'customerLoc', 'numOfItems', 'itemsCost', 'deleveryPrice', 'totalPrice', 'openItems'], row.storeOrders)}
                 `;
     }).join('')
@@ -458,7 +457,7 @@ function showOrderItemsDetails(title, td, serialnumber) {
     var rows = $(td).parents('tbody').data('rows');
     var row = rows.filter(r => r.storeID.toString() === serialnumber.toString())[0];
 
-    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'price','totalPrice', 'boughtOnSale'], row.orderItemsDetails)
+    const html = genericTable(['itemID', 'name', 'purchaseType', 'quantity', 'price', 'totalPrice', 'boughtOnSale'], row.orderItemsDetails)
 
     openModal(title, html, () => {
 
@@ -657,7 +656,9 @@ function showOffers(offers) {
         $('.proceed-order').hide();
 
         postSales(currentOrder.id, data, (data) => {
-            console.log('post sales success!', data)
+            currentOrder = data.Values.Order;
+            console.log('post sales success!', data);
+
         });
 
         showToaster("To continue order, press 'Continue'");
@@ -767,9 +768,19 @@ function postStoresFeedback(feedbacks, callback) {
         });
 }
 
-function openModal(title, html, action) {
+function openModal(title, html, action, options) {
+
+    options = options || {};
+
     $('.modal-title').html(title);
     $('#exampleModal').find('.modal-body').html(html);
+
+    if (options.hideCloseButton) {
+        $('.modal-footer button').hide();
+    } else {
+        $('.modal-footer button').show();
+    }
+
     $('#btnModal').trigger('click');
     $('#exampleModal').find('button').off('click').on('click', (e) => {
         action(e);
@@ -777,22 +788,56 @@ function openModal(title, html, action) {
         return false;
     });
 
+    if (options.onModalOpen) {
+        options.onModalOpen();
+    }
+
 
 }
 
 function buildAddStoreModal() {
 
-    openModal("Add new store", $("#insertStore").html(), () => {
 
-        insertNewStore((data) => {
-            getStores('stores', (data2) => {
+    let html = $("#insertStore").html();
 
-                areaData.stores = data2.Values.Rows;
+    openModal("Add new store", html, () => {
 
-                buildStoresTable(data2.Values.Rows);
+    }, {
+        hideCloseButton: true,
+        onModalOpen: () => {
+
+            $('.modal form').on('submit', e => {
+
+                $('#exampleModal').find('input[name=insertTXT]').parents('p').children('.error').hide();
+
+                let formStoreName = $('#exampleModal').find('input[name=insertTXT]').val();
+
+                if (areaData.stores.filter(i => i.name === formStoreName).length > 0) {
+
+                    $('#exampleModal').find('input[name=insertTXT]').parents('p').children('.error').show();
+
+                } else {
+                    insertNewStore((data) => {
+                        getStores('stores', (data2) => {
+
+                            areaData.stores = data2.Values.Rows;
+
+                            buildStoresTable(data2.Values.Rows);
+                        });
+                    });
+                    $('#exampleModal').modal('hide');
+
+
+                }
+
+
+
+                return false;
             });
-        });
 
+
+
+        }
     });
 }
 
@@ -808,7 +853,7 @@ function buildItemsDropDown(rows) {
 
 function getUsers(action, callback) {
 
-    return $get(`../../users?action=${action}`,null,false)
+    return $get(`../../users?action=${action}`, null, false)
         .then(data => {
             if (data.Status === 200) {
                 console.log('data', data);

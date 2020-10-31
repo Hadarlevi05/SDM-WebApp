@@ -135,6 +135,7 @@ public class SalesServlet extends HttpServlet {
 
         KeyValueDTO keyValueDTO = new KeyValueDTO();
         keyValueDTO.Status = 200;
+        keyValueDTO.Values.put("Order", order);
 
         ServletHelper.WriteToOutput(response, keyValueDTO);
     }

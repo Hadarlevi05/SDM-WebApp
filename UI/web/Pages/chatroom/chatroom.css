@@ -3,20 +3,45 @@
     overflow-y: scroll;
     max-height: 100px;
 }
-
 .smiley-image {
     width: 20px;
     height: 20px;
 }*/
-.chat-container{
+.chat-container {
     position: fixed;
     bottom: 2%;
     /* top: 50%; */
     right: 1%;
     left: 80%;
     border: solid 1px #ccc;
-    padding: 25px;
     max-height: 250px;
     background-color: #fff;
-
+    font-size: 12px;
+}
+.chat-window {
+    display: flex;
+    min-height: 150px;
+    width: 100%;
+}
+.chat-window ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-right: 20px;
+}
+.chat-window #chatarea {
+    min-height: 120px;
+    border-left: solid 1px #ddd;
+    padding-left: 10px;
+    flex: 1;
+}
+.chat-header{
+    padding:5px;
+    background-color: #eee;
+}
+.chat-message{
+    background-color: #eee;
+}
+#userstring{
+    width:80%;
 }

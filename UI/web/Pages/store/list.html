@@ -5,7 +5,8 @@
     <title>Online Chat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="../../Styles/common.css">
     <link rel="stylesheet" href="list.css">
     <link rel="stylesheet" href="../../Styles/superDuperTable.css">
@@ -20,8 +21,12 @@
 <script src="../../Scripts/common.js"></script>
 <script src="../../Scripts/xmlUpload.js"></script>
 <script src="../chatroom/chatroom.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 <script src="list.js"></script>
 
 
@@ -139,10 +144,11 @@
                                class="form-control" required/>
                     </div>
                     <div style="margin-top: 20px">
-                        <input for="chargeButton" name="transactionDate" type="date" class="form-control" required />
+                        <input for="chargeButton" name="transactionDate" type="date" class="form-control" required/>
                     </div>
                     <div style="margin-top: 20px">
-                        <input id="chargeButton" type="submit" value="Charge Money" class="btn btn-primary" onclick="chargeMoney()"/>
+                        <input id="chargeButton" type="submit" value="Charge Money" class="btn btn-primary"
+                               onclick="chargeMoney()"/>
                     </div>
                 </div>
 
@@ -176,7 +182,7 @@
         </div>
 
         <div id="storeOwnerActions" class="menu-container" style="display: none;">
-            <form  class="form-group" method="get">
+            <form class="form-group" method="get">
                 <h2>Upload your super duper market</h2>
                 <input class="" id="FileInput" type="file" accept="text/xml"></input>
             </form>
@@ -211,39 +217,20 @@
     </div>
 
     <div class="chat-container">
-        <div class="row">
-            <div class="col-xs-1">
-                <div class="sidebar">
-                    <h4>Online</h4>
-                    <div class="clearfix">
-                        <div class="input">
+        <div class="chat-header">
+            <h4>Online chat</h4>
+        </div>
+        <div class="chat-window">
+            <ul id="userslist">
+            </ul>
+            <div id="chatarea" class="span6"></div>
+        </div>
+        <div class="chat-message">
 
-                            <!-- place holder to show the users list -->
-                            <ul id="userslist">
-                            </ul>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <div class="content">
-                    <div id="chatwindow">
-                        <h4>Chat</h4>
-
-                        <!-- place holder to hold all the chat lines -->
-                        <div id="chatarea" class="span6"></div>
-
-                        <!-- The actual form through which you send data back to the user -->
-                        <form id="chatform" method="POST" action="sendChat">
-                            <input type="text" id="userstring" name="userstring"/>
-                            <input type="submit" value="Send"/>
-                        </form>
-
-                    </div>
-                </div>
-
-            </div>
+            <form id="chatform" method="POST" action="sendChat">
+                <input type="text" id="userstring" name="userstring"/>
+                <input type="submit" value="Send"/>
+            </form>
         </div>
     </div>
 </div>

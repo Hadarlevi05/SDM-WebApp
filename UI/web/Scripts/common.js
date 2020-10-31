@@ -109,7 +109,7 @@ function showToaster(text) {
             opacity: 0,
             top: "-=30",
         }).fadeOut()
-    }, 3500)
+    }, 4500)
 
 }
 

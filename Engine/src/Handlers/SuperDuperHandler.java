@@ -104,7 +104,7 @@ public class SuperDuperHandler {
 
             map.put("storesnumber", storeOwner.superDuperMarket.Stores.size());
             map.put("ordersnumber", storeOwner.superDuperMarket.Orders.ordersMap.values().size());
-            map.put("avgordersprice", CalculateAvgOfOrders(storeOwner.superDuperMarket));
+            map.put("avgordersprice", String.format("%.2f", CalculateAvgOfOrders(storeOwner.superDuperMarket)));
             rows.add(map);
         }
         return rows;
@@ -171,8 +171,8 @@ public class SuperDuperHandler {
             map.put("name", item.name);
             map.put("purchaseType", item.purchaseType.toString());
             map.put("numOfStoresSellingItems", storeHandler.countSellingStores(sdm, item.serialNumber));
-            map.put("averagePrice", storeHandler.countAveragePriceOfSellingStores(sdm, item.serialNumber));
-            map.put("soldItemsAmount", itemHandler.CalculateSoldItemsAmount(sdm, item.serialNumber));
+            map.put("averagePrice", String.format("%.2f", storeHandler.countAveragePriceOfSellingStores(sdm, item.serialNumber)));
+            map.put("soldItemsAmount", String.format("%.2f",itemHandler.CalculateSoldItemsAmount(sdm, item.serialNumber)));
 
             rows.add(map);
         }
@@ -266,7 +266,7 @@ public class SuperDuperHandler {
             if (oi.quantityObject.KGQuantity > 0) {
                 double quantiy = oi.quantityObject.KGQuantity;
                 OrderDetailsItem.put("quantity", quantiy);
-                OrderDetailsItem.put("totalPrice", quantiy * oi.price);
+                OrderDetailsItem.put("totalPrice", String.format("%.2f", quantiy * oi.price));
 
                 if (!boughtOnSale) {
                     OrderDetailsItem.put("totalPricePerItem", oi.price);
@@ -283,6 +283,8 @@ public class SuperDuperHandler {
                     OrderDetailsItem.put("totalPricePerItem", oi.price);
 
                 } else {
+                    OrderDetailsItem.put("totalPrice", oi.price);
+
                     double totalPricePerItem = (Double) OrderDetailsItem.get("totalPrice") / (Integer) OrderDetailsItem.get("quantity");
                     OrderDetailsItem.put("totalPricePerItem", Double.parseDouble((String.format("%.2f", totalPricePerItem))));
                 }

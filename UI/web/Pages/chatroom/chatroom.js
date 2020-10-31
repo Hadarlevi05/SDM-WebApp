@@ -1,23 +1,15 @@
 var chatVersion = 0;
 var refreshRate = 2000; //milli seconds
-/*var USER_LIST_URL = buildUrlWithContextPath("users");
-var CHAT_LIST_URL = buildUrlWithContextPath("chat");*/
 
-//users = a list of usernames, essentially an array of javascript strings:
-// ["moshe","nachum","nachche"...]
 function refreshUsersList(users) {
 
-    //clear all current users
-    $("#userslist").empty();
+    let chatHtml = [];
 
-    // rebuild the list of users: scan all users and add them to the list of users
     $.each(users || [], function (index, username) {
-        console.log("Adding user #" + index + ": " + username);
+        chatHtml.push('<li>' + username.username + '</li>');
 
-        //create a new <li> tag with a value in it and append it to the #userslist (div with id=userslist) element
-        $('<li>' + username.username + '</li>')
-            .appendTo($("#userslist"));
     });
+    $("#userslist").html(chatHtml.join(''));
 }
 
 //entries = the added chat strings represented as a single string

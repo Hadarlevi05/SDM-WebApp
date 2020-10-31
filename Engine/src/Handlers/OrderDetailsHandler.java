@@ -84,7 +84,7 @@ public class OrderDetailsHandler {
     private void UpdateOrderWithOrderItemsOfSales(Order order) {
 
 
-        if (order.orderItemsFromSales.size() > 0) {
+            if (order.orderItemsFromSales.size() > 0) {
             for (OrderItem oi : order.orderItemsFromSales) {
                 List<OrderItem> checkOrder = order.orderItemsFromSales.stream().filter(x -> x.itemId == oi.itemId).collect(Collectors.toList());
 

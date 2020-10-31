@@ -25,7 +25,7 @@ function addEventListeners() {
 
     getTransactions(user.username, (data) => {
         var balance = data.Transactions[data.Transactions.length - 1].balanceAfterAction;
-        if (balance > 0) {
+        if (balance!==undefined && balance!==null) {
             $('#yourBalance').html(`Your balance: ${balance} ₪`)
         }
         buildTransactionsTable(data.Transactions);

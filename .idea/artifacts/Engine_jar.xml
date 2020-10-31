@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Engine_jar</output-path>
     <root id="archive" name="Engine.jar">
       <element id="module-output" name="Engine" />
+      <element id="file-copy" path="$PROJECT_DIR$/UI/web/WEB-INF/lib/gson-2.8.6.jar" />
     </root>
   </artifact>
 </component>

@@ -114,6 +114,7 @@ public class OrdersServlet extends HttpServlet {
     private Order CreateNewOrder(HttpServletRequest request, Order fromData, StoreOwner storeOwner) {
         SdmUser user = SessionUtils.getUser(request);
 
+
         Order order = new Order();
         order.orderStatus = OrderStatus.IN_PROGRESS;
         order.customerId = user.id;
@@ -126,16 +127,15 @@ public class OrdersServlet extends HttpServlet {
         }*/
 
         int storeId = fromData.storesID.get(0);//new Integer(Arrays.asList(fromData.data).stream().filter(x -> x.name.equals("storeCombo")).collect(Collectors.toList()).get(0).value);
-        if (!order.storesID.contains(storeId)) {
+/*        if (!order.storesID.contains(storeId)) {
             order.storesID.add(storeId);
-        }
+        }*/
         storeOwner.superDuperMarket.Orders.addOrder(storeOwner.superDuperMarket, order);
         SDMLocation sdmLocation = fromData.CustomerLocation;
         Customer customer = new Customer(user.id, user.username, sdmLocation);
         for (OrderItem orderItem :
                 fromData.orderItems) {
             if (fromData.orderType.equals("purchase-type-dynamic")) {
-
                 OrderItem cheepestOrderItem = new OrderManager().FindCheapestStoreForItem(storeOwner.superDuperMarket, orderItem.itemId);
                 orderItem.price = cheepestOrderItem.price;
                 orderItem.storeId = cheepestOrderItem.storeId;
@@ -143,6 +143,7 @@ public class OrdersServlet extends HttpServlet {
                 storeId = orderItem.storeId;
 
             } else {
+                orderItem.storeId = storeId;
 
             }
             QuantityObject qauntity = orderItem.quantityObject;
